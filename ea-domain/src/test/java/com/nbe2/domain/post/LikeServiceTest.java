@@ -19,7 +19,7 @@ import com.nbe2.domain.user.UserFixture;
 import com.nbe2.domain.user.UserReader;
 
 @ExtendWith(MockitoExtension.class)
-public class LikeServiceTest {
+class LikeServiceTest {
 
     @InjectMocks LikeService likeService;
 
@@ -35,7 +35,7 @@ public class LikeServiceTest {
 
     @Test
     @DisplayName("좋아요정보를 이용해 좋아요를 추가한다.")
-    public void givenLikeInfo_whenAddLike_thenShouldReturnNothing() throws Exception {
+    void givenLikeInfo_whenAddLike_thenShouldReturnNothing() {
         // given
         Long postId = 1L;
         Long userId = 1L;
@@ -59,7 +59,7 @@ public class LikeServiceTest {
 
     @Test
     @DisplayName("좋아요정보를 이용해 좋아요를 취소한다.")
-    public void givenLikeInfo_whenCancelLike_thenShouldReturnNothing() throws Exception {
+    void givenLikeInfo_whenCancelLike_thenShouldReturnNothing() {
         // given
         Long postId = 1L;
         Long userId = 1L;
