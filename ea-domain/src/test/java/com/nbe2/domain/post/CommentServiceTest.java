@@ -20,7 +20,7 @@ import com.nbe2.domain.user.User;
 import com.nbe2.domain.user.UserReader;
 
 @ExtendWith(MockitoExtension.class)
-public class CommentServiceTest {
+class CommentServiceTest {
 
     @InjectMocks CommentService commentService;
 
@@ -35,7 +35,7 @@ public class CommentServiceTest {
 
     @Test
     @DisplayName("게시글PK와 댓글작성정보를 이용하여 댓글을 등록한다.")
-    public void givenPostIdCommentWriteInfo_whenSave_thenShouldReturnPostId() throws Exception {
+    void givenPostIdCommentWriteInfo_whenSave_thenShouldReturnPostId() {
         // given
         Long postId = 1L;
         Long userId = 1L;
@@ -61,8 +61,7 @@ public class CommentServiceTest {
 
     @Test
     @DisplayName("게시글PK를 이용하여 댓글목록을 조회한다.")
-    public void givenPostId_whenGetPostComments_thenShouldReturnCommentReadInfoList()
-            throws Exception {
+    void givenPostId_whenGetPostComments_thenShouldReturnCommentReadInfoList() throws Exception {
         // given
         Long postId = 1L;
         Post post = PostFixture.createPostWithId(postId);
@@ -83,8 +82,7 @@ public class CommentServiceTest {
 
     @Test
     @DisplayName("댓글PK와 댓글작성정보를 이용해 댓글을 수정한다.")
-    public void givenCommentIdCommentWriteInfo_whenUpdate_thenShouldReturnPostId()
-            throws Exception {
+    void givenCommentIdCommentWriteInfo_whenUpdate_thenShouldReturnPostId() throws Exception {
         // given
         Long commentId = 1L;
         Long userId = 1L;
@@ -108,7 +106,7 @@ public class CommentServiceTest {
 
     @Test
     @DisplayName("댓글PK를 이용해 댓글을 삭제한다.")
-    public void givenCommentId_whenDelete_thenShouldReturnNothing() throws Exception {
+    void givenCommentId_whenDelete_thenShouldReturnNothing() {
         // given
         Long commentId = 1L;
         Comment comment = mock(Comment.class);

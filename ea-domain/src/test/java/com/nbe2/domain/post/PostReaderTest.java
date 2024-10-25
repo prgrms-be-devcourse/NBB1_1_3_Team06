@@ -126,8 +126,6 @@ class PostReaderTest {
 
         // then
         verify(postRepository).findByCity(city, pageRequest);
+        assertEquals(expect.content().size(), actual.content().size());
     }
-
-    @Test
-    void testReadListPage() {}
 }

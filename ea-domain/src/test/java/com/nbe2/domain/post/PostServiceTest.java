@@ -27,7 +27,7 @@ import com.nbe2.domain.user.UserFixture;
 import com.nbe2.domain.user.UserReader;
 
 @ExtendWith(MockitoExtension.class)
-public class PostServiceTest {
+class PostServiceTest {
 
     @InjectMocks PostService postService;
     @Mock PostAppender postAppender;
@@ -38,7 +38,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("회원PK와 게시글작성정보를 이용하여 게시글을 저장한다.")
-    public void givenUserIdPostWriteInfo_whenSave_thenShouldReturnPostId() throws Exception {
+    void givenUserIdPostWriteInfo_whenSave_thenShouldReturnPostId() {
         // given
         Long userId = 1L;
         PostWriteInfo postWriteInfo =
@@ -60,7 +60,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("페이지요청정보와 지역을 이용하여 페이지정보를 조회한다.")
-    public void givenPageCity_whenFindListPageByCity_thenShouldReturnPageResult() throws Exception {
+    void givenPageCity_whenFindListPageByCity_thenShouldReturnPageResult() {
         // given
         Page page = new Page(1, 10);
         City city = City.ANDONG;
@@ -81,7 +81,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("페이지요청정보와 회원PK를 이용하여 페이지정보를 조회한다.")
-    public void givenPageUserId_whenGetUserPostPages_thenShouldReturnPageResult() throws Exception {
+    void givenPageUserId_whenGetUserPostPages_thenShouldReturnPageResult() {
         // given
         Page page = new Page(1, 10);
         Long userId = 1L;
@@ -105,7 +105,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("게시글PK를 이용하여 게시글상세정보를 조회한다.")
-    public void givenPostId_whenFindDetails_thenShouldReturnPostDetailsInfo() throws Exception {
+    void givenPostId_whenFindDetails_thenShouldReturnPostDetailsInfo() {
         // given
         Long postId = 1L;
         Post post = PostFixture.createPostWithId(postId);
@@ -122,7 +122,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("게시글PK와 게시글작성정보를 이용하여 게시글을 수정한다.")
-    public void givenPostIdPostWriteInfo_whenUpdate_thenShouldReturnPostId() throws Exception {
+    void givenPostIdPostWriteInfo_whenUpdate_thenShouldReturnPostId() {
         // given
         Long postId = 1L;
         PostWriteInfo postWriteInfo =
@@ -143,7 +143,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("게시글PK를 이용하여 게시글을 삭제한다.")
-    public void givenPostId_whenDelete_thenShouldReturnNothing() throws Exception {
+    void givenPostId_whenDelete_thenShouldReturnNothing() {
         // given
         Long postId = 1L;
 

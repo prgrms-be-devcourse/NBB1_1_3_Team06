@@ -1,5 +1,6 @@
 package com.nbe2.domain.post;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +19,7 @@ import com.nbe2.domain.user.User;
 import com.nbe2.domain.user.UserFixture;
 
 @ExtendWith(MockitoExtension.class)
-public class PostAppenderTest {
+class PostAppenderTest {
 
     @InjectMocks PostAppender postAppender;
 
@@ -28,20 +29,22 @@ public class PostAppenderTest {
 
     @Test
     @DisplayName("회원과 게시글등록정보를 이용하여 게시글을 저장한다.")
-    public void givenUserPostWriteInfo_whenAppend_thenShouldReturnPostId() throws Exception {
+    void givenUserPostWriteInfo_whenAppend_thenShouldReturnPostId() {
         // given
         User user = UserFixture.createUser();
         PostWriteInfo postWriteInfo =
                 PostWriteInfo.create("title", "content", City.ANDONG, Optional.empty());
-        Post expected = PostFixture.createPostWithId(1L);
+        Post post = PostFixture.createPostWithId(1L);
+        Long expect = post.getId();
 
-        when(postRepository.save(any(Post.class))).thenReturn(expected);
+        when(postRepository.save(any(Post.class))).thenReturn(post);
 
         // when
         Long actual = postAppender.append(user, postWriteInfo);
 
         // then
-        verify(postFileRegisterer).register(expected, postWriteInfo.fileIdList());
+        verify(postFileRegisterer).register(post, postWriteInfo.fileIdList());
         verify(postRepository).save(any(Post.class));
+        assertEquals(expect, actual);
     }
 }
