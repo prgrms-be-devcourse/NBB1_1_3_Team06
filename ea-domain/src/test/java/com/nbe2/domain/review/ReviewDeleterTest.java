@@ -11,9 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.nbe2.domain.emergencyroom.EmergencyRoomFixture;
-import com.nbe2.domain.user.UserFixture;
-
 @ExtendWith(MockitoExtension.class)
 class ReviewDeleterTest {
     @Mock private ReviewRepository reviewRepository;
@@ -25,11 +22,6 @@ class ReviewDeleterTest {
     void givenReviewId_whenReviewDeleteById_ThenShouldDeleteReview() {
         // given
         Long reviewId = 1L;
-        Review review =
-                Review.from(
-                        ReviewFixture.createReviewInfo(),
-                        UserFixture.createUserWithId(),
-                        EmergencyRoomFixture.createWithId());
 
         // when
         reviewDeleter.deleteReview(reviewId);
