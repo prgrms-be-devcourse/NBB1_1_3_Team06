@@ -1,5 +1,5 @@
 package com.nbe3.common.exception
 
-interface BaseErrorCode {
+open interface BaseErrorCode {
     val errorReason: ErrorReason
 }
