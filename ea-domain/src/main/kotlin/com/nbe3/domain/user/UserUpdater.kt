@@ -1,5 +1,6 @@
 package com.nbe3.domain.user
 
+import com.nbe3.domain.auth.PasswordEncoder
 import com.nbe3.domain.user.exception.InvalidPasswordException
 import org.springframework.stereotype.Component
 

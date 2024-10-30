@@ -1,10 +1,12 @@
 package com.nbe3.domain.user
 
+import com.nbe3.domain.auth.OAuthProfile
+import com.nbe3.domain.auth.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
 class UserAppender(
-    private val passwordEncode: PasswordEncoder,
+    private val passwordEncoder: PasswordEncoder,
     private val userRepository: UserRepository
 ) {
 
@@ -19,6 +21,6 @@ class UserAppender(
     }
 
     fun append(oAuthProfile: OAuthProfile) {
-        userRepository.save(User.of(oAuthProfile.getNickname(), oAuthProfile.getEmail(), ""))
+        userRepository.save(User.of(oAuthProfile.nickname, oAuthProfile.email, ""))
     }
 }

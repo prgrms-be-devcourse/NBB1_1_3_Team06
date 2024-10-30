@@ -20,10 +20,10 @@ class User private constructor (
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private var id: Long? = null
+    var id: Long? = null
 
     @OneToOne(optional = false, mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    private var medicalPersonInfo: MedicalPersonInfo? = null
+    var medicalPersonInfo: MedicalPersonInfo? = null
 
     fun assignMedicalRole(medicalPersonInfo: MedicalPersonInfo) {
         this.medicalPersonInfo = medicalPersonInfo
