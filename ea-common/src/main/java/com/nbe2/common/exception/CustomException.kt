@@ -1,6 +1,6 @@
 package com.nbe2.common.exception
 
-abstract class CustomException(val errorCode: BaseErrorCode, private val sourceLayer: String?) : RuntimeException() {
+abstract class CustomException(val errorCode: BaseErrorCode, private val sourceLayer: String? = null) : RuntimeException() {
 
     val status: Int
         get() = errorCode.errorReason.status
