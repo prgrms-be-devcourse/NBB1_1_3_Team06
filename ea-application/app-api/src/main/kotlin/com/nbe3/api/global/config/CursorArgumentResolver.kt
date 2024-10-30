@@ -20,13 +20,13 @@ class CursorArgumentResolver : HandlerMethodArgumentResolver {
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
-    ): Any? {
-        val cursorDefault: CursorDefault = parameter.getParameterAnnotation(CursorDefault::class.java)!!
+    ): Any {
+        val cursorDefault = parameter.getParameterAnnotation(CursorDefault::class.java)!!
 
-        val cursorParam: String? = webRequest.getParameter("cursor")
+        val cursorParam = webRequest.getParameter("cursor")
         val cursor = cursorParam?.toLongOrNull() ?: cursorDefault.cursor
 
-        val sizeParam: String? = webRequest.getParameter("size")
+        val sizeParam = webRequest.getParameter("size")
         val size = sizeParam?.toIntOrNull() ?: cursorDefault.size
 
         return Cursor(cursor, size)

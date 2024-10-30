@@ -18,8 +18,7 @@ class UserReader(private val userRepository: UserRepository) {
     }
 
     fun read(pageable: Pageable): PageResult<UserProfileWithLicense> {
-        val userPage: org.springframework.data.domain.Page<UserProfileWithLicense> =
-            userRepository.findPageByApprovalStatus(ApprovalStatus.PENDING, pageable)
+        val userPage = userRepository.findPageByApprovalStatus(ApprovalStatus.PENDING, pageable)
         return PageResult(
             userPage.content, userPage.totalPages, userPage.hasNext()
         )

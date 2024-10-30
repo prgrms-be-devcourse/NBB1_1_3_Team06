@@ -8,11 +8,6 @@ abstract class CustomException(errorCode: BaseErrorCode, sourceLayer: String?) :
         get() = errorCode.errorReason.status
 
     override val message: String
-        get() = errorCode.errorReason.message
-
-//            if (sourceLayer == null) {
-//            errorCode.getErrorReason().message
-//        } else {
-//            String.format("%s - %s", sourceLayer, errorCode.getErrorReason().message)
-//        }
+        get() = sourceLayer?.let { "$it - ${errorCode.errorReason.message}" }
+            ?: errorCode.errorReason.message
 }

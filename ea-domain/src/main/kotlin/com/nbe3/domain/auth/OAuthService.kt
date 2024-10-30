@@ -25,7 +25,7 @@ class OAuthService(
             userAppender.append(oAuthProfile)
         }
 
-        val user: User = userReader.read(oAuthProfile.email)
+        val user = userReader.read(oAuthProfile.email)
         val tokens = tokenGenerator.generate(UserPrincipal.of(user.id!!, user.role))
         tokenManager.save(RefreshToken.of(user.id!!, tokens.refreshToken))
 

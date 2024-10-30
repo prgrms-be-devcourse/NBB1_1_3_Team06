@@ -12,14 +12,14 @@ class UserService(
 
     @jakarta.transaction.Transactional
     fun requestMedicalAuthority(userId: Long, medicalProfile: MedicalProfile) {
-        val emergencyRoom: EmergencyRoom = emergencyRoomReader.read(medicalProfile.emergencyRoomId)
-        val license: FileMetaData = fileMetaDataReader.read(medicalProfile.licenseId)
+        val emergencyRoom = emergencyRoomReader.read(medicalProfile.emergencyRoomId)
+        val license = fileMetaDataReader.read(medicalProfile.licenseId)
         val user = userReader.read(userId)
         userUpdater.requestMedicalRole(user, emergencyRoom, license)
     }
 
     fun getMyProfile(userId: Long): MyProfile {
-        return MyProfile.Companion.from(userReader.read(userId))
+        return MyProfile.from(userReader.read(userId))
     }
 
     fun updateProfile(userId: Long, profile: UpdateProfile) {

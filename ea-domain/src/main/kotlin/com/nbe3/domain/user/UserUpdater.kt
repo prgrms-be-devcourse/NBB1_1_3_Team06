@@ -11,7 +11,7 @@ class UserUpdater(
 ) {
 
     fun requestMedicalRole(user: User, emergencyRoom: EmergencyRoom, license: FileMetaData) {
-        val medicalPersonInfo: MedicalPersonInfo = MedicalPersonInfo.of(user, emergencyRoom, license)
+        val medicalPersonInfo = MedicalPersonInfo.of(user, emergencyRoom, license)
         user.assignMedicalRole(medicalPersonInfo)
         userRepository.save(user)
     }

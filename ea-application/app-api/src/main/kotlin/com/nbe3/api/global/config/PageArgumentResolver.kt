@@ -21,12 +21,12 @@ class PageArgumentResolver : HandlerMethodArgumentResolver {
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
     ): Any {
-        val pageDefault: PageDefault = parameter.getParameterAnnotation(PageDefault::class.java)!!
+        val pageDefault = parameter.getParameterAnnotation(PageDefault::class.java)!!
 
-        val pageParam: String? = webRequest.getParameter("page")
+        val pageParam = webRequest.getParameter("page")
         val page = pageParam?.toIntOrNull() ?: pageDefault.page
 
-        val sizeParam: String? = webRequest.getParameter("size")
+        val sizeParam = webRequest.getParameter("size")
         val size = sizeParam?.toIntOrNull() ?: pageDefault.size
 
         return Page(page, size)

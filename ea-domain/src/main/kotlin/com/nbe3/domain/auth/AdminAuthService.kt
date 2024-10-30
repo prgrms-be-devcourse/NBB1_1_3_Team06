@@ -3,7 +3,6 @@ package com.nbe3.domain.auth
 import com.nbe3.common.dto.Page
 import com.nbe3.common.dto.PageResult
 import com.nbe3.domain.global.util.PagingUtil
-import com.nbe3.domain.user.User
 import com.nbe3.domain.user.UserApprover
 import com.nbe3.domain.user.UserProfileWithLicense
 import com.nbe3.domain.user.UserReader
@@ -18,7 +17,7 @@ class AdminAuthService(
 
     @Transactional
     fun approveSignup(userId: Long) {
-        val user: User = userReader.read(userId)
+        val user = userReader.read(userId)
         userApprover.approve(user)
     }
 

@@ -1,7 +1,6 @@
 package com.nbe3.domain.auth
 
 import com.nbe3.domain.auth.exception.AuthenticationException
-import com.nbe3.domain.user.User
 import com.nbe3.domain.user.UserReader
 import org.springframework.stereotype.Component
 
@@ -12,7 +11,7 @@ class Authenticator(
 ) {
 
     fun authenticate(login: Login): UserPrincipal {
-        val user: User = userReader.read(login.email)
+        val user = userReader.read(login.email)
         validatePassword(login.password, user.password)
 
         return UserPrincipal.of(user.id!!, user.role)

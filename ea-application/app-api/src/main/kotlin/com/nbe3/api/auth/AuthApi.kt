@@ -1,6 +1,5 @@
 package com.nbe3.api.auth
 
-import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -26,8 +25,8 @@ class AuthApi(private val authService: AuthService) {
 
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Response<Void>> {
-        val tokens: Tokens = authService.login(loginRequest.toLogin())
-        val headers: HttpHeaders = TokenUtils.createTokenHeaders(tokens)
+        val tokens = authService.login(loginRequest.toLogin())
+        val headers = TokenUtils.createTokenHeaders(tokens)
         return ResponseEntity.ok().headers(headers).body(Response.success())
     }
 

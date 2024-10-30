@@ -18,8 +18,7 @@ class AdminAuthApi(private val adminAuthService: AdminAuthService) {
 
     @GetMapping("/pendings")
     fun searchPendingUsers(@PageDefault page: Page): Response<PageResult<PendingUserResponse>> {
-        val userPageResult: PageResult<UserProfileWithLicense> =
-            adminAuthService.searchPendingUsers(page)
+        val userPageResult = adminAuthService.searchPendingUsers(page)
         return Response.success(userPageResult.map(PendingUserResponse::from))
     }
 

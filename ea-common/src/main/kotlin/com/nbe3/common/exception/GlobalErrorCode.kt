@@ -17,5 +17,5 @@ enum class GlobalErrorCode(private val status: Int, private val errorCode: Strin
     );
 
     override val errorReason: ErrorReason
-        get() = ErrorReason.Companion.of(status, errorCode, message)
+        get() = ErrorReason.of(status, errorCode, message)
 }
