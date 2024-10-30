@@ -2,7 +2,6 @@ package com.nbe2.common.dto
 
 import java.util.function.Function
 
-@JvmRecord
 data class PageResult<T>(val content: List<T>, val totalPage: Int, val hasNext: Boolean) {
 
     fun <R> map(mapper: Function<T, R>?): PageResult<R> {
