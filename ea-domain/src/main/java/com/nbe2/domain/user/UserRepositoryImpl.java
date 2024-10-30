@@ -1,7 +1,7 @@
 package com.nbe2.domain.user;
 
-import static com.nbe2.domain.user.QMedicalPersonInfo.medicalPersonInfo;
-import static com.nbe2.domain.user.QUser.user;
+import com.nbe2.domain.user.QMedicalPersonInfo;
+import com.nbe2.domain.user.QUser;
 
 import java.util.List;
 
@@ -22,6 +22,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class UserRepositoryImpl implements UserRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+    private final QUser user = QUser.user;
+    private final QMedicalPersonInfo medicalPersonInfo = QMedicalPersonInfo.medicalPersonInfo;
 
     @Override
     public Page<UserProfileWithLicense> findPageByApprovalStatus(

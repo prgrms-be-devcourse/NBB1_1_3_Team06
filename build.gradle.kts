@@ -4,11 +4,11 @@ plugins {
     id("org.springframework.boot") version "3.3.5" apply false
     id("io.spring.dependency-management") version "1.1.6" apply false
     id("com.diffplug.spotless") version "6.25.0"
-    kotlin("kapt") version "1.9.25"
 
     // @TODO lombok 때문에 추가
-    kotlin("plugin.lombok") version "1.8.10"
-    id("io.freefair.lombok") version "5.3.0"
+//    kotlin("plugin.lombok") version "1.18.28" 일단 필요 없다고 함 gpt 피셜
+    kotlin("kapt") version "1.9.25"
+    id("io.freefair.lombok") version "8.0.0" apply false
 }
 
 java {
@@ -36,7 +36,8 @@ subprojects {
         plugin("com.diffplug.spotless")
 
         // @TODO lombok 때문에 추가
-        plugin("kotlin-kapt")
+        plugin("org.jetbrains.kotlin.kapt")
+        plugin("io.freefair.lombok")
     }
 
     repositories {
@@ -50,7 +51,8 @@ subprojects {
 
         // @TODO lombok 때문에 추가
         compileOnly("org.projectlombok:lombok")
-        kapt("org.projectlombok:lombok")
+//        kapt("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok")
 
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -77,21 +79,21 @@ subprojects {
         useJUnitPlatform()
     }
 
-//    spotless {
-//        java {
-//            googleJavaFormat().aosp()
-//            importOrder('java', 'javax', 'jakarta', 'org', 'lombok', 'com')
-//            removeUnusedImports()
-//            trimTrailingWhitespace()
-//            endWithNewline()
-//        }
-//    }
+    spotless {
+        java {
+            googleJavaFormat().aosp()
+            importOrder("java", "javax", "jakarta", "org", "lombok", "com")
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+    }
 }
 
-//tasks.register("addGitPreCommitHook", Copy) {
-//    from 'script/pre-commit'
-//    into '.git/hooks'
-//}
+tasks.register<Copy>("addGitPreCommitHook") {
+    from("script/pre-commit")
+    into(".git/hooks")
+}
 
 // @TODO lombok 때문에 추가
 kapt {

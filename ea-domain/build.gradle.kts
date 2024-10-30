@@ -5,7 +5,7 @@ bootJar.enabled = false
 
 plugins {
     kotlin("plugin.jpa") version "1.9.25"
-//    kotlin("kapt")
+    kotlin("kapt") version "1.9.25"
 }
 
 dependencies {

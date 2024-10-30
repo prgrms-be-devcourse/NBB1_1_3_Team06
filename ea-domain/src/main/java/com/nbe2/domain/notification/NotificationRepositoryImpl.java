@@ -1,6 +1,6 @@
 package com.nbe2.domain.notification;
 
-import static com.nbe2.domain.notification.QNotification.notification;
+import com.nbe2.domain.notification.QNotification;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +16,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class NotificationRepositoryImpl implements NotificationRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+    private final QNotification notification = QNotification.notification;
 
     @Override
     public List<Notification> findByUserIdWithCursor(long userId, long cursor, int size) {
