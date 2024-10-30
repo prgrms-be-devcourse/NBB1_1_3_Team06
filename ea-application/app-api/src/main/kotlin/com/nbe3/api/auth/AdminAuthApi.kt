@@ -10,7 +10,6 @@ import com.nbe3.common.dto.Page
 import com.nbe3.common.dto.PageResult
 import com.nbe3.domain.auth.AdminAuthService
 import com.nbe3.domain.auth.UserPrincipal
-import com.nbe3.domain.user.UserProfileWithLicense
 
 @RestController
 @RequestMapping("/api/v1/auth/admin")
