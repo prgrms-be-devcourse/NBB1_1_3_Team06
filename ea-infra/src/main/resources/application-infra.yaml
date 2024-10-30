@@ -1,0 +1,84 @@
+spring:
+  jpa:
+    open-in-view: false
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: ${CHAT_MODEL}
+          temperature: 0.3
+      embedding:
+        options:
+          model: ${EMBEDDING_MODEL}
+    vectorstore:
+      chroma:
+        collection-name: ${CHROMA_COLLECTION}
+        initialize-schema: false
+
+openapi:
+  service-key: ${OPENAPI_SERVICE_KEY}
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+logging:
+  level:
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
+        SQL: trace
+    com:
+      nbe2: DEBUG
+
+kakao:
+  rest-api-key: ${KAKAO_REST_API_KEY}
+
+naver:
+  directions-client-id: ${NAVER_MAP_CLIENT_ID}
+  directions-secret-key: ${NAVER_MAP_SECRET_KEY}
+
+oauth:
+  kakao:
+    base-url: https://kauth.kakao.com
+    client-id: ${KAKAO_REST_API_KEY}
+    redirect-url: http://localhost:8080/api/v1/oauth/login
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  ai:
+    vectorstore:
+      chroma:
+        client:
+          host: ${CHROMADB_HOST}
+          port: ${CHROMADB_PORT}
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+
+kakao:
+  rest-api-key: ${KAKAO_REST_API_KEY}
+
+naver:
+  directions-client-id: ${NAVER_MAP_CLIENT_ID}
+  directions-secret-key: ${NAVER_MAP_SECRET_KEY}
+
+oauth:
+  kakao:
+    base-url: https://kauth.kakao.com
+    client-id: ${KAKAO_REST_API_KEY}
+    redirect-url: ${KAKAO_REDIRECT_URL}
