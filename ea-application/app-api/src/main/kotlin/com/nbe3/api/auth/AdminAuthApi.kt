@@ -25,7 +25,7 @@ class AdminAuthApi(private val adminAuthService: AdminAuthService) {
     @PatchMapping("/pendings")
     fun approveSignupRequest(
         @AuthenticationPrincipal userPrincipal: UserPrincipal
-    ): Response<Void> {
+    ): Response<Unit> {
         adminAuthService.approveSignup(userPrincipal.userId)
         return Response.success()
     }

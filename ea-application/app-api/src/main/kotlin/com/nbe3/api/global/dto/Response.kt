@@ -17,19 +17,19 @@ data class Response<T>(
             return Response(responseCode = "SUCCESS", result = result)
         }
 
-        fun success(): Response<Void> {
+        fun success(): Response<Unit> {
             return Response(responseCode = "SUCCESS")
         }
 
-        fun success(message: String): Response<Void> {
+        fun success(message: String): Response<Unit> {
             return Response(responseCode = "SUCCESS", message = message)
         }
 
-        fun error(errorReason: ErrorReason, path: String, message: String): Response<Void> {
+        fun error(errorReason: ErrorReason, path: String, message: String): Response<Unit> {
             return Response(path = path, responseCode = errorReason.errorCode, message = message)
         }
 
-        fun error(errorCode: String, message: String): Response<Void> {
+        fun error(errorCode: String, message: String): Response<Unit> {
             return Response(responseCode = errorCode, message = message)
         }
     }
