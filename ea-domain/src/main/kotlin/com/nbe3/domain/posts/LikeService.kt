@@ -1,6 +1,7 @@
 package com.nbe3.domain.posts
 
 import com.nbe3.domain.user.User
+import com.nbe3.domain.user.UserReader
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 

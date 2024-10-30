@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component
 class LikeValidator (    private val likeRepository: LikeRepository){
 
     fun isExist(post: Post?, user: User?): Boolean {
-        return likeRepository!!.findByPostAndUser(post, user).isPresent
+        return likeRepository.findByPostAndUser(post, user).isPresent
     }
 }

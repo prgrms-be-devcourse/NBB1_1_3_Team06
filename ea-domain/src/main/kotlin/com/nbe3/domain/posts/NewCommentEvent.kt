@@ -6,7 +6,7 @@ data class NewCommentEvent(val targetId: Long, val referenceUri: String, val pos
         @JvmStatic
         fun from(post: Post): NewCommentEvent {
             return NewCommentEvent(
-                post.user.getId(), "/posts/" + post.id, post.title
+                post.user.id!!, "/posts/" + post.id, post.title
             )
         }
     }
