@@ -17,11 +17,11 @@ class UserReader(private val userRepository: UserRepository) {
         return userRepository.findByEmail(email) ?: throw UserNotFoundException.EXCEPTION
     }
 
-//    fun read(pageable: Pageable): PageResult<UserProfileWithLicense> {
-//        val userPage: org.springframework.data.domain.Page<UserProfileWithLicense> =
-//            userRepository.findPageByApprovalStatus(ApprovalStatus.PENDING, pageable!!)
-//        return PageResult(
-//            userPage.content, userPage.totalPages, userPage.hasNext()
-//        )
-//    }
+    fun read(pageable: Pageable): PageResult<UserProfileWithLicense> {
+        val userPage: org.springframework.data.domain.Page<UserProfileWithLicense> =
+            userRepository.findPageByApprovalStatus(ApprovalStatus.PENDING, pageable)
+        return PageResult(
+            userPage.content, userPage.totalPages, userPage.hasNext()
+        )
+    }
 }
