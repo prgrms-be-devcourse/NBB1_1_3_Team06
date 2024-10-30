@@ -1,6 +1,7 @@
 package com.nbe3.domain.posts
 
 import com.nbe3.domain.user.User
+import com.nbe3.domain.user.UserReader
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.function.Function
@@ -9,13 +10,13 @@ import java.util.function.Function
 @Transactional
 class CommentService (
     private val userReader: UserReader,
-            private val postReader: PostReader,
-            private val commentAppender: CommentAppender,
-            private val commentReader: CommentReader,
-            private val commentUpdater: CommentUpdater,
-            private val commentDeleter: CommentDeleter,
-            private val commentValidator: CommentValidator,
-            private val eventPublisher: CommentEventPublisher
+    private val postReader: PostReader,
+    private val commentAppender: CommentAppender,
+    private val commentReader: CommentReader,
+    private val commentUpdater: CommentUpdater,
+    private val commentDeleter: CommentDeleter,
+    private val commentValidator: CommentValidator,
+    private val eventPublisher: CommentEventPublisher
 ){
     fun save(postId: Long?, writeInfo: CommentWriteInfo): Long? {
         val post = postReader.readWithPessimisticWriteLock(postId)

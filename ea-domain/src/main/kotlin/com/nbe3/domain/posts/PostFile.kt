@@ -7,23 +7,25 @@ import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 @Table(name = "post_files")
-open class PostFile private constructor(fileMetaData: FileMetaData, post: Post) {
-    @EmbeddedId
-    open var postFilePk = PostFilePk()
-
-    @MapsId("fileMetaDataId")
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    open var fileMetaData: FileMetaData = fileMetaData
-
+class PostFile private constructor(
+    fileMetaData: FileMetaData,
     @MapsId("postId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id")
-    open var post: Post = post
+    var post: Post
+) {
+
+    @EmbeddedId
+    var postFilePk = PostFilePk()
+
+    @MapsId("fileMetaDataId")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
+    var fileMetaData: FileMetaData = fileMetaData
 
     init {
-        this.postFilePk = PostFilePk.of(fileMetaData.getId(), post.id?: throw IllegalArgumentException())
+        this.postFilePk = PostFilePk.of(fileMetaData.getId(), post.id ?: throw IllegalArgumentException())
         this.fileMetaData = fileMetaData
         setPost(post)
     }

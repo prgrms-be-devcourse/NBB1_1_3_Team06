@@ -1,5 +1,6 @@
 package com.nbe3.domain.posts
 
+import com.nbe3.domain.user.User
 import jakarta.persistence.LockModeType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable

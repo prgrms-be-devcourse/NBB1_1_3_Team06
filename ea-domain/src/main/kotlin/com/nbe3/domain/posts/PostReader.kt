@@ -2,6 +2,7 @@ package com.nbe3.domain.posts
 
 import com.nbe3.common.dto.PageResult
 import com.nbe3.domain.posts.exception.PostNotFoundException
+import com.nbe3.domain.user.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
@@ -48,12 +49,12 @@ class PostReader(private val postRepository: PostRepository) {
         // postPage가 null인지 확인하고 null일 경우 빈 리스트를 반환
         return postPage?.content?.map { post ->
             PostListInfo(
-                post?.id,
-                post?.writerName ?: "Unknown", // post가 null일 경우 기본값 설정
-                post?.title ?: "No Title", // 기본값 설정
-                post?.content ?: "No Content", // 기본값 설정
-                post?.likeCount ?: 0, // 기본값 설정
-                post?.commentCount ?: 0 // 기본값 설정
+                post!!.id!!,
+                post.writerName ?: "Unknown", // post가 null일 경우 기본값 설정
+                post.title ?: "No Title", // 기본값 설정
+                post.content ?: "No Content", // 기본값 설정
+                post.likeCount ?: 0, // 기본값 설정
+                post.commentCount ?: 0 // 기본값 설정
             )
         } ?: emptyList() // postPage가 null일 경우 빈 리스트 반환
     }

@@ -23,7 +23,7 @@ class PostFileRepository (private val jdbcTemplate: JdbcTemplate){
             postFiles.size,
             ParameterizedPreparedStatementSetter<PostFile> { ps: PreparedStatement, postFile: PostFile ->
                 ps.setLong(1, postFile.fileMetaDataId)
-                ps.setLong(2, postFile.postId)
+                ps.setLong(2, postFile.postId!!)
             })
     }
 

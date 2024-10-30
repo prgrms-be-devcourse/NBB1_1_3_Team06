@@ -3,6 +3,8 @@ package com.nbe3.domain.posts
 import com.nbe3.common.dto.Page
 import com.nbe3.common.dto.PageResult
 import com.nbe3.domain.global.util.PagingUtil
+import com.nbe3.domain.user.User
+import com.nbe3.domain.user.UserReader
 import jdk.vm.ci.meta.ValueKind.Illegal
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,21 +16,21 @@ class PostService(
     private val postReader: PostReader,
     private val postUpdater: PostUpdater,
     private val postDeleter: PostDeleter,
-    private val userReader: PostReader
+    private val userReader: UserReader
 ){
     @Transactional
     fun save(userId: Long?, postWriteInfo: PostWriteInfo?): Long? {
-        val user: User = userReader.read(userId)
+        val user: User = userReader.read(userId?: throw  IllegalArgumentException())
         return postWriteInfo?.let { postAppender.append(user, it) }
     }
 
     fun findListPageByCity(page: Page?, city: City?): PageResult<PostListInfo>? {
-        return postReader.readListPage(PagingUtil.toPageRequest(page), city)
+        return postReader.readListPage(page?.let { PagingUtil.toPageRequest(it) }, city)
     }
 
     fun getUserPostPages(page: Page?, userId: Long?): PageResult<PostListInfo>? {
-        val user: User = userReader.read(userId)
-        return postReader.readListPage(PagingUtil.toPageRequest(page), user)
+        val user: User = userReader.read(userId?: throw  IllegalArgumentException())
+        return postReader.readListPage(page?.let { PagingUtil.toPageRequest(it) }, user)
     }
 
     fun findDetails(postsId: Long?): PostDetailsInfo {
@@ -44,6 +46,6 @@ class PostService(
 
     @Transactional
     fun delete(postsId: Long?) {
-        postDeleter.delete(postsId)
+        postDeleter.delete(postsId ?: throw  IllegalArgumentException())
     }
 }

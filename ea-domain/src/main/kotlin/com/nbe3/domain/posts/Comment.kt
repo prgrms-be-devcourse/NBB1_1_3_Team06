@@ -1,40 +1,37 @@
 package com.nbe3.domain.posts
 
 import com.nbe3.domain.global.BaseTimeEntity
+import com.nbe3.domain.user.User
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "comments")
-class Comment private constructor(post: Post, user: User, content: String) : BaseTimeEntity() {
+class Comment private constructor(@ManyToOne(fetch = FetchType.LAZY)
+                                  @JoinColumn(name = "post_id")
+                                  var post: Post,
+                                  @ManyToOne(fetch = FetchType.LAZY)
+                                  @JoinColumn(name = "user_id")
+                                  var user: User,
+                                  var content: String
+) : BaseTimeEntity() {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    open var id: Long? = null
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    open var post: Post = post
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    open val user: User = user
-
-    open var content: String = content
+    var id: Long? = null
 
     init {
         setPost(post)
-        this.user = user
-        this.content = content
     }
 
     val postId: Long?
-        get() = post!!.id
+        get() = post.id
 
     val writerId: Long
-        get() = user.getId()
+        get() = user.id!!
 
     val writerName: String
-        get() = user.getName()
+        get() = user.name
 
     // ** 연관관계 편의 메서드**//
     private fun setPost(post: Post) {
