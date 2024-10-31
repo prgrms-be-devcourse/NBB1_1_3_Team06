@@ -1,5 +1,6 @@
 package com.nbe2.domain.review;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,7 +17,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.global.BaseTimeEntity;
 import com.nbe2.domain.user.User;
 

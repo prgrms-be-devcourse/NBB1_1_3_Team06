@@ -3,6 +3,7 @@ package com.nbe2.domain.notice;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.global.BaseTimeEntity;
 import com.nbe2.domain.user.User;
 

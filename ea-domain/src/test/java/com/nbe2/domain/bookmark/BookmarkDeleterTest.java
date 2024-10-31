@@ -1,6 +1,5 @@
 package com.nbe2.domain.bookmark;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -12,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.emergencyroom.EmergencyRoomFixture;
 import com.nbe2.domain.user.User;
 import com.nbe2.domain.user.UserFixture;

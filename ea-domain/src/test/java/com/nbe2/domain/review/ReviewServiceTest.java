@@ -19,7 +19,6 @@ import org.springframework.data.domain.PageRequest;
 
 import com.nbe2.common.dto.Page;
 import com.nbe2.common.dto.PageResult;
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.emergencyroom.EmergencyRoomFixture;
 import com.nbe2.domain.review.exception.ReviewNoAccessAuthority;
 import com.nbe2.domain.user.User;

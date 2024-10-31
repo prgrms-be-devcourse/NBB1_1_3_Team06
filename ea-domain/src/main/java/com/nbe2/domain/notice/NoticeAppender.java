@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
 import com.nbe2.domain.auth.UserPrincipal;
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.emergencyroom.EmergencyRoomReader;
 import com.nbe2.domain.file.FileMetaData;
 import com.nbe2.domain.file.FileMetaDataReader;

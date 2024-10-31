@@ -1,5 +1,6 @@
 package com.nbe2.domain.bookmark;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.user.User;
 
 @Entity
