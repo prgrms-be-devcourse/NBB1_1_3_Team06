@@ -1,5 +1,6 @@
-package com.nbe3.security.crypto
+package com.nbe2.security.crypto
 
+import com.nbe2.domain.auth.PasswordEncoder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 

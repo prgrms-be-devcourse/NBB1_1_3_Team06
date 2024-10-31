@@ -1,4 +1,4 @@
-package com.nbe3.security.config
+package com.nbe2.security.config
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean

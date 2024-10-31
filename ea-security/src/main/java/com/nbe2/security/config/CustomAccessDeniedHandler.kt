@@ -1,6 +1,6 @@
-package com.nbe3.security.config
+package com.nbe2.security.config
 
-import com.nbe3.security.exception.NoPermissionException
+import com.nbe2.security.exception.NoPermissionException
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

@@ -35,7 +35,7 @@ public class EmergencyRoomReader {
     public Coordinate readCoordinate(String hospitalName) {
         return emergencyRoomRepository
                 .findByHospitalName(hospitalName)
-                .map(EmergencyRoom::getLocation)
+                .map(EmergencyRoom::getLocationData)
                 .orElseThrow(() -> EmergencyRoomNotFoundException.EXCEPTION);
     }
 

@@ -24,8 +24,8 @@ class EmergencyRoomInitializer(
         get() = emergencyRoomRepository.findAll().stream()
             .map { rooms ->
                 (rooms.hospitalName
-                        + rooms.getLocation().longitude
-                        + rooms.getLocation().latitude)
+                        + rooms.getLocationData().longitude
+                        + rooms.getLocationData().latitude)
             }
             .collect(Collectors.toSet())
 

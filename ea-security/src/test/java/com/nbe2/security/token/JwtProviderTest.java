@@ -6,14 +6,15 @@ import com.nbe2.domain.user.UserRole;
 import com.nbe2.security.exception.JwtExpriedException;
 import com.nbe2.security.utils.JwtGenerator;
 import com.nbe2.security.utils.JwtProvider;
-import com.nbe3.security.exception.JwtExpriedException;
-import com.nbe3.security.utils.JwtProvider;
+import com.nbe2.security.exception.JwtExpriedException;
+import com.nbe2.security.utils.JwtProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,7 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 public class JwtProviderTest {
 
-    @InjectMocks private static JwtProvider jwtProvider;
+    @MockBean
+    private static JwtProvider jwtProvider;
 
     private static final String TEST_SECRET_KEY =
             "fegwhgogjqgeonri3noi523niefaenpffegwhgogjqgeonri3noi523niefaenpf";
@@ -34,6 +36,7 @@ public class JwtProviderTest {
     @BeforeEach
     void setUp() {
         jwtProvider = new JwtProvider(TEST_SECRET_KEY);
+        System.out.println(jwtProvider);
     }
 
     // 정상적인 토큰 생성
@@ -51,7 +54,7 @@ public class JwtProviderTest {
     void getExpiredAccessToken() {
         // given
         Tokens generate1 = expiredJwtGenerator().generate(UserPrincipal.of(1L, UserRole.USER));
-
+        System.out.println("geggege = " + generate1);
         // when
         //        JwtExpriedException exception =
         //                assertThrows(

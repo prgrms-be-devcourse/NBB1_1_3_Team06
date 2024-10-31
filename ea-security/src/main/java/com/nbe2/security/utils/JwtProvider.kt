@@ -3,8 +3,8 @@ package com.nbe2.security.utils
 import com.nbe2.domain.auth.TokenProvider
 import com.nbe2.domain.auth.UserPrincipal
 import com.nbe2.domain.user.UserRole
-import com.nbe3.security.exception.JwtExpriedException
-import com.nbe3.security.exception.JwtUnsupportedException
+import com.nbe2.security.exception.JwtExpriedException
+import com.nbe2.security.exception.JwtUnsupportedException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts

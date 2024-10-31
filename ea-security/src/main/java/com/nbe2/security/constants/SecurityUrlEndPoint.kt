@@ -1,4 +1,4 @@
-package com.nbe3.security.constants
+package com.nbe2.security.constants
 
 import com.nbe2.domain.user.UserRole
 import org.springframework.http.HttpMethod

@@ -1,7 +1,7 @@
-package com.nbe3.security.config
+package com.nbe2.security.config
 
-import com.nbe3.security.constants.SecurityUrlEndPoint
-import com.nbe3.security.utils.JwtProvider
+import com.nbe2.security.utils.JwtProvider
+import com.nbe2.security.constants.SecurityUrlEndPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -18,6 +18,7 @@ class SecurityConfig(
     private val jwtProvider: JwtProvider,
     private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
     private val customAccessDeniedHandler: CustomAccessDeniedHandler
+
 
 ) {
     @Bean
@@ -47,7 +48,7 @@ class SecurityConfig(
                             .permitAll()
                     }
                 }
-                for (securityUrlEndPoint in SecurityUrlEndPoint.values()) {
+                for (securityUrlEndPoint in SecurityUrlEndPoint.entries) {
                     if (securityUrlEndPoint.userRole != null) {
                         authorizationManagerRequestMatcherRegistry
                             .requestMatchers(

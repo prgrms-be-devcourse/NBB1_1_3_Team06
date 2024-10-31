@@ -34,7 +34,7 @@ data class EmergencyRoom(
     val bedCount: BedCount
 ) : BaseTimeEntity() {
 
-    fun getLocation(): Coordinate {
+    fun getLocationData(): Coordinate {
         return Coordinate.of(location.x, location.y)
     }
 

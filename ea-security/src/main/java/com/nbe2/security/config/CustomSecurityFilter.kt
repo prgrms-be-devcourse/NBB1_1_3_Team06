@@ -1,9 +1,9 @@
-package com.nbe3.security.config
+package com.nbe2.security.config
 
 import com.nbe2.common.constants.EAConstants
 import com.nbe2.domain.auth.UserPrincipal
-import com.nbe3.security.exception.JwtNotFountException
-import com.nbe3.security.utils.JwtProvider
+import com.nbe2.security.utils.JwtProvider
+import com.nbe2.security.exception.JwtNotFountException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
