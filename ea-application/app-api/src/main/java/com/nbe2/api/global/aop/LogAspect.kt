@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.slf4j.LoggerFactory
+import org.springframework.boot.configurationprocessor.json.JSONObject
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
@@ -25,7 +26,7 @@ class LogAspect {
 
     @Around("all()")
     @Throws(Throwable::class)
-    fun logging(joinPoint: ProceedingJoinPoint): Any {
+    fun logging(joinPoint: ProceedingJoinPoint): Any? {
         val start = System.currentTimeMillis()
         return try {
             joinPoint.proceed()
@@ -38,7 +39,7 @@ class LogAspect {
 
     @Around("controller()")
     @Throws(Throwable::class)
-    fun loggingBefore(joinPoint: ProceedingJoinPoint): Any {
+    fun loggingBefore(joinPoint: ProceedingJoinPoint): Any? {
         val request = (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.request
             ?: throw IllegalStateException("No request found")
 
@@ -66,8 +67,8 @@ class LogAspect {
         return joinPoint.proceed()
     }
 
-    private fun getParams(request: HttpServletRequest): org.springframework.boot.configurationprocessor.json.JSONObject {
-        val jsonObject = org.springframework.boot.configurationprocessor.json.JSONObject()
+    private fun getParams(request: HttpServletRequest): JSONObject {
+        val jsonObject = JSONObject()
         val params = request.parameterNames
         while (params.hasMoreElements()) {
             val param = params.nextElement()

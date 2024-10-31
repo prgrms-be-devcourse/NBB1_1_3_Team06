@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.nbe2.common.exception.ErrorReason
 import java.time.LocalDateTime
 
-@JvmRecord
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Response<T>(
     val path: String? = null,
@@ -14,28 +13,29 @@ data class Response<T>(
     val timeStamp: LocalDateTime = LocalDateTime.now()
 ) {
     companion object {
+
         @JvmStatic
         fun <T> success(result: T): Response<T> {
             return Response(responseCode = "SUCCESS", result = result)
         }
 
         @JvmStatic
-        fun success(): Response<Unit> {
+        fun success(): Response<Void> {
             return Response(responseCode = "SUCCESS")
         }
 
         @JvmStatic
-        fun success(message: String): Response<Unit> {
+        fun success(message: String): Response<Void> {
             return Response(responseCode = "SUCCESS", message = message)
         }
 
         @JvmStatic
-        fun error(errorReason: ErrorReason, path: String, message: String): Response<Unit> {
+        fun error(errorReason: ErrorReason, path: String, message: String): Response<Void> {
             return Response(path = path, responseCode = errorReason.errorCode, message = message)
         }
 
         @JvmStatic
-        fun error(errorCode: String, message: String): Response<Unit> {
+        fun error(errorCode: String, message: String): Response<Void> {
             return Response(responseCode = errorCode, message = message)
         }
     }

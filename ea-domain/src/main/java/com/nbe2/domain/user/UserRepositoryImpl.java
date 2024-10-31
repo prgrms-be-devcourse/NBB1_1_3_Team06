@@ -1,8 +1,5 @@
 package com.nbe2.domain.user;
 
-import com.nbe2.domain.user.QMedicalPersonInfo;
-import com.nbe2.domain.user.QUser;
-
 import java.util.List;
 
 import org.springframework.data.domain.Page;
