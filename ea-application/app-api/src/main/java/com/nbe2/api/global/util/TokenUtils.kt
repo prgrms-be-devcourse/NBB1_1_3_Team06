@@ -15,7 +15,7 @@ class TokenUtils {
             val cookie = createHttpOnlyCookie(
                 AuthConstants.REFRESH_TOKEN_COOKIE_NAME,
                 tokens.refreshToken,
-                AuthConstants.REFRESH_TOKEN_TTL.toKotlinDuration()
+                AuthConstants.REFRESH_TOKEN_TTL
             )
             headers[HttpHeaders.AUTHORIZATION] = tokens.accessToken
             headers[HttpHeaders.SET_COOKIE] = cookie.toString()

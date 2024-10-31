@@ -1,8 +1,8 @@
 package com.nbe2.infra.notification.publisher
 
 import com.nbe2.domain.notification.NotificationType
-import com.nbe2.domain.post.CommentEventPublisher
-import com.nbe2.domain.post.NewCommentEvent
+import com.nbe2.domain.posts.CommentEventPublisher
+import com.nbe2.domain.posts.NewCommentEvent
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.stereotype.Component
