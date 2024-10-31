@@ -12,7 +12,6 @@ import java.util.*
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 class RedisRealTimeEmergencyRoomInfoCacheRepository
 
     : RealTimeEmergencyRoomInfoCacheRepository {

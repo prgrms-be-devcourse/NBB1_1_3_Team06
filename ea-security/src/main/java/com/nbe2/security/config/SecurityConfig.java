@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import lombok.RequiredArgsConstructor;
 
-import com.nbe2.security.constants.SecurityUrlEndPoint;
 import com.nbe2.security.utils.JwtProvider;
 
 @EnableWebSecurity
@@ -47,29 +46,41 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry -> {
                             authorizationManagerRequestMatcherRegistry.anyRequest().permitAll();
-//                            // All
-//                            for (SecurityUrlEndPoint securityUrlEndPoint :
-//                                    SecurityUrlEndPoint.values()) {
-//                                if (securityUrlEndPoint.getUserRole() == null) {
-//                                    authorizationManagerRequestMatcherRegistry
-//                                            .requestMatchers(
-//                                                    securityUrlEndPoint.getMethod(),
-//                                                    securityUrlEndPoint.getUrl())
-//                                            .permitAll();
-//                                }
-//                            }
-//
-//                            for (SecurityUrlEndPoint securityUrlEndPoint :
-//                                    SecurityUrlEndPoint.values()) {
-//                                if (securityUrlEndPoint.getUserRole() != null) {
-//                                    authorizationManagerRequestMatcherRegistry
-//                                            .requestMatchers(
-//                                                    securityUrlEndPoint.getMethod(),
-//                                                    securityUrlEndPoint.getUrl())
-//                                            .hasRole(securityUrlEndPoint.getUserRole().name());
-//                                }
-//                            }
-//                            authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
+                            //                            // All
+                            //                            for (SecurityUrlEndPoint
+                            // securityUrlEndPoint :
+                            //                                    SecurityUrlEndPoint.values()) {
+                            //                                if (securityUrlEndPoint.getUserRole()
+                            // == null) {
+                            //
+                            // authorizationManagerRequestMatcherRegistry
+                            //                                            .requestMatchers(
+                            //
+                            // securityUrlEndPoint.getMethod(),
+                            //
+                            // securityUrlEndPoint.getUrl())
+                            //                                            .permitAll();
+                            //                                }
+                            //                            }
+                            //
+                            //                            for (SecurityUrlEndPoint
+                            // securityUrlEndPoint :
+                            //                                    SecurityUrlEndPoint.values()) {
+                            //                                if (securityUrlEndPoint.getUserRole()
+                            // != null) {
+                            //
+                            // authorizationManagerRequestMatcherRegistry
+                            //                                            .requestMatchers(
+                            //
+                            // securityUrlEndPoint.getMethod(),
+                            //
+                            // securityUrlEndPoint.getUrl())
+                            //
+                            // .hasRole(securityUrlEndPoint.getUserRole().name());
+                            //                                }
+                            //                            }
+                            //
+                            // authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         });
 
         httpSecurity.exceptionHandling(
