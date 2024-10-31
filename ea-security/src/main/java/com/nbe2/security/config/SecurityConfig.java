@@ -46,29 +46,30 @@ public class SecurityConfig {
                 // 접근 제어 설정
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry -> {
-                            // All
-                            for (SecurityUrlEndPoint securityUrlEndPoint :
-                                    SecurityUrlEndPoint.values()) {
-                                if (securityUrlEndPoint.getUserRole() == null) {
-                                    authorizationManagerRequestMatcherRegistry
-                                            .requestMatchers(
-                                                    securityUrlEndPoint.getMethod(),
-                                                    securityUrlEndPoint.getUrl())
-                                            .permitAll();
-                                }
-                            }
-
-                            for (SecurityUrlEndPoint securityUrlEndPoint :
-                                    SecurityUrlEndPoint.values()) {
-                                if (securityUrlEndPoint.getUserRole() != null) {
-                                    authorizationManagerRequestMatcherRegistry
-                                            .requestMatchers(
-                                                    securityUrlEndPoint.getMethod(),
-                                                    securityUrlEndPoint.getUrl())
-                                            .hasRole(securityUrlEndPoint.getUserRole().name());
-                                }
-                            }
-                            authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
+                            authorizationManagerRequestMatcherRegistry.anyRequest().permitAll();
+//                            // All
+//                            for (SecurityUrlEndPoint securityUrlEndPoint :
+//                                    SecurityUrlEndPoint.values()) {
+//                                if (securityUrlEndPoint.getUserRole() == null) {
+//                                    authorizationManagerRequestMatcherRegistry
+//                                            .requestMatchers(
+//                                                    securityUrlEndPoint.getMethod(),
+//                                                    securityUrlEndPoint.getUrl())
+//                                            .permitAll();
+//                                }
+//                            }
+//
+//                            for (SecurityUrlEndPoint securityUrlEndPoint :
+//                                    SecurityUrlEndPoint.values()) {
+//                                if (securityUrlEndPoint.getUserRole() != null) {
+//                                    authorizationManagerRequestMatcherRegistry
+//                                            .requestMatchers(
+//                                                    securityUrlEndPoint.getMethod(),
+//                                                    securityUrlEndPoint.getUrl())
+//                                            .hasRole(securityUrlEndPoint.getUserRole().name());
+//                                }
+//                            }
+//                            authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         });
 
         httpSecurity.exceptionHandling(

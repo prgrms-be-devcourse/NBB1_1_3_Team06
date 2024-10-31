@@ -35,11 +35,8 @@ object FileUtils {
             }
         }
 
-    @JvmStatic
-    fun saveFile(uploadFile: MultipartFile?): FileMetaData? {
-        if (uploadFile == null) {
-            return null
-        }
+    fun saveFile(uploadFile: MultipartFile?): FileMetaData {
+        requireNotNull(uploadFile) { "File is null" }
 
         if (!File(UPLOAD_PATH).exists()) {
             File(UPLOAD_PATH).mkdir()
@@ -56,22 +53,24 @@ object FileUtils {
         return FileMetaData.of(uploadFile.originalFilename, UPLOAD_PATH + savedName)
     }
 
-    @JvmStatic
     fun validate(path: String): File {
         val file = File(path)
 
         if (!file.exists()) {
-            throw FileNotFoundException.EXCEPTION
+            throw FileNotFoundException
         }
         return file
     }
 
-    @JvmStatic
     fun probeContentType(file: File): String {
         try {
             return Files.probeContentType(file.toPath())
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
+    }
+
+    fun getContentDescription(encodedFileName: String): String {
+        return "attachment;filename=\"$encodedFileName\""
     }
 }
