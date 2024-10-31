@@ -1,5 +1,6 @@
 package com.nbe2.domain.bookmark;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;

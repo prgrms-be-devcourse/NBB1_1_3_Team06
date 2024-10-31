@@ -5,7 +5,10 @@ import com.nbe2.common.exception.ErrorReason
 import lombok.Getter
 import java.time.LocalDateTime
 
+<<<<<<< HEAD
 @Getter
+=======
+>>>>>>> 551e704265467e808a77013d91a9631da4391cb0
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class Response<T> {
     private var path: String? = null
@@ -32,10 +35,16 @@ class Response<T> {
     }
 
     companion object {
+<<<<<<< HEAD
+=======
+
+        @JvmStatic
+>>>>>>> 551e704265467e808a77013d91a9631da4391cb0
         fun <T> success(result: T): Response<T> {
             return Response("SUCCESS", result)
         }
 
+<<<<<<< HEAD
         fun success(): Response<Void> {
             return Response("SUCCESS", null)
         }
@@ -50,6 +59,26 @@ class Response<T> {
 
         fun error(errorCode: String, message: String?): Response<Void> {
             return Response(errorCode, message)
+=======
+        @JvmStatic
+        fun success(): Response<Void> {
+            return Response(responseCode = "SUCCESS")
+        }
+
+        @JvmStatic
+        fun success(message: String): Response<Void> {
+            return Response(responseCode = "SUCCESS", message = message)
+        }
+
+        @JvmStatic
+        fun error(errorReason: ErrorReason, path: String, message: String): Response<Void> {
+            return Response(path = path, responseCode = errorReason.errorCode, message = message)
+        }
+
+        @JvmStatic
+        fun error(errorCode: String, message: String): Response<Void> {
+            return Response(responseCode = errorCode, message = message)
+>>>>>>> 551e704265467e808a77013d91a9631da4391cb0
         }
     }
 }

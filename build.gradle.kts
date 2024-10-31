@@ -6,7 +6,7 @@ plugins {
     id("com.diffplug.spotless") version "6.25.0"
 
     // @TODO lombok 때문에 추가
-//    kotlin("plugin.lombok") version "1.18.28" 일단 필요 없다고 함 gpt 피셜
+    kotlin("plugin.lombok") version "1.9.25" apply false
     kotlin("kapt") version "1.9.25"
     id("io.freefair.lombok") version "8.0.0" apply false
 }
@@ -51,7 +51,8 @@ subprojects {
 
         // @TODO lombok 때문에 추가
         compileOnly("org.projectlombok:lombok")
-//        kapt("org.projectlombok:lombok")
+        runtimeOnly("org.projectlombok:lombok")
+        kapt("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
 
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -88,6 +89,10 @@ subprojects {
             endWithNewline()
         }
     }
+
+    kapt {
+        keepJavacAnnotationProcessors = true
+    }
 }
 
 tasks.register<Copy>("addGitPreCommitHook") {
@@ -96,9 +101,6 @@ tasks.register<Copy>("addGitPreCommitHook") {
 }
 
 // @TODO lombok 때문에 추가
-kapt {
-    keepJavacAnnotationProcessors = true
-}
 
 project(":ea-application") {
     tasks.getByName("bootJar") {

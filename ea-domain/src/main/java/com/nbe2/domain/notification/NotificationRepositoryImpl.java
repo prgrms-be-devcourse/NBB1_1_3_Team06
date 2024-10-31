@@ -1,7 +1,5 @@
 package com.nbe2.domain.notification;
 
-import com.nbe2.domain.notification.QNotification;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

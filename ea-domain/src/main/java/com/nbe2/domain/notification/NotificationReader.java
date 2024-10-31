@@ -16,7 +16,7 @@ public class NotificationReader {
 
     public List<NotificationDetail> read(Long userId, Cursor cursor) {
         return notificationRepository
-                .findByUserIdWithCursor(userId, cursor.cursor(), cursor.size())
+                .findByUserIdWithCursor(userId, cursor.getCursor(), cursor.getSize())
                 .stream()
                 .map(NotificationDetail::from)
                 .toList();

@@ -17,7 +17,7 @@ class EmergencyRoomInitializer(
     fun init() {
         val uniqueKeySet = uniqueKeySet
         val emergencyRooms: List<EmergencyRoom> = removeDuplicatesEmergencyData(uniqueKeySet)
-        if (!emergencyRooms.isEmpty()) emergencyRoomRepository?.saveAll(emergencyRooms)
+        if (emergencyRooms.isNotEmpty()) emergencyRoomRepository.saveAll(emergencyRooms)
     }
 
     private val uniqueKeySet: Set<String>
@@ -38,6 +38,6 @@ class EmergencyRoomInitializer(
                 val uniqueKey = "${room.hospitalName}${room.location.x}${room.location.y}"
                 !uniqueKeySet.contains(uniqueKey) // 고유 키가 없는 데이터만 필터링
             }
-            ?: emptyList() // nullable 처리: null이면 빈 리스트 반환
+            //?: emptyList() // nullable 처리: null이면 빈 리스트 반환
     }
 }
