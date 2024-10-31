@@ -22,12 +22,7 @@ class User private constructor (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    @OneToOne(optional = false, mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    var medicalPersonInfo: MedicalPersonInfo? = null
-
-    fun assignMedicalRole(medicalPersonInfo: MedicalPersonInfo) {
-        this.medicalPersonInfo = medicalPersonInfo
-        this.role = UserRole.MEDICAL_PERSON
+    fun requestAuthority() {
         this.approvalStatus = ApprovalStatus.PENDING
     }
 

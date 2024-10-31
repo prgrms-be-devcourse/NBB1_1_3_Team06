@@ -9,12 +9,14 @@ import org.springframework.stereotype.Component
 @Component
 class UserUpdater(
     private val passwordEncoder: PasswordEncoder,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val medicalPersonInfoRepository: MedicalPersonInfoRepository
 ) {
 
     fun requestMedicalRole(user: User, emergencyRoom: EmergencyRoom, license: FileMetaData) {
         val medicalPersonInfo = MedicalPersonInfo.of(user, emergencyRoom, license)
-        user.assignMedicalRole(medicalPersonInfo)
+        user.requestAuthority()
+        medicalPersonInfoRepository.save(medicalPersonInfo)
         userRepository.save(user)
     }
 

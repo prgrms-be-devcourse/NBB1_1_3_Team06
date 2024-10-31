@@ -7,7 +7,6 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "medical_person_infos")
 class MedicalPersonInfo private constructor(
-    @MapsId
     @JoinColumn(name = "user_id")
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     val user: User,
