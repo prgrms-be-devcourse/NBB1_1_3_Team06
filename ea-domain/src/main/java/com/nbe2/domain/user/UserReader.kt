@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 class UserReader(private val userRepository: UserRepository) {
 
-    fun read(userId: Long) =
+    fun read(userId: Long): User =
         userRepository.findById(userId)
             .orElseThrow { UserNotFoundException }
 

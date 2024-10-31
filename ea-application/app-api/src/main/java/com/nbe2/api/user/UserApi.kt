@@ -19,7 +19,7 @@ class UserApi(private val userService: UserService) {
     fun requestMedicalAuthority(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody medicalRequest: MedicalRequest
-    ): Response<Unit> {
+    ): Response<Void> {
         userService.requestMedicalAuthority(
             userPrincipal.userId, medicalRequest.toMedicalProfile()
         )
@@ -37,7 +37,7 @@ class UserApi(private val userService: UserService) {
     fun updateMyProfile(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody request: UpdateProfileRequest
-    ): Response<Unit> {
+    ): Response<Void> {
         userService.updateProfile(userPrincipal.userId, request.toProfile())
         return Response.success()
     }
@@ -46,7 +46,7 @@ class UserApi(private val userService: UserService) {
     fun changePassword(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody request: UpdatePasswordRequest
-    ): Response<Unit> {
+    ): Response<Void> {
         userService.changePassword(userPrincipal.userId, request.toPassword())
         return Response.success()
     }

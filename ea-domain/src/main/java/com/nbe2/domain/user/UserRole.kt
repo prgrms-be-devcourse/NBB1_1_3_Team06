@@ -8,6 +8,7 @@ enum class UserRole(val role: String) {
     ADMIN("ROLE_ADMIN");
 
     companion object {
+        @JvmStatic
         fun findByRole(role: String) =
             Arrays.stream(entries.toTypedArray())
                 .filter { userRole: UserRole -> userRole.role == role }

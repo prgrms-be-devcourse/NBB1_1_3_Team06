@@ -18,20 +18,20 @@ import com.nbe2.domain.auth.UserPrincipal
 class AuthApi(private val authService: AuthService) {
 
     @PostMapping("/signup")
-    fun signUp(@RequestBody signupRequest: SignupRequest): Response<Unit> {
+    fun signUp(@RequestBody signupRequest: SignupRequest): Response<Void> {
         authService.signUp(signupRequest.toUserProfile())
         return Response.success()
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Response<Unit>> {
+    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Response<Void>> {
         val tokens = authService.login(loginRequest.toLogin())
         val headers = TokenUtils.createTokenHeaders(tokens)
         return ResponseEntity.ok().headers(headers).body(Response.success())
     }
 
     @DeleteMapping("/logout")
-    fun logout(@AuthenticationPrincipal userPrincipal: UserPrincipal): Response<Unit> {
+    fun logout(@AuthenticationPrincipal userPrincipal: UserPrincipal): Response<Void> {
         authService.logout(userPrincipal.userId)
         return Response.success()
     }

@@ -8,7 +8,7 @@ import org.springframework.ai.vectorstore.SearchRequest
 import org.springframework.util.Assert
 import java.util.ArrayList
 
-class CustomChromaVectorStore(
+open class CustomChromaVectorStore(
     private val embeddingModel: EmbeddingModel,
     private val chromaApi: ChromaApi,
     collectionName: String? = null,

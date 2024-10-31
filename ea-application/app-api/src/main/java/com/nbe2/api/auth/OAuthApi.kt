@@ -22,7 +22,7 @@ class OAuthApi(private val oAuthService: OAuthService) {
     }
 
     @GetMapping("/login")
-    fun login(@RequestParam code: String): ResponseEntity<Response<Unit>> {
+    fun login(@RequestParam code: String): ResponseEntity<Response<Void>> {
         val tokens = oAuthService.login(code)
         val header = TokenUtils.createTokenHeaders(tokens)
         return ResponseEntity.ok().headers(header).body(Response.success())
