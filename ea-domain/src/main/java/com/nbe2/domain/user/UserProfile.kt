@@ -1,8 +1,8 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-public record UserProfile(String name, String email, String password) {
+data class UserProfile(val name: String, val email: String, val password: String) {
 
-    public static UserProfile of(String name, String email, String password) {
-        return new UserProfile(name, email, password);
+    companion object {
+        fun of(name: String, email: String, password: String) = UserProfile(name, email, password)
     }
 }

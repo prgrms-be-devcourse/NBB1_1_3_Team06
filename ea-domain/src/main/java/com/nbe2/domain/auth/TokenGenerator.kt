@@ -1,6 +1,6 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-public interface TokenGenerator {
+interface TokenGenerator {
 
-    Tokens generate(UserPrincipal principal);
+    fun generate(principal: UserPrincipal): Tokens
 }

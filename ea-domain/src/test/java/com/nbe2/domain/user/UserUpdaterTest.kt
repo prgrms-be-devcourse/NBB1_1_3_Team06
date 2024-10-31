@@ -1,75 +1,65 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.nbe2.domain.auth.PasswordEncoder
+import com.nbe2.domain.user.exception.InvalidPasswordException
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+class UserUpdaterTest : BehaviorSpec({
+    val passwordEncoder = mockk<PasswordEncoder>()
+    val userRepository = mockk<UserRepository>()
 
-import com.nbe2.domain.auth.PasswordEncoder;
-import com.nbe2.domain.user.exception.InvalidPasswordException;
+    val userUpdater = UserUpdater(passwordEncoder, userRepository)
 
-@ExtendWith(MockitoExtension.class)
-class UserUpdaterTest {
+    Given("회원과 변경할 프로필이 있는 경우") {
+        val profile = UpdateProfile("new name", "new email")
+        val user = createUserWithId()
 
-    @InjectMocks private UserUpdater userUpdater;
+        When("프로필을 수정하면") {
+            userUpdater.update(user, profile)
 
-    @Mock private PasswordEncoder passwordEncoder;
-
-    @Mock private UserRepository userRepository;
-
-    @Test
-    @DisplayName("사용자 프로필을 수정한다.")
-    void givenNewProfile_whenUpdateProfile_thenUpdatingSuccess() {
-        // given
-        User user = UserFixture.createUserWithId();
-        UpdateProfile newProfile = new UpdateProfile("new name", "new email");
-
-        // when
-        userUpdater.update(user, newProfile);
-
-        // then
-        verify(userRepository).save(user);
-        assertEquals(newProfile.name(), user.getName());
-        assertEquals(newProfile.email(), user.getEmail());
+            Then("새 프로필로 변경된다.") {
+                user.name shouldBe profile.name
+                user.email shouldBe profile.email
+                verify(exactly = 1) { userRepository.save(user) }
+            }
+        }
     }
 
-    @Test
-    @DisplayName("이전 비밀번호가 일치하면 비밀번호를 수정한다.")
-    void givenNewPassword_whenChangePassword_thenChangingSuccess() {
-        // given
-        User user = UserFixture.createUserWithId();
-        UpdatePassword password = new UpdatePassword(user.getPassword(), "new password");
-        String encoded = "encoded password";
+    Given("회원과 변경할 비밀번호가 있는 경우") {
+        val user = createUserWithId()
+        val password = UpdatePassword(user.password, "new password")
+        val encoded = "encoded password"
 
-        // when
-        when(passwordEncoder.isPasswordUnmatched(anyString(), anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn(encoded);
-        userUpdater.update(user, password);
+        every { passwordEncoder.isPasswordUnmatched(any(), any()) } returns false
+        every { passwordEncoder.encode(any()) } returns encoded
 
-        // then
-        verify(userRepository).save(user);
-        assertEquals(encoded, user.getPassword());
+        When("기존 비밀번호와 함께 새 비밀번호로 변경하면") {
+            userUpdater.update(user, password)
+
+            Then("새 비밀번호로 변경된다.") {
+                user.password shouldBe encoded
+                verify(exactly = 1) { userRepository.save(user) }
+            }
+        }
     }
 
-    @Test
-    @DisplayName("이번 비밀번호와 다르면 예외가 발생한다.")
-    void givenNewPassword_whenPreviousUnmatches_thenShouldThrowException() {
-        // given
-        User user = UserFixture.createUserWithId();
-        UpdatePassword password = new UpdatePassword(user.getPassword(), "new password");
+    Given("기존 비밀번호가 일치하지 않는 경우") {
+        val user = createUserWithId()
+        val password = UpdatePassword(user.password, "new password")
+        val encoded = "encoded password"
 
-        // when
-        when(passwordEncoder.isPasswordUnmatched(anyString(), anyString())).thenReturn(true);
+        every { passwordEncoder.isPasswordUnmatched(any(), any()) } returns false
+        every { passwordEncoder.encode(any()) } returns encoded
 
-        // then
-        assertThrows(InvalidPasswordException.class, () -> userUpdater.update(user, password));
+        When("비밀번호를 변경하면") {
+            Then("예외가 발생한다.") {
+                shouldThrow<InvalidPasswordException> { userUpdater.update(user, password) }
+            }
+        }
     }
-}
+})

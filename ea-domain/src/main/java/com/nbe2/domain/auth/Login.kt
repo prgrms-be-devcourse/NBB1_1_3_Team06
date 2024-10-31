@@ -1,3 +1,3 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-public record Login(String email, String password) {}
+data class Login(val email: String, val password: String)

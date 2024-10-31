@@ -9,9 +9,7 @@ import kotlin.time.toJavaDuration
 import kotlin.time.toKotlinDuration
 
 class TokenUtils {
-
     companion object {
-        @JvmStatic
         fun createTokenHeaders(tokens: Tokens): HttpHeaders {
             val headers = HttpHeaders()
             val cookie = createHttpOnlyCookie(
@@ -24,8 +22,7 @@ class TokenUtils {
             return headers
         }
 
-        private fun createHttpOnlyCookie(name: String, value: String, maxAge: Duration): ResponseCookie {
-            return ResponseCookie.from(name, value).httpOnly(true).path("/").maxAge(maxAge.toJavaDuration()).build()
-        }
+        private fun createHttpOnlyCookie(name: String, value: String, maxAge: Duration) =
+            ResponseCookie.from(name, value).httpOnly(true).path("/").maxAge(maxAge.toJavaDuration()).build()
     }
 }

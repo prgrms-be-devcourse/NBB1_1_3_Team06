@@ -1,39 +1,33 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.user.User;
-import com.nbe2.domain.user.UserAppender;
-import com.nbe2.domain.user.UserReader;
-import com.nbe2.domain.user.UserValidator;
+import com.nbe2.domain.user.UserAppender
+import com.nbe2.domain.user.UserReader
+import com.nbe2.domain.user.UserValidator
+import org.springframework.stereotype.Service
 
 @Service
-@RequiredArgsConstructor
-public class OAuthService {
+class OAuthService(
+    private val oAuthClient: OAuthClient,
+    private val tokenManager: TokenManager,
+    private val tokenGenerator: TokenGenerator,
+    private val userValidator: UserValidator,
+    private val userReader: UserReader,
+    private val userAppender: UserAppender
+) {
 
-    private final OAuthClient oAuthClient;
-    private final TokenManager tokenManager;
-    private final TokenGenerator tokenGenerator;
-    private final UserValidator userValidator;
-    private final UserReader userReader;
-    private final UserAppender userAppender;
+    val connectionUrl: String
+        get() = oAuthClient.connectionUrl
 
-    public String getConnectionUrl() {
-        return oAuthClient.getConnectionUrl();
-    }
-
-    public Tokens login(String code) {
-        OAuthProfile oAuthProfile = oAuthClient.getOAuthProfile(code);
-        if (!userValidator.isEmailExists(oAuthProfile.getEmail())) {
-            userAppender.append(oAuthProfile);
+    fun login(code: String): Tokens {
+        val oAuthProfile = oAuthClient.getOAuthProfile(code)
+        if (!userValidator.isEmailExists(oAuthProfile.email)) {
+            userAppender.append(oAuthProfile)
         }
 
-        User user = userReader.read(oAuthProfile.getEmail());
-        Tokens tokens = tokenGenerator.generate(UserPrincipal.of(user.getId(), user.getRole()));
-        tokenManager.save(RefreshToken.of(user.getId(), tokens.refreshToken()));
+        val user = userReader.read(oAuthProfile.email)
+        val tokens = tokenGenerator.generate(UserPrincipal.of(user.id!!, user.role))
+        tokenManager.save(RefreshToken.of(user.id!!, tokens.refreshToken))
 
-        return tokens;
+        return tokens
     }
 }

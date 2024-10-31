@@ -1,10 +1,10 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 
-public interface UserRepositoryCustom {
-
-    Page<UserProfileWithLicense> findPageByApprovalStatus(
-            ApprovalStatus approvalStatus, Pageable pageable);
+interface UserRepositoryCustom {
+    fun findPageByApprovalStatus(
+        approvalStatus: ApprovalStatus, pageable: Pageable
+    ): Page<UserProfileWithLicense>
 }

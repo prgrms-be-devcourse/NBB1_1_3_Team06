@@ -1,9 +1,9 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-public record MyProfile(String name, String email, boolean hasMedicalAuthority) {
+data class MyProfile(val name: String, val email: String, val hasMedicalAuthority: Boolean) {
 
-    public static MyProfile from(User user) {
-        return new MyProfile(
-                user.getName(), user.getEmail(), user.getRole().equals(UserRole.MEDICAL_PERSON));
+    companion object {
+        fun from(user: User) =
+            MyProfile(user.name, user.email, user.role == UserRole.MEDICAL_PERSON)
     }
 }

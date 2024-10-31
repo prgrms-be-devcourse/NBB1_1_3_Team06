@@ -1,77 +1,62 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import static com.nbe2.domain.global.TestConstants.EMAIL;
-import static com.nbe2.domain.global.TestConstants.PASSWORD;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import com.nbe2.domain.global.EMAIL
+import com.nbe2.domain.global.PASSWORD
+import com.nbe2.domain.user.UserReader
+import com.nbe2.domain.user.createUserWithId
+import com.nbe2.domain.user.exception.UserNotFoundException
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+class AuthenticatorTest : BehaviorSpec({
+    val passwordEncoder = mockk<PasswordEncoder>()
+    val userReader = mockk<UserReader>()
 
-import com.nbe2.domain.auth.exception.AuthenticationException;
-import com.nbe2.domain.user.User;
-import com.nbe2.domain.user.UserFixture;
-import com.nbe2.domain.user.UserReader;
-import com.nbe2.domain.user.exception.UserNotFoundException;
+    val authenticator = Authenticator(passwordEncoder, userReader)
 
-@ExtendWith(MockitoExtension.class)
-class AuthenticatorTest {
+    Given("아이디, 비밀번호가 주어진 경우") {
+        val login = Login(EMAIL, PASSWORD)
+        val user = createUserWithId()
+        val expected = UserPrincipal.of(user.id!!, user.role)
 
-    @InjectMocks private Authenticator authenticator;
+        every { userReader.read(any<Long>()) } returns user
+        every { passwordEncoder.isPasswordUnmatched(any(), any()) } returns false
 
-    @Mock private PasswordEncoder passwordEncoder;
+        When("로그인을 하면") {
+            val actual = authenticator.authenticate(login)
 
-    @Mock private UserReader userReader;
-
-    @Test
-    @DisplayName("유효한 로그인 정보로 로그인 시 인증에 성공한다.")
-    void given_valid_email_password_when_authenticate_then_login_success() {
-        // given
-        Login login = new Login(EMAIL, PASSWORD);
-        User user = UserFixture.createUserWithId();
-        UserPrincipal expected = UserPrincipal.of(user.getId(), user.getRole());
-
-        // when
-        when(userReader.read(anyString())).thenReturn(user);
-        when(passwordEncoder.isPasswordUnmatched(anyString(), anyString())).thenReturn(false);
-
-        // then
-        UserPrincipal actual = authenticator.authenticate(login);
-        assertEquals(expected, actual);
+            Then("인증에 성공한다.") {
+                actual shouldBe expected
+            }
+        }
     }
 
-    @Test
-    @DisplayName("존재하지 않는 이메일 로그인 시 예외가 발생한다.")
-    void given_invalid_email_when_authenticate_then_should_throw_exception() {
-        // given
-        Login login = new Login(EMAIL, PASSWORD);
+    Given("이메일이 유효하지 않은 경우") {
+        val login = Login(EMAIL, PASSWORD)
 
-        // when
-        doThrow(UserNotFoundException.class).when(userReader).read(anyString());
+        every { userReader.read(any<Long>()) } throws UserNotFoundException
 
-        // then
-        assertThrows(UserNotFoundException.class, () -> authenticator.authenticate(login));
+        When("로그인을 하면") {
+            Then("예외가 발생한다.") {
+                shouldThrow<UserNotFoundException> { authenticator.authenticate(login) }
+            }
+        }
     }
 
-    @Test
-    @DisplayName("비밀번호가 일치하지 않으면 예외가 발생한다.")
-    void given_invalid_password_when_authenticate_then_should_throw_exception() {
-        // given
-        Login login = new Login(EMAIL, PASSWORD);
-        User user = UserFixture.createUser();
+    Given("비밀번호가 유효하지 않은 경우") {
+        val login = Login(EMAIL, PASSWORD)
+        val user = createUserWithId()
 
-        // when
-        when(userReader.read(anyString())).thenReturn(user);
-        when(passwordEncoder.isPasswordUnmatched(anyString(), anyString())).thenReturn(true);
+        every { userReader.read(any<Long>()) } returns user
+        every { passwordEncoder.isPasswordUnmatched(any(), any()) } returns true
 
-        // then
-        assertThrows(AuthenticationException.class, () -> authenticator.authenticate(login));
+        When("로그인을 하면") {
+            Then("예외가 발생한다.") {
+                shouldThrow<UserNotFoundException> { authenticator.authenticate(login) }
+            }
+        }
     }
-}
+})

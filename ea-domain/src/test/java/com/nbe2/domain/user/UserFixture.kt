@@ -1,47 +1,39 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import static com.nbe2.domain.global.TestConstants.*;
+import com.nbe2.domain.global.EMAIL
+import com.nbe2.domain.global.ID
+import com.nbe2.domain.global.NAME
+import com.nbe2.domain.global.PASSWORD
 
-import java.lang.reflect.Field;
+fun createUser(): User {
+    return User.of(NAME, EMAIL, PASSWORD)
+}
 
-public class UserFixture {
+fun createPendingUser(): User {
+    return User.of(NAME, EMAIL, PASSWORD)
+}
 
-    public static User createUser() {
-        return User.of(NAME, EMAIL, PASSWORD);
+fun createUserWithId(): User {
+    val user = User.of(NAME, EMAIL, PASSWORD)
+
+    try {
+        val field = User::class.java.getDeclaredField("id")
+        field.isAccessible = true
+        field[user] = ID
+    } catch (ignored: java.lang.Exception) {
     }
 
-    public static User createPendingUser() {
-        return User.builder()
-                .name(NAME)
-                .email(EMAIL)
-                .password(PASSWORD)
-                .role(UserRole.MEDICAL_PERSON)
-                .approvalStatus(ApprovalStatus.PENDING)
-                .build();
-    }
+    return user
+}
 
-    public static User createUserWithId() {
-        User user = User.of(NAME, EMAIL, PASSWORD);
+fun createUserProfile(): UserProfile {
+    return UserProfile(NAME, EMAIL, PASSWORD)
+}
 
-        try {
-            Field field = User.class.getDeclaredField("id");
-            field.setAccessible(true);
-            field.set(user, ID);
-        } catch (Exception ignored) {
-        }
+fun createMedicalProfile(): MedicalProfile {
+    return MedicalProfile(ID, ID)
+}
 
-        return user;
-    }
-
-    public static UserProfile createUserProfile() {
-        return new UserProfile(NAME, EMAIL, PASSWORD);
-    }
-
-    public static MedicalProfile createMedicalProfile() {
-        return new MedicalProfile(ID, ID);
-    }
-
-    public static UserProfileWithLicense createUserProfileWithLicense() {
-        return new UserProfileWithLicense(ID, NAME, EMAIL, ID);
-    }
+fun createUserProfileWithLicense(): UserProfileWithLicense {
+    return UserProfileWithLicense(ID, NAME, EMAIL, ID)
 }

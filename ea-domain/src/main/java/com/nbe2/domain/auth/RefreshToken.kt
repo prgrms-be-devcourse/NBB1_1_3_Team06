@@ -1,8 +1,8 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-public record RefreshToken(long userId, String refreshToken) {
+data class RefreshToken(val userId: Long, val refreshToken: String) {
 
-    public static RefreshToken of(long userId, String refreshToken) {
-        return new RefreshToken(userId, refreshToken);
+    companion object {
+        fun of(userId: Long, refreshToken: String) = RefreshToken(userId, refreshToken)
     }
 }

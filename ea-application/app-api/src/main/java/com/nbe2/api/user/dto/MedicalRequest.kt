@@ -1,10 +1,8 @@
-package com.nbe2.api.user.dto;
+package com.nbe2.api.user.dto
 
-import com.nbe2.domain.user.MedicalProfile;
+import com.nbe2.domain.user.MedicalProfile
 
-public record MedicalRequest(Long emergencyRoomId, Long licenseId) {
+data class MedicalRequest(val emergencyRoomId: Long, val licenseId: Long) {
 
-    public MedicalProfile toMedicalProfile() {
-        return new MedicalProfile(emergencyRoomId, licenseId);
-    }
+    fun toMedicalProfile() = MedicalProfile(emergencyRoomId, licenseId)
 }

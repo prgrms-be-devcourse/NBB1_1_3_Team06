@@ -1,3 +1,3 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-public record MedicalProfile(Long emergencyRoomId, Long licenseId) {}
+data class MedicalProfile(val emergencyRoomId: Long, val licenseId: Long)

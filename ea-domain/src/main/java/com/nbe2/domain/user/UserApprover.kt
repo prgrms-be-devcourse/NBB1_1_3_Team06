@@ -1,17 +1,12 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class UserApprover {
+class UserApprover(private val userRepository: UserRepository) {
 
-    private final UserRepository userRepository;
-
-    public void approve(User user) {
-        user.approve();
-        userRepository.save(user);
+    fun approve(user: User) {
+        user.approve()
+        userRepository.save(user)
     }
 }

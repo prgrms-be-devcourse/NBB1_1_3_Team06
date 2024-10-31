@@ -1,28 +1,26 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.auth.OAuthProfile;
-import com.nbe2.domain.auth.PasswordEncoder;
+import com.nbe2.domain.auth.OAuthProfile
+import com.nbe2.domain.auth.PasswordEncoder
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class UserAppender {
+class UserAppender(
+    private val passwordEncoder: PasswordEncoder,
+    private val userRepository: UserRepository
+) {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-
-    public void append(UserProfile userProfile) {
+    fun append(userProfile: UserProfile) {
         userRepository.save(
-                User.of(
-                        userProfile.name(),
-                        userProfile.email(),
-                        passwordEncoder.encode(userProfile.password())));
+            User.of(
+                userProfile.name,
+                userProfile.email,
+                passwordEncoder.encode(userProfile.password)
+            )
+        )
     }
 
-    public void append(OAuthProfile oAuthProfile) {
-        userRepository.save(User.of(oAuthProfile.getNickname(), oAuthProfile.getEmail(), null));
+    fun append(oAuthProfile: OAuthProfile) {
+        userRepository.save(User.of(oAuthProfile.nickname, oAuthProfile.email, ""))
     }
 }

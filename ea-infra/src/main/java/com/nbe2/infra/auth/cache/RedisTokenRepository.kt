@@ -1,39 +1,25 @@
-package com.nbe2.infra.auth.cache;
+package com.nbe2.infra.auth.cache
 
-import java.util.Optional;
-
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.auth.AuthConstants;
-import com.nbe2.domain.auth.RefreshToken;
-import com.nbe2.domain.auth.TokenRepository;
+import com.nbe2.domain.auth.AuthConstants
+import com.nbe2.domain.auth.RefreshToken
+import com.nbe2.domain.auth.TokenRepository
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.stereotype.Repository
+import kotlin.time.toJavaDuration
 
 @Repository
-@RequiredArgsConstructor
-public class RedisTokenRepository implements TokenRepository {
+class RedisTokenRepository(private val template: RedisTemplate<String, RefreshToken>) : TokenRepository {
 
-    private final RedisTemplate<String, RefreshToken> template;
-
-    @Override
-    public void setRefreshToken(RefreshToken refreshToken) {
+    override fun setRefreshToken(refreshToken: RefreshToken) {
         template.opsForValue()
-                .set(getKey(refreshToken.userId()), refreshToken, AuthConstants.REFRESH_TOKEN_TTL);
+            .set(getKey(refreshToken.userId), refreshToken, AuthConstants.REFRESH_TOKEN_TTL.toJavaDuration())
     }
 
-    @Override
-    public void removeRefreshToken(long userId) {
-        template.delete(getKey(userId));
+    override fun removeRefreshToken(userId: Long) {
+        template.delete(getKey(userId))
     }
 
-    @Override
-    public Optional<RefreshToken> getRefreshToken(long userId) {
-        return Optional.ofNullable(template.opsForValue().get(getKey(userId)));
-    }
+    override fun getRefreshToken(userId: Long): RefreshToken? = template.opsForValue().get(getKey(userId))
 
-    private String getKey(long userId) {
-        return "REFRESH_TOKEN_ER:" + userId;
-    }
+    private fun getKey(userId: Long) = "REFRESH_TOKEN_ER:$userId"
 }

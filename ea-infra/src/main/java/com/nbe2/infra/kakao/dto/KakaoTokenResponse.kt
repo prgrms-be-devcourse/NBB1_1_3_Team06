@@ -1,3 +1,3 @@
-package com.nbe2.infra.kakao.dto;
+package com.nbe2.infra.kakao.dto
 
-public record KakaoTokenResponse(String access_token, String refresh_token) {}
+data class KakaoTokenResponse(val access_token: String, val refresh_token: String)

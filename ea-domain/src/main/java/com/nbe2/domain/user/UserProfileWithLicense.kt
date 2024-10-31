@@ -1,3 +1,3 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-public record UserProfileWithLicense(Long id, String name, String email, Long licenseId) {}
+data class UserProfileWithLicense(val id: Long, val name: String, val email: String, val licenseId: Long)

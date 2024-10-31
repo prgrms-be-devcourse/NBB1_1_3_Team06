@@ -1,33 +1,25 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import static com.nbe2.domain.global.TestConstants.ID;
-import static org.mockito.Mockito.verify;
+import com.nbe2.domain.global.ID
+import io.kotest.core.spec.style.BehaviorSpec
+import io.mockk.mockk
+import io.mockk.verify
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+class TokenManagerTest : BehaviorSpec({
+    val tokenRepository = mockk<TokenRepository>()
 
-@ExtendWith(MockitoExtension.class)
-class TokenManagerTest {
+    val tokenManager = TokenManager(tokenRepository)
 
-    @InjectMocks private TokenManager tokenManager;
+    Given("리프레시 토큰이 주어진 경우") {
+        val token = "refresh token"
+        val refreshToken = RefreshToken.of(ID, token)
 
-    @Mock private TokenRepository tokenRepository;
+        When("토큰을 저장하면") {
+            tokenManager.save(refreshToken)
 
-    @Test
-    @DisplayName("리프레시 토큰을 저장한다.")
-    void given_refresh_token_then_should_save_token() {
-        // given
-        String token = "refreshToken";
-        RefreshToken refreshToken = RefreshToken.of(ID, token);
-
-        // when
-        tokenManager.save(refreshToken);
-
-        // then
-        verify(tokenRepository).setRefreshToken(refreshToken);
+            Then("토큰을 저장한다.") {
+                verify(exactly = 1) { tokenRepository.setRefreshToken(refreshToken) }
+            }
+        }
     }
-}
+})

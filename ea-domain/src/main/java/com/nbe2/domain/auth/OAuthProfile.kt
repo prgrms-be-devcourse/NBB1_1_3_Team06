@@ -1,8 +1,8 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-public interface OAuthProfile {
+interface OAuthProfile {
 
-    String getNickname();
+    val nickname: String
 
-    String getEmail();
+    val email: String
 }

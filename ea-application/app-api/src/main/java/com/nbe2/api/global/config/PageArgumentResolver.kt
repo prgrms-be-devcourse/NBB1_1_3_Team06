@@ -9,10 +9,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 class PageArgumentResolver : HandlerMethodArgumentResolver {
-    override fun supportsParameter(parameter: MethodParameter): Boolean {
-        return parameter.hasParameterAnnotation(PageDefault::class.java)
+    override fun supportsParameter(parameter: MethodParameter) =
+        parameter.hasParameterAnnotation(PageDefault::class.java)
                 && parameter.parameterType == Page::class.java
-    }
 
     @Throws(Exception::class)
     override fun resolveArgument(
@@ -20,7 +19,7 @@ class PageArgumentResolver : HandlerMethodArgumentResolver {
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
-    ): Any {
+    ): Page {
         val pageDefault = parameter.getParameterAnnotation(PageDefault::class.java)!!
 
         val pageParam = webRequest.getParameter("page")

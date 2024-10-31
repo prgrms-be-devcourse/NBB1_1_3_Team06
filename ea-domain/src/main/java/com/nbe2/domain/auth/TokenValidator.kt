@@ -1,6 +1,6 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-public interface TokenValidator {
+interface TokenValidator {
 
-    boolean checkJwt(String jwt);
+    fun checkJwt(jwt: String): Boolean
 }

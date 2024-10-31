@@ -1,86 +1,56 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import jakarta.persistence.*;
-
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import com.nbe2.domain.global.BaseTimeEntity;
+import com.nbe2.domain.global.BaseTimeEntity
+import jakarta.persistence.*
 
 @Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "users", indexes = @Index(name = "idx_email", columnList = "email"))
-public class User extends BaseTimeEntity {
+@Table(name = "users", indexes = [Index(name = "idx_email", columnList = "email")])
+class User private constructor (
+    @Column(nullable = false) var name: String,
+
+    @Column(nullable = false) var email: String,
+
+    var password: String,
+
+    @Enumerated(value = EnumType.STRING) var role: UserRole,
+
+    @Enumerated(value = EnumType.STRING) var approvalStatus: ApprovalStatus
+) : BaseTimeEntity() {
 
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    var id: Long? = null
 
-    @Column(nullable = false)
-    public String name;
+    @OneToOne(optional = false, mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    var medicalPersonInfo: MedicalPersonInfo? = null
 
-    @Column(nullable = false)
-    private String email;
-
-    private String password;
-
-    @Enumerated(value = EnumType.STRING)
-    private UserRole role;
-
-    @Enumerated(value = EnumType.STRING)
-    private ApprovalStatus approvalStatus;
-
-    @OneToOne(
-            optional = false,
-            mappedBy = "user",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST)
-    private MedicalPersonInfo medicalPersonInfo;
-
-    @Builder
-    public User(
-            String name,
-            String email,
-            String password,
-            UserRole role,
-            ApprovalStatus approvalStatus) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.approvalStatus = approvalStatus;
+    fun assignMedicalRole(medicalPersonInfo: MedicalPersonInfo) {
+        this.medicalPersonInfo = medicalPersonInfo
+        this.role = UserRole.MEDICAL_PERSON
+        this.approvalStatus = ApprovalStatus.PENDING
     }
 
-    public static User of(String name, String email, String password) {
-        return User.builder()
-                .name(name)
-                .email(email)
-                .password(password)
-                .role(UserRole.USER)
-                .approvalStatus(ApprovalStatus.APPROVED)
-                .build();
+    fun approve() {
+        this.approvalStatus = ApprovalStatus.APPROVED
     }
 
-    public void assignMedicalRole(MedicalPersonInfo medicalPersonInfo) {
-        this.medicalPersonInfo = medicalPersonInfo;
-        this.role = UserRole.MEDICAL_PERSON;
-        this.approvalStatus = ApprovalStatus.PENDING;
+    fun update(profile: UpdateProfile) {
+        this.name = profile.name
+        this.email = profile.email
     }
 
-    public void approve() {
-        this.approvalStatus = ApprovalStatus.APPROVED;
+    fun changePassword(password: String) {
+        this.password = password
     }
 
-    public void update(UpdateProfile profile) {
-        this.name = profile.name();
-        this.email = profile.email();
-    }
-
-    public void changePassword(String password) {
-        this.password = password;
+    companion object {
+        fun of(name: String, email: String, password: String) = User(
+            name = name,
+            email = email,
+            password = password,
+            role = UserRole.USER,
+            approvalStatus = ApprovalStatus.APPROVED
+        )
     }
 }

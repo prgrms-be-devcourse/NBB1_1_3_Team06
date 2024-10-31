@@ -1,14 +1,9 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import java.time.Duration;
+import kotlin.time.Duration.Companion.days
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+object AuthConstants {
+    const val REFRESH_TOKEN_COOKIE_NAME: String = "refreshToken"
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AuthConstants {
-
-    public static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
-
-    public static final Duration REFRESH_TOKEN_TTL = Duration.ofDays(14);
+    val REFRESH_TOKEN_TTL = 14.days
 }

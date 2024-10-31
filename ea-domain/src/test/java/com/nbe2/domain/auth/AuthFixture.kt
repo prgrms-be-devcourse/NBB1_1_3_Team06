@@ -1,28 +1,13 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import static com.nbe2.domain.global.TestConstants.*;
+import com.nbe2.domain.global.EMAIL
+import com.nbe2.domain.global.NAME
 
-public class AuthFixture {
+fun createOAuthProfile(): OAuthProfile {
+    return OAuthProfileFixture()
+}
 
-    public static OAuthProfile createOAuthProfile() {
-        return new OAuthProfileFixture();
-    }
-
-    private static class OAuthProfileFixture implements OAuthProfile {
-        private final String nickname;
-        private final String email;
-
-        private OAuthProfileFixture() {
-            this.nickname = NAME;
-            this.email = EMAIL;
-        }
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-    }
+class OAuthProfileFixture : OAuthProfile {
+    override val nickname: String = NAME
+    override val email: String = EMAIL
 }

@@ -1,55 +1,43 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.nbe2.domain.auth.PasswordEncoder
+import com.nbe2.domain.auth.createOAuthProfile
+import io.kotest.core.spec.style.BehaviorSpec
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+class UserAppenderTest : BehaviorSpec({
+    val passwordEncoder = mockk<PasswordEncoder>()
+    val userRepository = mockk<UserRepository>()
 
-import com.nbe2.domain.auth.AuthFixture;
-import com.nbe2.domain.auth.OAuthProfile;
-import com.nbe2.domain.auth.PasswordEncoder;
+    val userAppender = UserAppender(passwordEncoder, userRepository)
 
-@ExtendWith(MockitoExtension.class)
-class UserAppenderTest {
+    Given("일반 회원 정보가 주어지는 경우") {
+        val userProfile = createUserProfile()
 
-    @InjectMocks private UserAppender userAppender;
+        every { passwordEncoder.encode(any()) } returns "encoded password"
 
-    @Mock private PasswordEncoder passwordEncoder;
+        When("회원을 추가하면") {
+            userAppender.append(userProfile)
 
-    @Mock private UserRepository userRepository;
-
-    @Test
-    @DisplayName("이름, 이메일, 비밀번호를 통해 회원을 저장한다.")
-    void given_name_email_password_when_create_user_then_should_save_user() {
-        // given
-        String encodedPassword = "encoded password";
-        UserProfile userProfile = UserFixture.createUserProfile();
-
-        // when
-        when(passwordEncoder.encode(anyString())).thenReturn(encodedPassword);
-        userAppender.append(userProfile);
-
-        // then
-        verify(userRepository).save(any(User.class));
+            Then("회원을 저장한다.") {
+                verify(exactly = 1) { userRepository.save(any<User>()) }
+            }
+        }
     }
 
-    @Test
-    @DisplayName("소셜 계정을 연동한 사용자를 저장한다.")
-    void given_oauth_profile_when_create_oauth_user_then_should_save_oauth_user() {
-        // given
-        OAuthProfile oAuthProfile = AuthFixture.createOAuthProfile();
+    Given("관계자 회원 정보가 주어지는 경우") {
+        val oauthProfile = createOAuthProfile()
 
-        // when
-        userAppender.append(oAuthProfile);
+        every { passwordEncoder.encode(any()) } returns "encoded password"
 
-        // then
-        verify(userRepository).save(any(User.class));
+        When("회원을 추가하면") {
+            userAppender.append(oauthProfile)
+
+            Then("회원을 저장한다.") {
+                verify(exactly = 1) { userRepository.save(any<User>()) }
+            }
+        }
     }
-}
+})

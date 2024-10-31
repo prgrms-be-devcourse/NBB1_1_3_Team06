@@ -1,30 +1,25 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.auth.exception.AuthenticationException;
-import com.nbe2.domain.user.User;
-import com.nbe2.domain.user.UserReader;
+import com.nbe2.domain.auth.exception.AuthenticationException
+import com.nbe2.domain.user.UserReader
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class Authenticator {
+class Authenticator(
+    private val passwordEncoder: PasswordEncoder,
+    private val userReader: UserReader
+) {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserReader userReader;
+    fun authenticate(login: Login): UserPrincipal {
+        val user = userReader.read(login.email)
+        validatePassword(login.password, user.password)
 
-    public UserPrincipal authenticate(Login login) {
-        User user = userReader.read(login.email());
-        validatePassword(login.password(), user.getPassword());
-
-        return UserPrincipal.of(user.getId(), user.getRole());
+        return UserPrincipal.of(user.id!!, user.role)
     }
 
-    private void validatePassword(String plain, String encoded) {
+    private fun validatePassword(plain: String, encoded: String) {
         if (passwordEncoder.isPasswordUnmatched(plain, encoded)) {
-            throw AuthenticationException.EXCEPTION;
+            throw AuthenticationException
         }
     }
 }

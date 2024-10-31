@@ -1,10 +1,10 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import com.nbe2.domain.user.UserRole;
+import com.nbe2.domain.user.UserRole
 
-public record UserPrincipal(long userId, UserRole role) {
+class UserPrincipal(val userId: Long, val role: UserRole) {
 
-    public static UserPrincipal of(long userId, UserRole role) {
-        return new UserPrincipal(userId, role);
+    companion object {
+        fun of(userId: Long, role: UserRole) = UserPrincipal(userId, role)
     }
 }

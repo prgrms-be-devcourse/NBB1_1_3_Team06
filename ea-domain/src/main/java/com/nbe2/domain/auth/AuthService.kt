@@ -1,47 +1,45 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.user.*;
+import com.nbe2.domain.user.UserAppender
+import com.nbe2.domain.user.UserProfile
+import com.nbe2.domain.user.UserValidator
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-@RequiredArgsConstructor
-public class AuthService {
-
-    private final TokenGenerator tokenGenerator;
-    private final TokenManager tokenManager;
-    private final Authenticator authenticator;
-    private final UserValidator userValidator;
-    private final UserAppender userAppender;
-    private final TokenProvider tokenProvider;
+class AuthService(
+    private val tokenGenerator: TokenGenerator,
+    private val tokenManager: TokenManager,
+    private val authenticator: Authenticator,
+    private val userValidator: UserValidator,
+    private val userAppender: UserAppender,
+    private val tokenProvider: TokenProvider
+) {
 
     @Transactional
-    public void signUp(UserProfile userProfile) {
-        userValidator.validate(userProfile.email());
-        userAppender.append(userProfile);
+    fun signUp(userProfile: UserProfile) {
+        userValidator.validate(userProfile.email)
+        userAppender.append(userProfile)
     }
 
-    public Tokens login(Login login) {
-        UserPrincipal userPrincipal = authenticator.authenticate(login);
-        Tokens tokens = tokenGenerator.generate(userPrincipal);
-        tokenManager.save(RefreshToken.of(userPrincipal.userId(), tokens.refreshToken()));
+    fun login(login: Login): Tokens {
+        val userPrincipal = authenticator.authenticate(login)
+        val tokens = tokenGenerator.generate(userPrincipal)
+        tokenManager.save(RefreshToken.Companion.of(userPrincipal.userId, tokens.refreshToken))
 
-        return tokens;
+        return tokens
     }
 
-    public void logout(long userId) {
-        tokenManager.removeRefreshToken(userId);
+    fun logout(userId: Long) {
+        tokenManager.removeRefreshToken(userId)
     }
 
-    public Tokens updateToken(Tokens tokens) {
-        UserPrincipal userPrincipal = tokenProvider.getTokenUserPrincipal(tokens.refreshToken());
-        tokenManager.checkRefreshToken(userPrincipal.userId());
-        Tokens newRefreshToken = tokenGenerator.generate(userPrincipal);
-        tokenManager.save(newRefreshToken.getRefreshToken(userPrincipal.userId()));
+    fun updateToken(tokens: Tokens): Tokens {
+        val userPrincipal = tokenProvider.getTokenUserPrincipal(tokens.refreshToken)
+        tokenManager.checkRefreshToken(userPrincipal.userId)
+        val newRefreshToken = tokenGenerator.generate(userPrincipal)
+        tokenManager.save(newRefreshToken.getRefreshToken(userPrincipal.userId))
 
-        return newRefreshToken;
+        return newRefreshToken
     }
 }

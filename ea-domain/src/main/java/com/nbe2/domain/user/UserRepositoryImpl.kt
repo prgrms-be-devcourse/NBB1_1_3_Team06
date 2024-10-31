@@ -1,61 +1,51 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.stereotype.Repository;
-
-import lombok.RequiredArgsConstructor;
-
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.nbe2.domain.user.QMedicalPersonInfo.medicalPersonInfo
+import com.nbe2.domain.user.QUser.user
+import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.BooleanExpression
+import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.support.PageableExecutionUtils
+import org.springframework.stereotype.Repository
 
 @Repository
-@RequiredArgsConstructor
-public class UserRepositoryImpl implements UserRepositoryCustom {
+class UserRepositoryImpl(private val queryFactory: JPAQueryFactory) : UserRepositoryCustom {
 
-    private final JPAQueryFactory queryFactory;
-    private final QUser user = QUser.user;
-    private final QMedicalPersonInfo medicalPersonInfo = QMedicalPersonInfo.medicalPersonInfo;
+    override fun findPageByApprovalStatus(
+        approvalStatus: ApprovalStatus, pageable: Pageable
+    ): Page<UserProfileWithLicense> {
+        val content = queryFactory
+            .select(
+                Projections.constructor(
+                    UserProfileWithLicense::class.java,
+                    user.id,
+                    user.name,
+                    user.email,
+                    medicalPersonInfo.license.id
+                )
+            )
+            .from(user)
+            .join(medicalPersonInfo)
+            .on(medicalPersonInfo.user.id.eq(user.id))
+            .where(equalApprovalStatus(approvalStatus))
+            .orderBy(user.createdAt.desc())
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetch()
+        val countQuery = queryFactory
+            .select(user.id.count())
+            .from(user)
+            .where(equalApprovalStatus(approvalStatus))
 
-    @Override
-    public Page<UserProfileWithLicense> findPageByApprovalStatus(
-            ApprovalStatus approvalStatus, Pageable pageable) {
-        List<UserProfileWithLicense> content =
-                queryFactory
-                        .select(
-                                Projections.constructor(
-                                        UserProfileWithLicense.class,
-                                        user.id,
-                                        user.name,
-                                        user.email,
-                                        medicalPersonInfo.license.id))
-                        .from(user)
-                        .join(medicalPersonInfo)
-                        .on(medicalPersonInfo.user.id.eq(user.id))
-                        .where(equalApprovalStatus(approvalStatus))
-                        .orderBy(user.createdAt.desc())
-                        .offset(pageable.getOffset())
-                        .limit(pageable.getPageSize())
-                        .fetch();
-        JPAQuery<Long> countQuery =
-                queryFactory
-                        .select(user.id.count())
-                        .from(user)
-                        .where(equalApprovalStatus(approvalStatus));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(
+            content,
+            pageable
+        ) { countQuery.fetchOne()!! }
     }
 
-    private BooleanExpression equalApprovalStatus(ApprovalStatus approvalStatus) {
-        if (approvalStatus == null) {
-            return null;
-        }
-
-        return user.approvalStatus.eq(approvalStatus);
+    private fun equalApprovalStatus(approvalStatus: ApprovalStatus): BooleanExpression {
+        return user.approvalStatus.eq(approvalStatus)
     }
 }

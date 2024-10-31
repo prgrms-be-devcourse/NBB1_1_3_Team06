@@ -1,3 +1,3 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-public record UpdatePassword(String previous, String toChange) {}
+data class UpdatePassword(val previous: String, val toChange: String)

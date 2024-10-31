@@ -1,10 +1,11 @@
-package com.nbe2.api.auth.dto;
+package com.nbe2.api.auth.dto
 
-import com.nbe2.domain.user.UserProfileWithLicense;
+import com.nbe2.domain.user.UserProfileWithLicense
 
-public record PendingUserResponse(Long id, String name, String email, Long fileId) {
+data class PendingUserResponse(val id: Long, val name: String, val email: String, val fileId: Long) {
 
-    public static PendingUserResponse from(UserProfileWithLicense user) {
-        return new PendingUserResponse(user.id(), user.name(), user.email(), user.licenseId());
+    companion object {
+        fun from(user: UserProfileWithLicense) =
+            PendingUserResponse(user.id, user.name, user.email, user.licenseId)
     }
 }

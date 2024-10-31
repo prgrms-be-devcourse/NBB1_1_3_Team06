@@ -1,8 +1,8 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-public interface PasswordEncoder {
+interface PasswordEncoder {
 
-    String encode(String plainPassword);
+    fun encode(plainPassword: String): String
 
-    boolean isPasswordUnmatched(String plainPassword, String encodedPassword);
+    fun isPasswordUnmatched(plainPassword: String, encodedPassword: String): Boolean
 }

@@ -1,38 +1,34 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.auth.PasswordEncoder;
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
-import com.nbe2.domain.file.FileMetaData;
-import com.nbe2.domain.user.exception.InvalidPasswordException;
+import com.nbe2.domain.auth.PasswordEncoder
+import com.nbe2.domain.emergencyroom.EmergencyRoom
+import com.nbe2.domain.file.FileMetaData
+import com.nbe2.domain.user.exception.InvalidPasswordException
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class UserUpdater {
+class UserUpdater(
+    private val passwordEncoder: PasswordEncoder,
+    private val userRepository: UserRepository
+) {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-
-    public void requestMedicalRole(User user, EmergencyRoom emergencyRoom, FileMetaData license) {
-        MedicalPersonInfo medicalPersonInfo = MedicalPersonInfo.of(user, emergencyRoom, license);
-        user.assignMedicalRole(medicalPersonInfo);
-        userRepository.save(user);
+    fun requestMedicalRole(user: User, emergencyRoom: EmergencyRoom, license: FileMetaData) {
+        val medicalPersonInfo = MedicalPersonInfo.of(user, emergencyRoom, license)
+        user.assignMedicalRole(medicalPersonInfo)
+        userRepository.save(user)
     }
 
-    public void update(User user, UpdateProfile profile) {
-        user.update(profile);
-        userRepository.save(user);
+    fun update(user: User, profile: UpdateProfile) {
+        user.update(profile)
+        userRepository.save(user)
     }
 
-    public void update(User user, UpdatePassword password) {
-        if (passwordEncoder.isPasswordUnmatched(password.previous(), user.getPassword())) {
-            throw InvalidPasswordException.EXCEPTION;
+    fun update(user: User, password: UpdatePassword) {
+        if (passwordEncoder.isPasswordUnmatched(password.previous, user.password)) {
+            throw InvalidPasswordException
         }
 
-        user.changePassword(passwordEncoder.encode(password.toChange()));
-        userRepository.save(user);
+        user.changePassword(passwordEncoder.encode(password.toChange))
+        userRepository.save(user)
     }
 }

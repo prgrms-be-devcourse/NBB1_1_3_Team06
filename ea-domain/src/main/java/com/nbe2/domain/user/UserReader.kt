@@ -1,32 +1,23 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.common.dto.PageResult;
-import com.nbe2.domain.user.exception.UserNotFoundException;
+import com.nbe2.common.dto.PageResult
+import com.nbe2.domain.user.exception.UserNotFoundException
+import org.springframework.data.domain.Pageable
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class UserReader {
+class UserReader(private val userRepository: UserRepository) {
 
-    private final UserRepository userRepository;
+    fun read(userId: Long) =
+        userRepository.findById(userId)
+            .orElseThrow { UserNotFoundException }
 
-    public User read(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> UserNotFoundException.EXCEPTION);
-    }
+    fun read(email: String) = userRepository.findByEmail(email) ?: throw UserNotFoundException
 
-    public User read(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> UserNotFoundException.EXCEPTION);
-    }
-
-    public PageResult<UserProfileWithLicense> read(Pageable pageable) {
-        Page<UserProfileWithLicense> userPage =
-                userRepository.findPageByApprovalStatus(ApprovalStatus.PENDING, pageable);
-        return new PageResult<>(
-                userPage.getContent(), userPage.getTotalPages(), userPage.hasNext());
+    fun read(pageable: Pageable): PageResult<UserProfileWithLicense> {
+        val userPage = userRepository.findPageByApprovalStatus(ApprovalStatus.PENDING, pageable)
+        return PageResult(
+            userPage.content, userPage.totalPages, userPage.hasNext()
+        )
     }
 }

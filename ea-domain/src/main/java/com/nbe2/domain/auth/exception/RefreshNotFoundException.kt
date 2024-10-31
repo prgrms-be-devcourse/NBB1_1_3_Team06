@@ -1,11 +1,7 @@
-package com.nbe2.domain.auth.exception;
+package com.nbe2.domain.auth.exception
 
-import com.nbe2.common.exception.DomainException;
+import com.nbe2.common.exception.DomainException
 
-public class RefreshNotFoundException extends DomainException {
-    public static final RefreshNotFoundException EXCEPTION = new RefreshNotFoundException();
-
-    private RefreshNotFoundException() {
-        super(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
-    }
+object RefreshNotFoundException : DomainException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND) {
+    private fun readResolve(): Any = RefreshNotFoundException
 }

@@ -1,19 +1,8 @@
-package com.nbe2.api.auth.dto;
+package com.nbe2.api.auth.dto
 
-import lombok.Builder;
+import com.nbe2.domain.auth.Tokens
 
-import com.nbe2.domain.auth.Tokens;
-import com.nbe2.domain.user.UserRole;
+data class TokensRequest(val accessToken: String, val refreshToken: String) {
 
-@Builder
-public record TokensRequest(String accessToken, String refreshToken) {
-    @Builder
-    public static class Userinfo {
-        String userId;
-        UserRole userRole;
-    }
-
-    public Tokens to() {
-        return Tokens.builder().accessToken(accessToken).refreshToken(refreshToken).build();
-    }
+    fun to() = Tokens(accessToken, refreshToken)
 }

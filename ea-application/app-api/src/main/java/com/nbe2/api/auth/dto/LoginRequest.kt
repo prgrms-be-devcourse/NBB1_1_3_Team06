@@ -1,10 +1,7 @@
-package com.nbe2.api.auth.dto;
+package com.nbe2.api.auth.dto
 
-import com.nbe2.domain.auth.Login;
+import com.nbe2.domain.auth.Login
 
-public record LoginRequest(String email, String password) {
-
-    public Login toLogin() {
-        return new Login(email, password);
-    }
+data class LoginRequest(val email: String, val password: String) {
+    fun toLogin() = Login(email, password)
 }

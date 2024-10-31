@@ -16,7 +16,5 @@ class RedisConfig @Autowired constructor(private val env: Environment) {
     private val port: Int get() = env.getProperty("redis.port")?.toInt() ?: 6379
 
     @Bean
-    fun redisConnectionFactory(): RedisConnectionFactory {
-        return LettuceConnectionFactory(host, port)
-    }
+    fun redisConnectionFactory(): RedisConnectionFactory = LettuceConnectionFactory(host, port)
 }

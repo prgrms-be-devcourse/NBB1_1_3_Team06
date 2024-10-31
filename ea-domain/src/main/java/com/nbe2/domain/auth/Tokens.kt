@@ -1,11 +1,6 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import lombok.Builder;
+data class Tokens(val accessToken: String, val refreshToken: String) {
 
-@Builder
-public record Tokens(String accessToken, String refreshToken) {
-
-    public RefreshToken getRefreshToken(long userId) {
-        return RefreshToken.of(userId, refreshToken);
-    }
+    fun getRefreshToken(userId: Long) = RefreshToken.of(userId, refreshToken)
 }

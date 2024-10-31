@@ -1,3 +1,3 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-public record UpdateProfile(String name, String email) {}
+data class UpdateProfile(val name: String, val email: String)

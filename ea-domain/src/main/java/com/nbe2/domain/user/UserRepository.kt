@@ -1,14 +1,9 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+interface UserRepository : JpaRepository<User, Long>, UserRepositoryCustom {
+    fun existsByEmail(email: String): Boolean
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
-
-    boolean existsByEmail(String email);
-
-    Optional<User> findByEmail(String email);
+    fun findByEmail(email: String): User?
 }

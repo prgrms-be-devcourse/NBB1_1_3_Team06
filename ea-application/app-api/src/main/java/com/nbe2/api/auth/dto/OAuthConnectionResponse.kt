@@ -1,8 +1,8 @@
-package com.nbe2.api.auth.dto;
+package com.nbe2.api.auth.dto
 
-public record OAuthConnectionResponse(String url) {
+data class OAuthConnectionResponse(val url: String) {
 
-    public static OAuthConnectionResponse from(String url) {
-        return new OAuthConnectionResponse(url);
+    companion object {
+        fun from(url: String) = OAuthConnectionResponse(url)
     }
 }

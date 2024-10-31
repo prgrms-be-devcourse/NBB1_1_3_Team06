@@ -1,30 +1,21 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.auth.exception.RefreshNotFoundException;
+import com.nbe2.domain.auth.exception.RefreshNotFoundException
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class TokenManager {
+class TokenManager(private val tokenRepository: TokenRepository) {
 
-    private final TokenRepository tokenRepository;
-
-    public void save(RefreshToken refreshToken) {
-        tokenRepository.setRefreshToken(refreshToken);
+    fun save(refreshToken: RefreshToken) {
+        tokenRepository.setRefreshToken(refreshToken)
     }
 
-    public void removeRefreshToken(long userId) {
-        tokenRepository.removeRefreshToken(userId);
+    fun removeRefreshToken(userId: Long) {
+        tokenRepository.removeRefreshToken(userId)
     }
 
-    public void checkRefreshToken(long userId) {
-        Optional<RefreshToken> refreshToken = tokenRepository.getRefreshToken(userId);
-        // redis에 값이 없을 경우 에러를 발생시키고 클라쪽에 로그인창으로 리다이렉트 요청
-        refreshToken.orElseThrow(() -> RefreshNotFoundException.EXCEPTION);
+    fun checkRefreshToken(userId: Long) {
+        val refreshToken = tokenRepository.getRefreshToken(userId)
+        refreshToken ?: throw RefreshNotFoundException
     }
 }

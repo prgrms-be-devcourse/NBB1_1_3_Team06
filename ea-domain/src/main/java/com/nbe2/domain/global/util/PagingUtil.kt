@@ -6,9 +6,6 @@ import org.springframework.data.domain.PageRequest
 class PagingUtil {
 
     companion object {
-        @JvmStatic
-        fun toPageRequest(page: Page): PageRequest {
-            return PageRequest.of(page.page, page.size)
-        }
+        fun toPageRequest(page: Page) = PageRequest.of(page.page, page.size)
     }
 }

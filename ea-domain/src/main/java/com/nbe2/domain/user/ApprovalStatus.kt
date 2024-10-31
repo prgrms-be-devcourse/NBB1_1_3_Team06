@@ -1,6 +1,6 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-public enum ApprovalStatus {
+enum class ApprovalStatus {
     PENDING,
     APPROVED
 }

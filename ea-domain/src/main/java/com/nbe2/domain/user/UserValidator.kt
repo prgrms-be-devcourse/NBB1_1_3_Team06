@@ -1,24 +1,16 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.user.exception.AlreadyExistsEmailException;
+import com.nbe2.domain.user.exception.AlreadyExistsEmailException
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class UserValidator {
+class UserValidator(private val userRepository: UserRepository) {
 
-    private final UserRepository userRepository;
-
-    public void validate(String email) {
+    fun validate(email: String) {
         if (isEmailExists(email)) {
-            throw AlreadyExistsEmailException.EXCEPTION;
+            throw AlreadyExistsEmailException
         }
     }
 
-    public boolean isEmailExists(String email) {
-        return userRepository.existsByEmail(email);
-    }
+    fun isEmailExists(email: String) = userRepository.existsByEmail(email)
 }

@@ -1,10 +1,8 @@
-package com.nbe2.api.user.dto;
+package com.nbe2.api.user.dto
 
-import com.nbe2.domain.user.UpdatePassword;
+import com.nbe2.domain.user.UpdatePassword
 
-public record UpdatePasswordRequest(String previous, String toChange) {
+data class UpdatePasswordRequest(val previous: String, val toChange: String) {
 
-    public UpdatePassword toPassword() {
-        return new UpdatePassword(previous, toChange);
-    }
+    fun toPassword() = UpdatePassword(previous, toChange)
 }

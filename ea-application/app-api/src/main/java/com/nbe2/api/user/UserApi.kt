@@ -1,54 +1,53 @@
-package com.nbe2.api.user;
+package com.nbe2.api.user
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.web.bind.annotation.*
 
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.api.global.dto.Response;
-import com.nbe2.api.user.dto.MedicalRequest;
-import com.nbe2.api.user.dto.ProfileResponse;
-import com.nbe2.api.user.dto.UpdatePasswordRequest;
-import com.nbe2.api.user.dto.UpdateProfileRequest;
-import com.nbe2.domain.auth.UserPrincipal;
-import com.nbe2.domain.user.UserService;
+import com.nbe2.api.global.dto.Response
+import com.nbe2.api.user.dto.MedicalRequest
+import com.nbe2.api.user.dto.ProfileResponse
+import com.nbe2.api.user.dto.UpdatePasswordRequest
+import com.nbe2.api.user.dto.UpdateProfileRequest
+import com.nbe2.domain.auth.UserPrincipal
+import com.nbe2.domain.user.UserService
 
 @RestController
 @RequestMapping("/api/v1/my")
-@RequiredArgsConstructor
-public class UserApi {
-
-    private final UserService userService;
+class UserApi(private val userService: UserService) {
 
     @PatchMapping("/medical")
-    public Response<Void> requestMedicalAuthority(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestBody MedicalRequest medicalRequest) {
+    fun requestMedicalAuthority(
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @RequestBody medicalRequest: MedicalRequest
+    ): Response<Unit> {
         userService.requestMedicalAuthority(
-                userPrincipal.userId(), medicalRequest.toMedicalProfile());
-        return Response.Companion.success();
+            userPrincipal.userId, medicalRequest.toMedicalProfile()
+        )
+        return Response.success()
     }
 
     @GetMapping
-    public Response<ProfileResponse> getMyProfile(
-            @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return Response.Companion.success(
-                ProfileResponse.from(userService.getMyProfile(userPrincipal.userId())));
-    }
+    fun getMyProfile(
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
+    ): Response<ProfileResponse> = Response.success(
+        ProfileResponse.from(userService.getMyProfile(userPrincipal.userId))
+    )
 
     @PatchMapping
-    public Response<Void> updateMyProfile(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestBody UpdateProfileRequest request) {
-        userService.updateProfile(userPrincipal.userId(), request.toProfile());
-        return Response.Companion.success();
+    fun updateMyProfile(
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @RequestBody request: UpdateProfileRequest
+    ): Response<Unit> {
+        userService.updateProfile(userPrincipal.userId, request.toProfile())
+        return Response.success()
     }
 
     @PatchMapping("/password")
-    public Response<Void> changePassword(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestBody UpdatePasswordRequest request) {
-        userService.changePassword(userPrincipal.userId(), request.toPassword());
-        return Response.Companion.success();
+    fun changePassword(
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @RequestBody request: UpdatePasswordRequest
+    ): Response<Unit> {
+        userService.changePassword(userPrincipal.userId, request.toPassword())
+        return Response.success()
     }
 }

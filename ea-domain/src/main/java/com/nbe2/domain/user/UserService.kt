@@ -1,44 +1,36 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import jakarta.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
-import com.nbe2.domain.emergencyroom.EmergencyRoomReader;
-import com.nbe2.domain.file.FileMetaData;
-import com.nbe2.domain.file.FileMetaDataReader;
+import com.nbe2.domain.emergencyroom.EmergencyRoomReader
+import com.nbe2.domain.file.FileMetaDataReader
+import org.springframework.stereotype.Service
 
 @Service
-@RequiredArgsConstructor
-public class UserService {
+class UserService(
+    private val emergencyRoomReader: EmergencyRoomReader,
+    private val fileMetaDataReader: FileMetaDataReader,
+    private val userReader: UserReader,
+    private val userUpdater: UserUpdater,
+) {
 
-    private final EmergencyRoomReader emergencyRoomReader;
-    private final FileMetaDataReader fileMetaDataReader;
-    private final UserReader userReader;
-    private final UserUpdater userUpdater;
-
-    @Transactional
-    public void requestMedicalAuthority(Long userId, MedicalProfile medicalProfile) {
-        EmergencyRoom emergencyRoom = emergencyRoomReader.read(medicalProfile.emergencyRoomId());
-        FileMetaData license = fileMetaDataReader.read(medicalProfile.licenseId());
-        User user = userReader.read(userId);
-        userUpdater.requestMedicalRole(user, emergencyRoom, license);
+    @jakarta.transaction.Transactional
+    fun requestMedicalAuthority(userId: Long, medicalProfile: MedicalProfile) {
+        val emergencyRoom = emergencyRoomReader.read(medicalProfile.emergencyRoomId)
+        val license = fileMetaDataReader.read(medicalProfile.licenseId)
+        val user = userReader.read(userId)
+        userUpdater.requestMedicalRole(user, emergencyRoom, license)
     }
 
-    public MyProfile getMyProfile(long userId) {
-        return MyProfile.from(userReader.read(userId));
+    fun getMyProfile(userId: Long): MyProfile {
+        return MyProfile.from(userReader.read(userId))
     }
 
-    public void updateProfile(long userId, UpdateProfile profile) {
-        User user = userReader.read(userId);
-        userUpdater.update(user, profile);
+    fun updateProfile(userId: Long, profile: UpdateProfile) {
+        val user = userReader.read(userId)
+        userUpdater.update(user, profile)
     }
 
-    public void changePassword(long userId, UpdatePassword password) {
-        User user = userReader.read(userId);
-        userUpdater.update(user, password);
+    fun changePassword(userId: Long, password: UpdatePassword) {
+        val user = userReader.read(userId)
+        userUpdater.update(user, password)
     }
 }

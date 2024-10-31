@@ -1,32 +1,25 @@
-package com.nbe2.domain.user;
+package com.nbe2.domain.user
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.mockk
+import io.mockk.verify
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+class UserApproverTest : BehaviorSpec({
+    val userRepository = mockk<UserRepository>()
 
-@ExtendWith(MockitoExtension.class)
-class UserApproverTest {
+    val userApprover = UserApprover(userRepository)
 
-    @InjectMocks private UserApprover userApprover;
+    Given("가입 대기 상태인 회원이 있는 경우") {
+        val user = createPendingUser()
 
-    @Mock private UserRepository userRepository;
+        When("가입 승인을 하면") {
+            userApprover.approve(user)
 
-    @Test
-    @DisplayName("사용자의 가입 상태를 변경한다.")
-    void given_user_when_approve_then_approve_user() {
-        // given
-        User user = UserFixture.createPendingUser();
-
-        // when
-        userApprover.approve(user);
-
-        // then
-        verify(userRepository).save(any(User.class));
+            Then("승인된 회원을 저장한다.") {
+                user.approvalStatus shouldBe ApprovalStatus.APPROVED
+                verify(exactly = 1) { userRepository.save(any<User>()) }
+            }
+        }
     }
-}
+})

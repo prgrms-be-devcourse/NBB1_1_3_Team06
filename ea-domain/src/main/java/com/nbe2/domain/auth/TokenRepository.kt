@@ -1,12 +1,10 @@
-package com.nbe2.domain.auth;
+package com.nbe2.domain.auth
 
-import java.util.Optional;
+interface TokenRepository {
 
-public interface TokenRepository {
+    fun setRefreshToken(refreshToken: RefreshToken)
 
-    void setRefreshToken(RefreshToken refreshToken);
+    fun removeRefreshToken(userId: Long)
 
-    void removeRefreshToken(long userId);
-
-    Optional<RefreshToken> getRefreshToken(long userId);
+    fun getRefreshToken(userId: Long): RefreshToken?
 }
