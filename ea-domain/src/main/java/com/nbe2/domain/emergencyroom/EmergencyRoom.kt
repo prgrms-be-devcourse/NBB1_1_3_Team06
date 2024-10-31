@@ -9,9 +9,7 @@ import com.nbe2.domain.global.BaseTimeEntity
 @Entity
 @Table(
     name = "emergency_rooms",
-    uniqueConstraints = [
-        UniqueConstraint(columnNames = ["hospitalName", "longitude", "latitude"])
-    ]
+    uniqueConstraints = [UniqueConstraint(columnNames = ["hospitalName", "longitude", "latitude"])]
 )
 data class EmergencyRoom(
     @Id
