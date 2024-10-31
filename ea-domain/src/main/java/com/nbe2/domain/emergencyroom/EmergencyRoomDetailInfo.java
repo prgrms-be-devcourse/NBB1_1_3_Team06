@@ -24,7 +24,7 @@ public record EmergencyRoomDetailInfo(
                 emergencyRoom.getAddress(),
                 emergencyRoom.getEmergencyRoomContactNumber(),
                 emergencyRoom.getMedicalDepartments(),
-                emergencyRoom.getEmergencyRoomBedCount(),
+                emergencyRoom.getBedCount().getTotalBedCount(),
                 realTimeEmergencyRoomWithDistance.realTimeEmergencyRoomInfo().availableBeds(),
                 realTimeEmergencyRoomWithDistance.realTimeEmergencyRoomInfo().operatingRoomBeds(),
                 realTimeEmergencyRoomWithDistance.realTimeEmergencyRoomInfo().isCtAvailable(),

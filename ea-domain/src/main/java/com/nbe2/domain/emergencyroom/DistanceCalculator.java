@@ -26,7 +26,7 @@ public class DistanceCalculator {
     public RealTimeEmergencyRoomWithDistance calculateDistance(
             Coordinate currentCoordinate, RealTimeEmergencyRoomInfo info) {
         EmergencyRoom emergencyRoom = emergencyRoomReader.read(info.hospitalId());
-        double distance = currentCoordinate.distanceTo(emergencyRoom.getLocation());
+        double distance = currentCoordinate.distanceTo(emergencyRoom.getLocationData());
         return RealTimeEmergencyRoomWithDistance.of(info, distance);
     }
 }

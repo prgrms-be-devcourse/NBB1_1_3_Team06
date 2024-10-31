@@ -28,7 +28,7 @@ public record EmergencyRoomMapInfo(
                 hospitalName,
                 address,
                 simpleMap,
-                Coordinate.of(location.getX(), location.getY()),
+                Coordinate.Companion.of(location.getX(), location.getY()),
                 distance);
     }
 }
