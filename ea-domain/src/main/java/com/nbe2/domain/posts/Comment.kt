@@ -31,7 +31,7 @@ class Comment private constructor(
         get() = post.id
 
     val writerId: Long
-        get() = user.id
+        get() = user.id!!
 
     val writerName: String
         get() = user.name
