@@ -1,5 +1,6 @@
 package com.nbe2.api.global.exception
 
+import com.nbe2.api.global.dto.Response
 import com.nbe2.common.exception.CustomException
 import com.nbe2.common.exception.ErrorReason
 import jakarta.servlet.http.HttpServletRequest

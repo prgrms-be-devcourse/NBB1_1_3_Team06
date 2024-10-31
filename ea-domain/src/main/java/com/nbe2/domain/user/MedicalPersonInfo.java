@@ -1,6 +1,5 @@
 package com.nbe2.domain.user;
 
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.file.FileMetaData;
 
 @Entity

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 class NoticeRedisSubscriber : MessageListener {
 
     private val log = logger()

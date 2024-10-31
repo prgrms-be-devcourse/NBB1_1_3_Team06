@@ -3,8 +3,7 @@ package com.nbe2.infra.openapi.config
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
-import com.nbe3.infra.openapi.dto.OpenApiResponse
-import com.nbe3.infra.openapi.dto.OpenApiResponse.Response.Body.Items
+import com.nbe2.infra.openapi.dto.OpenApiResponse.Response.Body.Items
 import java.io.IOException
 
 class ItemDeserializer : JsonDeserializer<Items<*>>, ContextualDeserializer {

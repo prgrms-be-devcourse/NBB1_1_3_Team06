@@ -5,7 +5,8 @@ spring:
       on-profile: local
 jwt:
   secret-key: ${JWT_KEY}
-
+  refresh-expiration-time: ${REFRESH_EXPIRATION_TIME}
+  access-expiration-time: ${ACCESS_EXPIRATION_TIME}
 ---
 spring:
   config:
@@ -14,3 +15,5 @@ spring:
 
 jwt:
   secret-key: ${JWT_KEY}
+  refresh-expiration-time: ${REFRESH_EXPIRATION_TIME}
+  access-expiration-time: ${ACCESS_EXPIRATION_TIME}

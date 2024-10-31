@@ -1,7 +1,7 @@
 package com.nbe2.api.emergencyroom.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.nbe3.domain.emergencyroom.EmergencyRoomDirectionsInfo
+import com.nbe2.domain.emergencyroom.EmergencyRoomDirectionsInfo
 
 data class EmergencyRoomDirectionsResponse(
     @JsonProperty("code") val code: Int,

@@ -1,10 +1,10 @@
 package com.nbe2.domain.review;
 
-import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.emergencyroom.EmergencyRoomReader;
 import com.nbe2.domain.user.User;
 import com.nbe2.domain.user.UserReader;

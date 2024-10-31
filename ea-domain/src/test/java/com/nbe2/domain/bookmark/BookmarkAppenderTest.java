@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.emergencyroom.EmergencyRoomFixture;
 import com.nbe2.domain.emergencyroom.EmergencyRoomReader;
 import com.nbe2.domain.user.User;

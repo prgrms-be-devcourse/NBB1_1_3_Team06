@@ -26,13 +26,13 @@ public class UserApi {
             @RequestBody MedicalRequest medicalRequest) {
         userService.requestMedicalAuthority(
                 userPrincipal.userId(), medicalRequest.toMedicalProfile());
-        return Response.success();
+        return Response.Companion.success();
     }
 
     @GetMapping
     public Response<ProfileResponse> getMyProfile(
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return Response.success(
+        return Response.Companion.success(
                 ProfileResponse.from(userService.getMyProfile(userPrincipal.userId())));
     }
 
@@ -41,7 +41,7 @@ public class UserApi {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody UpdateProfileRequest request) {
         userService.updateProfile(userPrincipal.userId(), request.toProfile());
-        return Response.success();
+        return Response.Companion.success();
     }
 
     @PatchMapping("/password")
@@ -49,6 +49,6 @@ public class UserApi {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody UpdatePasswordRequest request) {
         userService.changePassword(userPrincipal.userId(), request.toPassword());
-        return Response.success();
+        return Response.Companion.success();
     }
 }

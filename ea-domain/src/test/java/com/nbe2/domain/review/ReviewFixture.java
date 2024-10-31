@@ -1,5 +1,6 @@
 package com.nbe2.domain.review;
 
+import com.nbe2.domain.emergencyroom.EmergencyRoom;
 import com.nbe2.domain.emergencyroom.EmergencyRoomFixture;
 import com.nbe2.domain.user.User;
 import com.nbe2.domain.user.UserFixture;

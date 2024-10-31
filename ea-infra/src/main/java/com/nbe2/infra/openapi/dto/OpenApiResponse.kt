@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.nbe2.infra.openapi.config.ItemDeserializer
 
-@JvmRecord
 data class OpenApiResponse<T>(
     @field:JsonProperty("response") @param:JsonProperty("response") val response: Response<T>
 ) {
