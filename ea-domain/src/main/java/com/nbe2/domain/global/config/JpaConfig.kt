@@ -15,7 +15,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 class JpaConfig(@PersistenceContext private val entityManager: EntityManager) {
 
     @Bean
-    fun jpaQueryFactory(): JPAQueryFactory {
-        return JPAQueryFactory(entityManager)
-    }
+    fun jpaQueryFactory() = JPAQueryFactory(entityManager)
 }

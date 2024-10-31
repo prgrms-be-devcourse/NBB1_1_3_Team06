@@ -4,7 +4,7 @@ data class NewCommentEvent(val targetId: Long, val referenceUri: String, val pos
     companion object {
         fun from(post: Post): NewCommentEvent {
             return NewCommentEvent(
-                post.user.id!!, "/posts/" + post.id, post.title
+                post.user.id!!, "/posts/${post.id}", post.title
             )
         }
     }

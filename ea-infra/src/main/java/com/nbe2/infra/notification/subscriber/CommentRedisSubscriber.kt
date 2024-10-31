@@ -6,35 +6,28 @@ import com.nbe2.domain.notification.NewNotification
 import com.nbe2.domain.notification.NotificationManager
 import com.nbe2.domain.notification.NotificationType
 import com.nbe2.domain.posts.NewCommentEvent
-import lombok.RequiredArgsConstructor
-import lombok.extern.slf4j.Slf4j
 import org.springframework.data.redis.connection.Message
 import org.springframework.data.redis.connection.MessageListener
 import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-@Slf4j
-class CommentRedisSubscriber : MessageListener {
-    private val notificationManager: NotificationManager? = null
-    private val objectMapper: ObjectMapper? = null
+class CommentRedisSubscriber(
+    private val notificationManager: NotificationManager,
+    private val objectMapper: ObjectMapper
+) : MessageListener {
+
     private val log = logger()
 
     override fun onMessage(message: Message, pattern: ByteArray?) {
         try {
-            val event =
-                objectMapper!!.readValue(message.body, NewCommentEvent::class.java)
-            log.info(
-                "Comment event published: {}, to {}",
-                event.referenceUri,
-                event.targetId
-            )
-            notificationManager!!.send(
+            val event = objectMapper.readValue(message.body, NewCommentEvent::class.java)
+            log.info("Comment event published: {}, to {}", event.referenceUri, event.targetId)
+            notificationManager.send(
                 NewNotification.of(
-                    event.targetId,
-                    event.referenceUri,
-                    event.postTitle,
-                    NotificationType.COMMENT
+                    targetId = event.targetId,
+                    referenceUri = event.referenceUri,
+                    title = event.postTitle,
+                    type = NotificationType.COMMENT
                 )
             )
         } catch (e: Exception) {

@@ -13,30 +13,21 @@ data class Response<T>(
     val timeStamp: LocalDateTime = LocalDateTime.now()
 ) {
     companion object {
+        @JvmStatic
+        fun <T> success(result: T): Response<T> = Response(responseCode = "SUCCESS", result = result)
 
         @JvmStatic
-        fun <T> success(result: T): Response<T> {
-            return Response(responseCode = "SUCCESS", result = result)
-        }
+        fun success(): Response<Void> = Response(responseCode = "SUCCESS")
 
         @JvmStatic
-        fun success(): Response<Void> {
-            return Response(responseCode = "SUCCESS")
-        }
+        fun success(message: String): Response<Void> = Response(responseCode = "SUCCESS", message = message)
 
         @JvmStatic
-        fun success(message: String): Response<Void> {
-            return Response(responseCode = "SUCCESS", message = message)
-        }
+        fun error(errorReason: ErrorReason, path: String, message: String): Response<Void> =
+            Response(path = path, responseCode = errorReason.errorCode, message = message)
 
         @JvmStatic
-        fun error(errorReason: ErrorReason, path: String, message: String): Response<Void> {
-            return Response(path = path, responseCode = errorReason.errorCode, message = message)
-        }
-
-        @JvmStatic
-        fun error(errorCode: String, message: String): Response<Void> {
-            return Response(responseCode = errorCode, message = message)
-        }
+        fun error(errorCode: String, message: String): Response<Void> =
+            Response(responseCode = errorCode, message = message)
     }
 }

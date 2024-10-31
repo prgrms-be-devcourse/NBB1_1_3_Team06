@@ -9,10 +9,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 class CursorArgumentResolver : HandlerMethodArgumentResolver {
-    override fun supportsParameter(parameter: MethodParameter): Boolean {
-        return parameter.hasParameterAnnotation(CursorDefault::class.java)
+    override fun supportsParameter(parameter: MethodParameter) =
+        parameter.hasParameterAnnotation(CursorDefault::class.java)
                 && parameter.parameterType == Cursor::class.java
-    }
 
     @Throws(Exception::class)
     override fun resolveArgument(
@@ -20,7 +19,7 @@ class CursorArgumentResolver : HandlerMethodArgumentResolver {
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
-    ): Any {
+    ): Cursor {
         val cursorDefault = parameter.getParameterAnnotation(CursorDefault::class.java)!!
 
         val cursorParam = webRequest.getParameter("cursor")

@@ -16,8 +16,6 @@ enum class GlobalErrorCode(private val status: Int, private val errorCode: Strin
         BAD_REQUEST, "FEIGN_400_6", "Other server internal server error"
     );
 
-    constructor() : this(0, "", "")
-
     override val errorReason: ErrorReason
         get() = ErrorReason.of(status, errorCode, message)
 }

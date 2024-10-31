@@ -14,8 +14,8 @@ class GlobalControllerAdvice {
     private val log = LoggerFactory.getLogger(this::class.java)
 
     @ExceptionHandler(value = [CustomException::class])
-    fun customError(e: CustomException, request: HttpServletRequest): ResponseEntity<*> {
-        return ResponseEntity.status(e.status)
+    fun customError(e: CustomException, request: HttpServletRequest): ResponseEntity<*> =
+        ResponseEntity.status(e.status)
             .body(
                 Response.error(
                     e.errorCode.errorReason,
@@ -23,7 +23,6 @@ class GlobalControllerAdvice {
                     e.message
                 )
             )
-    }
 
     @ExceptionHandler(value = [java.lang.Exception::class])
     fun error(e: Exception, request: HttpServletRequest): ResponseEntity<*> {
