@@ -16,6 +16,7 @@
         </div>
       </header>
       <main class="flex-1 overflow-y-auto">
+        <ChatbotView />
         <div v-if="isLoading" class="p-4 text-center text-gray-500">로딩 중...</div>
         <div v-else-if="error" class="p-4 text-center text-red-500">{{ error }}</div>
         <ul v-else class="divide-y divide-gray-200">
@@ -27,18 +28,6 @@
         </ul>
       </main>
     </div>
-    <main class="flex-1 overflow-y-auto">
-      <ChatbotView />
-      <div v-if="isLoading" class="p-4 text-center text-gray-500">로딩 중...</div>
-      <div v-else-if="error" class="p-4 text-center text-red-500">{{ error }}</div>
-      <ul v-else class="divide-y divide-gray-200">
-        <HospitalListItem
-          v-for="hospital in hospitals"
-          :key="hospital.id"
-          :hospital="hospital"
-        />
-      </ul>
-    </main>
   </div>
 </template>
 
