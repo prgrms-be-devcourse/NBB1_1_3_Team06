@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 class NotificationScheduler {
     private val log = logger()
     private val notificationDeleter: NotificationDeleter? = null

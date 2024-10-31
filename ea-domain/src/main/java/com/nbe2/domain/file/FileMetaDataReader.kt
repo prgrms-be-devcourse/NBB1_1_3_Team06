@@ -12,7 +12,7 @@ class FileMetaDataReader(
     fun read(fileId: Long): FileMetaData {
         return fileMetaDateRepository
             .findById(fileId)
-            .orElseThrow {FileMetaDataNotFoundException }
+            .orElseThrow { FileMetaDataNotFoundException }
     }
 
     fun readAll(fileIds: List<Long?>): List<FileMetaData> {
