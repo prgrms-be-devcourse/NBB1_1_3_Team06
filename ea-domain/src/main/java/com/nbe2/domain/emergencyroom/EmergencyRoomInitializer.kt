@@ -8,12 +8,7 @@ class EmergencyRoomInitializer(
     private val emergencyRoomRepository: EmergencyRoomRepository,
     private val emergencyRoomClient: EmergencyRoomClient
 ) {
-    //    public void init() {
-    //        emergencyRoomRepository.saveAll(
-    //                emergencyRoomClient.getEmergencyRoomInfoData().stream()
-    //                        .map(EmergencyRoomInfo::toEmergencyRoom)
-    //                        .toList());
-    //    }
+
     fun init() {
         val uniqueKeySet = uniqueKeySet
         val emergencyRooms: List<EmergencyRoom> = removeDuplicatesEmergencyData(uniqueKeySet)
@@ -24,8 +19,8 @@ class EmergencyRoomInitializer(
         get() = emergencyRoomRepository.findAll().stream()
             .map { rooms ->
                 (rooms.hospitalName
-                        + rooms.getLocationData().longitude
-                        + rooms.getLocationData().latitude)
+                        + rooms.getCoordinate().longitude
+                        + rooms.getCoordinate().latitude)
             }
             .collect(Collectors.toSet())
 

@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam
 interface NaverApiClient {
     @GetMapping(value = ["/driving"])
     fun getEmergencyDirectionsData(
-        @RequestParam goal: String?, @RequestParam start: String?, @RequestParam trafast: String?
+        @RequestParam goal: String, @RequestParam start: String, @RequestParam trafast: String
     ): NaverDirectionsResponse
 }

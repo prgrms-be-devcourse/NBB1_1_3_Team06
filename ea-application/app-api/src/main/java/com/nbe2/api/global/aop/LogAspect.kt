@@ -18,7 +18,8 @@ import kotlin.collections.HashMap
 class LogAspect {
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    @Pointcut("execution(* com.nbe2.domain..*(..)) || execution(* com.nbe2.infra..*(..)) && !execution(* com.nbe2.common..*(..))")
+    @Pointcut("(execution(* com.nbe2.domain..*(..)) || execution(* com.nbe2.infra..*(..))) &&" +
+            " !execution(* com.nbe2.infra.feign..*(..)) && !execution(* com.nbe2.common..*(..))")
     fun all() {}
 
     @Pointcut("execution(* com.nbe2.api..*Api.*(..)) && !execution(* com.nbe2.api.HealthCheckApi..*(..))")

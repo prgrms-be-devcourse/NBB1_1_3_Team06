@@ -10,12 +10,12 @@ class BcryptPasswordEncoder(
 ) : PasswordEncoder {
 
 
-    override fun encode(plainPassword: String?): String {
+    override fun encode(plainPassword: String): String {
         return passwordEncoder.encode(plainPassword)
     }
 
 
-    override fun isPasswordUnmatched(plainPassword: String?, encodedPassword: String?): Boolean {
+    override fun isPasswordUnmatched(plainPassword: String, encodedPassword: String): Boolean {
         return !passwordEncoder.matches(plainPassword, encodedPassword)
     }
 

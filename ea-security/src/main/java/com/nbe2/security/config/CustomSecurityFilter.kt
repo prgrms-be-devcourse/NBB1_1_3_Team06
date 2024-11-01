@@ -36,7 +36,7 @@ class CustomSecurityFilter(
             // 유효하지 않으면 Refresh Token을 이용해 새 AccessToken 발급
             val tokenUserPrincipal: UserPrincipal = jwtProvider.getTokenUserPrincipal(jwtToken)
             val grantedAuthorities: List<GrantedAuthority> =
-                convertorGrantedAuthority(tokenUserPrincipal.role().role)
+                convertorGrantedAuthority(tokenUserPrincipal.role.role)
             setSecurityContextHolder(tokenUserPrincipal, grantedAuthorities)
         } catch (e: Exception) {
             request.setAttribute("exception", e)

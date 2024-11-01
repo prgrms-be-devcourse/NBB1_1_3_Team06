@@ -34,7 +34,7 @@ data class EmergencyRoom(
     val bedCount: BedCount
 ) : BaseTimeEntity() {
 
-    fun getLocationData(): Coordinate {
+    fun getCoordinate(): Coordinate {
         return Coordinate.of(location.x, location.y)
     }
 
@@ -44,7 +44,7 @@ data class EmergencyRoom(
             return try {
                 WKTReader().read(pointWKT) as Point
             } catch (e: Exception) {
-                throw InvalidCoordinateException.EXCEPTION
+                throw InvalidCoordinateException
             }
         }
 

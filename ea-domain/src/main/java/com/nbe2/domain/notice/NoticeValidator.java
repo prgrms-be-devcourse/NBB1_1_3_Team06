@@ -23,7 +23,7 @@ public class NoticeValidator {
 
     // 의료 관계자 계정인가 검증
     public boolean validateRole(UserPrincipal userPrincipal) {
-        if (userPrincipal.role() != UserRole.MEDICAL_PERSON) {
+        if (userPrincipal.getRole() != UserRole.MEDICAL_PERSON) {
             throw NoticeNoAccessCreateException.EXCEPTION;
         }
         return true;

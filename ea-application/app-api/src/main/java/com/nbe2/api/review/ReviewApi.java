@@ -40,7 +40,7 @@ public class ReviewApi {
             @Valid @RequestBody ReviewCreateRequest request,
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
         ReviewInfo newRivewInfo = request.toReviewInfo();
-        reviewService.writeReview(newRivewInfo, userPrincipal.userId());
+        reviewService.writeReview(newRivewInfo, userPrincipal.getUserId());
         return Response.success();
     }
 
@@ -66,14 +66,14 @@ public class ReviewApi {
             @Valid @RequestBody ReviewUpdateRequest request,
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
         ReviewUpdateInfo updateInfo = request.toReviewUpdateInfo();
-        reviewService.updateReview(updateInfo, reviewId, userPrincipal.userId());
+        reviewService.updateReview(updateInfo, reviewId, userPrincipal.getUserId());
         return Response.success();
     }
 
     @DeleteMapping("/{reviewId}") // delete
     public Response<Void> deleteReview(
             @PathVariable Long reviewId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        reviewService.deleteReview(reviewId, userPrincipal.userId());
+        reviewService.deleteReview(reviewId, userPrincipal.getUserId());
         return Response.success();
     }
 }
