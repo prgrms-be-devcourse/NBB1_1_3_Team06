@@ -28,9 +28,7 @@ class EmergencyRoomApi(
     }
 
     @GetMapping("/real-time")
-    fun getRealTimeEmergencyRooms(
-        longitude: Double?, latitude: Double?
-    ): Response<List<RealTimeEmergencyRoomResponse>> {
+    fun getRealTimeEmergencyRooms(longitude: Double, latitude: Double): Response<List<RealTimeEmergencyRoomResponse>> {
         val responses: List<RealTimeEmergencyRoomResponse> = emergencyRoomService
             .getRealTimeEmergencyRooms(Coordinate.of(longitude, latitude))
             .stream()
@@ -40,15 +38,13 @@ class EmergencyRoomApi(
     }
 
     @GetMapping("/search")
-    fun saveSearEmergency(@RequestParam hospitalName: String): Response<List<String>> {
+    fun saveSearEmergency(hospitalName: String): Response<List<String>> {
         val emergencyRoomListForName: List<String> = emergencyRoomService.getEmergencyRoomListForName(hospitalName)
         return Response.success(emergencyRoomListForName)
     }
 
     @GetMapping("/directions")
-    fun directionsEmergency(
-        @RequestParam("myLocation") myLocation: String,
-        @RequestParam("hospitalName") hospitalName: String
+    fun directionsEmergency(myLocation: String, hospitalName: String
     ): Response<EmergencyRoomDirectionsResponse> {
         val emergencyRoomDirectionsInfo: EmergencyRoomDirectionsInfo =
             emergencyRoomService.directionsEmergencyRoom(myLocation, hospitalName)
@@ -59,9 +55,7 @@ class EmergencyRoomApi(
 
     @GetMapping("/map")
     fun getEmergencyRooms(
-        @RequestParam longitude: Double,
-        @RequestParam latitude: Double,
-        @RequestParam distance: Double
+        longitude: Double, latitude: Double, distance: Double
     ): Response<List<EmergencyRoomMapResponse>> {
         val responses: List<EmergencyRoomMapResponse> = emergencyRoomService
             .getEmergencyRooms(Coordinate.of(longitude, latitude), distance)
@@ -71,11 +65,9 @@ class EmergencyRoomApi(
         return Response.success(responses)
     }
 
-    @GetMapping("/{hospitalId}")
+    @GetMapping
     fun getEmergencyRoomDetail(
-        @PathVariable hospitalId: String,
-        @RequestParam longitude: Double?,
-        @RequestParam latitude: Double?
+        hospitalId: String, longitude: Double, latitude: Double
     ): Response<EmergencyRoomDetailInfo> {
         val emergencyRoomDetail: EmergencyRoomDetailInfo = emergencyRoomService.getEmergencyRoomDetail(
             hospitalId, Coordinate.of(longitude, latitude)

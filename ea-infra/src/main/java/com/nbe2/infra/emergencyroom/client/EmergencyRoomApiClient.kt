@@ -12,18 +12,12 @@ import org.springframework.stereotype.Component
 class EmergencyRoomApiClient(
     private val openApiFeignClient: OpenApiFeignClient,
     private val naverApiClient: NaverApiClient
-) : EmergencyRoomClient {
-
-
-//    override fun getRealTimeInfo(region: Region): List<RealTimeEmergencyRoomInfo> {
-//        return openApiFeignClient
-//            .getRealTimeEmergencyData(region.region(), region.subRegion(), NUM_OF_ROWS)
-//            .items
-//            .map { it.toRealTimeEmergencyInfo() }
-//    }
+) : EmergencyRoomClient, RealTimeClient {
 
     override fun getRealTimeInfo(region: Region): MutableList<RealTimeEmergencyRoomInfo> {
-        TODO("Not yet implemented")
+        return openApiFeignClient.getRealTimeEmergencyData(region.region, region.subRegion, NUM_OF_ROWS).items.stream()
+            .map { it.toRealTimeEmergencyInfo() }
+            .toList()
     }
 
     override fun getEmergencyRoomInfoData(): List<EmergencyRoomInfo> {

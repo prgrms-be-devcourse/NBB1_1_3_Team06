@@ -32,7 +32,7 @@ public class NoticeAppender {
         noticeValidator.validateRole(userPrincipal);
 
         EmergencyRoom emergencyRoom = emergencyRoomReader.read(newNoticeInfo.hpId());
-        User user = userReader.read(userPrincipal.userId());
+        User user = userReader.read(userPrincipal.getUserId());
 
         return Notice.from(newNoticeInfo, user, emergencyRoom);
     }

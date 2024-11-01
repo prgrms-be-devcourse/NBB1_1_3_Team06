@@ -16,12 +16,9 @@ class OAuthProperty {
     lateinit var redirectUri: String
 
     companion object {
-        var BASE_URL: String? = null
-            private set
-        var CLIENT_ID: String? = null
-            private set
-        var REDIRECT_URI: String? = null
-            private set
+        var BASE_URL: String = ""
+        var CLIENT_ID: String = ""
+        var REDIRECT_URI: String = ""
 
         const val KAKAO_OAUTH_QUERY_STRING: String = "/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s"
     }

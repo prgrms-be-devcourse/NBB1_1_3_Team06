@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class EmergencyRoomService(
-    private val coordinateConverter: CoordinateToRegionConverter,
     private val realTimeInfoFetcher: RealTimeEmergencyRoomInfoFetcher,
     private val distanceCalculator: DistanceCalculator,
     private val emergencyRoomReader: EmergencyRoomReader,
@@ -47,11 +46,7 @@ class EmergencyRoomService(
         val emergencyRoom: EmergencyRoom = emergencyRoomReader.read(hospitalId)
         val realTimeEmergencyRoomInfo: RealTimeEmergencyRoomInfo = realTimeEmergencyRoomInfoCacheManager
             .getInfo(emergencyRoom.hpId)
-            .orElseGet {
-                realTimeInfoFetcher.reloadRealTimeEmergencyRooms(
-                    coordinate, hospitalId
-                )
-            }
+            .orElseGet { realTimeInfoFetcher.reloadRealTimeEmergencyRooms(coordinate, hospitalId) }
         val realTimeEmergencyRoomWithDistance: RealTimeEmergencyRoomWithDistance =
             distanceCalculator.calculateDistance(coordinate, realTimeEmergencyRoomInfo)
         return EmergencyRoomDetailInfo.create(emergencyRoom, realTimeEmergencyRoomWithDistance)

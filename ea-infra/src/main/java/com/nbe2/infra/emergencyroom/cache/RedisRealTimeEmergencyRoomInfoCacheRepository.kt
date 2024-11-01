@@ -12,21 +12,20 @@ import java.util.*
 
 @Component
 @RequiredArgsConstructor
-class RedisRealTimeEmergencyRoomInfoCacheRepository
+class RedisRealTimeEmergencyRoomInfoCacheRepository(
+    private val template: RedisTemplate<String, RealTimeEmergencyRoomInfo>
+) : RealTimeEmergencyRoomInfoCacheRepository {
 
-    : RealTimeEmergencyRoomInfoCacheRepository {
-
-    private val template: RedisTemplate<String, RealTimeEmergencyRoomInfo>? = null
     private val log = logger()
 
     override fun cache(info: RealTimeEmergencyRoomInfo) {
-        template!!.opsForValue()[getKey(info.hospitalId), info] = EmergencyRoomRedisConfig.REAL_TIME_INFO_TTL
+        template.opsForValue().set(getKey(info.hpId), info, EmergencyRoomRedisConfig.REAL_TIME_INFO_TTL)
     }
 
     override fun findById(hpId: String): Optional<RealTimeEmergencyRoomInfo> {
         val key = getKey(hpId)
         val realTimeInfo =
-            Optional.ofNullable(template!!.opsForValue()[key])
+            Optional.ofNullable(template.opsForValue()[key])
         realTimeInfo.ifPresentOrElse(
             { info: RealTimeEmergencyRoomInfo ->
                 log.info(

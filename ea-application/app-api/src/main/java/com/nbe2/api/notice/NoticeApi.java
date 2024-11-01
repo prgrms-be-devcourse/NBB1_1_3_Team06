@@ -53,14 +53,14 @@ public class NoticeApi {
             @Valid @RequestBody NoticeUpdateReqeust updateReqeust,
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
         NoticeUpdateInfo updateInfo = updateReqeust.toNoticeUpdateInfo();
-        noticeService.updateNotice(updateInfo, noticeId, userPrincipal.userId());
+        noticeService.updateNotice(updateInfo, noticeId, userPrincipal.getUserId());
         return Response.success();
     }
 
     @DeleteMapping("/{noticeId}") // delete
     public Response<Void> deleteNotice(
             @PathVariable Long noticeId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        noticeService.deleteNotice(noticeId, userPrincipal.userId());
+        noticeService.deleteNotice(noticeId, userPrincipal.getUserId());
         return Response.success();
     }
 

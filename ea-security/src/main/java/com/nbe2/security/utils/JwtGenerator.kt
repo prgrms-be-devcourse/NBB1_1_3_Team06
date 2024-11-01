@@ -22,17 +22,17 @@ class JwtGenerator(
 
     // JWT 생성
     override fun generate(principal: UserPrincipal): Tokens {
-        return Tokens.builder()
-            .accessToken(generateAccessToken(principal))
-            .refreshToken(generateRefreshToken(principal))
-            .build()
+        return Tokens(
+            generateAccessToken(principal),
+            generateRefreshToken(principal)
+        )
     }
 
     private fun generateAccessToken(principal: UserPrincipal): String {
         return Jwts.builder()
             .setHeader(setHeader("ACCESS"))
             .setClaims(setClaims(principal))
-            .setSubject(principal.userId().toString())
+            .setSubject(principal.userId.toString())
             .setIssuedAt(Date())
             .setExpiration(Date(Date().time + accessExpirationTime))
             .signWith(key, SignatureAlgorithm.HS256)
@@ -43,7 +43,7 @@ class JwtGenerator(
         return Jwts.builder()
             .setHeader(setHeader("REFRESH"))
             .setClaims(setClaims(principal))
-            .setSubject(principal.userId().toString())
+            .setSubject(principal.userId.toString())
             .setIssuedAt(Date())
             .setExpiration(Date(Date().time + refreshExpirationTime))
             .signWith(key, SignatureAlgorithm.HS256)
@@ -60,7 +60,7 @@ class JwtGenerator(
 
     private fun setClaims(principal: UserPrincipal): Map<String, Any> {
         return mapOf(
-            "ROLE" to principal.role().getRole()
+            "ROLE" to principal.role.role
         )
     }
 }
