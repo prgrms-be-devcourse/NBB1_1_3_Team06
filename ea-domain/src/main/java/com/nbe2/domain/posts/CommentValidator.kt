@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 class CommentValidator {
     fun isOwnerId(userId: Long, comment: Comment?) {
         val commentWriterId = comment?.writerId
-        if (userId != commentWriterId) throw CommentWriterMismatchException.EXCEPTION
+        if (userId != commentWriterId)
+                throw CommentWriterMismatchException.EXCEPTION
     }
 }

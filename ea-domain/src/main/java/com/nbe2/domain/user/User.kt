@@ -4,17 +4,17 @@ import com.nbe2.domain.global.BaseTimeEntity
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "users", indexes = [Index(name = "idx_email", columnList = "email")])
-class User private constructor (
-    @Column(nullable = false) var name: String,
-
-    @Column(nullable = false) var email: String,
-
-    var password: String,
-
-    @Enumerated(value = EnumType.STRING) var role: UserRole,
-
-    @Enumerated(value = EnumType.STRING) var approvalStatus: ApprovalStatus
+@Table(
+        name = "users",
+        indexes = [Index(name = "idx_email", columnList = "email")],
+)
+class User
+private constructor(
+        @Column(nullable = false) var name: String,
+        @Column(nullable = false) var email: String,
+        var password: String,
+        @Enumerated(value = EnumType.STRING) var role: UserRole,
+        @Enumerated(value = EnumType.STRING) var approvalStatus: ApprovalStatus,
 ) : BaseTimeEntity() {
 
     @Id
@@ -40,12 +40,13 @@ class User private constructor (
     }
 
     companion object {
-        fun of(name: String, email: String, password: String) = User(
-            name = name,
-            email = email,
-            password = password,
-            role = UserRole.USER,
-            approvalStatus = ApprovalStatus.APPROVED
-        )
+        fun of(name: String, email: String, password: String) =
+                User(
+                        name = name,
+                        email = email,
+                        password = password,
+                        role = UserRole.USER,
+                        approvalStatus = ApprovalStatus.APPROVED,
+                )
     }
 }

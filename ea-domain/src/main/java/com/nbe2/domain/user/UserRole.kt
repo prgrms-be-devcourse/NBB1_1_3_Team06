@@ -10,9 +10,9 @@ enum class UserRole(val role: String) {
     companion object {
         @JvmStatic
         fun findByRole(role: String) =
-            Arrays.stream(entries.toTypedArray())
-                .filter { userRole: UserRole -> userRole.role == role }
-                .findFirst()
-                .orElse(null)
+                Arrays.stream(entries.toTypedArray())
+                        .filter { userRole: UserRole -> userRole.role == role }
+                        .findFirst()
+                        .orElse(null)
     }
 }

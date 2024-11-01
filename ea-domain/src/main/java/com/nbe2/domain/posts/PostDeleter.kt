@@ -8,8 +8,9 @@ class PostDeleter(private val postRepository: PostRepository) {
 
     fun delete(postsId: Long) {
         val post =
-            postRepository.findById(postsId)
-                .orElseThrow { PostNotFoundException.EXCEPTION }!!
+                postRepository.findById(postsId).orElseThrow {
+                    PostNotFoundException.EXCEPTION
+                }!!
         postRepository.delete(post)
     }
 }

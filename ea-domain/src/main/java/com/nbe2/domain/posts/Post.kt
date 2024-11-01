@@ -7,16 +7,14 @@ import java.util.*
 
 @Entity
 @Table(name = "posts")
-class Post private constructor(
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id")
-    val user: User,
-
-    var title: String,
-
-    var content: String,
-
-    @Enumerated(EnumType.STRING)
-    var city: City
+class Post
+private constructor(
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id")
+        val user: User,
+        var title: String,
+        var content: String,
+        @Enumerated(EnumType.STRING) var city: City,
 ) : BaseTimeEntity() {
 
     @Id
@@ -74,10 +72,12 @@ class Post private constructor(
 
     companion object {
         fun create(
-            user: User, title: String, content: String, city: City
+                user: User,
+                title: String,
+                content: String,
+                city: City,
         ): Post {
             return Post(user, title, content, city)
         }
     }
 }
-

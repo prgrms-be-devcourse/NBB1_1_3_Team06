@@ -9,15 +9,23 @@ import org.springframework.stereotype.Component
 class UserReader(private val userRepository: UserRepository) {
 
     fun read(userId: Long): User =
-        userRepository.findById(userId)
-            .orElseThrow { UserNotFoundException }
+            userRepository.findById(userId).orElseThrow {
+                UserNotFoundException
+            }
 
-    fun read(email: String) = userRepository.findByEmail(email) ?: throw UserNotFoundException
+    fun read(email: String) =
+            userRepository.findByEmail(email) ?: throw UserNotFoundException
 
     fun read(pageable: Pageable): PageResult<UserProfileWithLicense> {
-        val userPage = userRepository.findPageByApprovalStatus(ApprovalStatus.PENDING, pageable)
+        val userPage =
+                userRepository.findPageByApprovalStatus(
+                        ApprovalStatus.PENDING,
+                        pageable,
+                )
         return PageResult(
-            userPage.content, userPage.totalPages, userPage.hasNext()
+                userPage.content,
+                userPage.totalPages,
+                userPage.hasNext(),
         )
     }
 }

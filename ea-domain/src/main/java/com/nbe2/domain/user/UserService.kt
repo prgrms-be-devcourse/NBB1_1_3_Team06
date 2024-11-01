@@ -6,15 +6,16 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-    private val emergencyRoomReader: EmergencyRoomReader,
-    private val fileMetaDataReader: FileMetaDataReader,
-    private val userReader: UserReader,
-    private val userUpdater: UserUpdater,
+        private val emergencyRoomReader: EmergencyRoomReader,
+        private val fileMetaDataReader: FileMetaDataReader,
+        private val userReader: UserReader,
+        private val userUpdater: UserUpdater,
 ) {
 
     @jakarta.transaction.Transactional
     fun requestMedicalAuthority(userId: Long, medicalProfile: MedicalProfile) {
-        val emergencyRoom = emergencyRoomReader.read(medicalProfile.emergencyRoomId)
+        val emergencyRoom =
+                emergencyRoomReader.read(medicalProfile.emergencyRoomId)
         val license = fileMetaDataReader.read(medicalProfile.licenseId)
         val user = userReader.read(userId)
         userUpdater.requestMedicalRole(user, emergencyRoom, license)

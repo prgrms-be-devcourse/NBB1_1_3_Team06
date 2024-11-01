@@ -6,21 +6,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class OAuthProperty {
-    @Value("\${oauth.kakao.base-url}")
-    lateinit var baseUrl: String
+    @Value("\${oauth.kakao.base-url}") lateinit var baseUrl: String
 
-    @Value("\${oauth.kakao.client-id}")
-    lateinit var clientId: String
+    @Value("\${oauth.kakao.client-id}") lateinit var clientId: String
 
-    @Value("\${oauth.kakao.redirect-url}")
-    lateinit var redirectUri: String
+    @Value("\${oauth.kakao.redirect-url}") lateinit var redirectUri: String
 
     companion object {
         var BASE_URL: String = ""
         var CLIENT_ID: String = ""
         var REDIRECT_URI: String = ""
 
-        const val KAKAO_OAUTH_QUERY_STRING: String = "/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s"
+        const val KAKAO_OAUTH_QUERY_STRING: String =
+                "/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s"
     }
 
     @PostConstruct

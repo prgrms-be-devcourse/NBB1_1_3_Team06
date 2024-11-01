@@ -3,9 +3,8 @@ plugins {
     kotlin("plugin.spring") version "1.9.25" apply false
     id("org.springframework.boot") version "3.3.5" apply false
     id("io.spring.dependency-management") version "1.1.6" apply false
-    id("com.diffplug.spotless") version "6.25.0"
+    id("com.diffplug.spotless") version "7.0.0.BETA4"
 
-    // @TODO lombok 때문에 추가
     kotlin("plugin.lombok") version "1.9.25" apply false
     kotlin("kapt") version "1.9.25"
     id("io.freefair.lombok") version "8.0.0" apply false
@@ -34,8 +33,6 @@ subprojects {
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
         plugin("com.diffplug.spotless")
-
-        // @TODO lombok 때문에 추가
         plugin("org.jetbrains.kotlin.kapt")
         plugin("io.freefair.lombok")
     }
@@ -49,7 +46,6 @@ subprojects {
 
     dependencies {
 
-        // @TODO lombok 때문에 추가
         compileOnly("org.projectlombok:lombok")
         runtimeOnly("org.projectlombok:lombok")
         kapt("org.projectlombok:lombok")
@@ -81,12 +77,16 @@ subprojects {
     }
 
     spotless {
-        java {
-            googleJavaFormat().aosp()
-            importOrder("java", "javax", "jakarta", "org", "lombok", "com")
-            removeUnusedImports()
-            trimTrailingWhitespace()
-            endWithNewline()
+        kotlin {
+            targetExclude("build/generated/**/*.kt")
+            targetExclude("bin/**/*.kt")
+            ktfmt("0.49").googleStyle().configure {
+                it.setMaxWidth(80)
+                it.setBlockIndent(4)
+                it.setContinuationIndent(8)
+                it.setRemoveUnusedImports(true)
+            }
+
         }
     }
 
@@ -95,12 +95,15 @@ subprojects {
     }
 }
 
+
+
+
+
 tasks.register<Copy>("addGitPreCommitHook") {
     from("script/pre-commit")
     into(".git/hooks")
 }
 
-// @TODO lombok 때문에 추가
 
 project(":ea-application") {
     tasks.getByName("bootJar") {

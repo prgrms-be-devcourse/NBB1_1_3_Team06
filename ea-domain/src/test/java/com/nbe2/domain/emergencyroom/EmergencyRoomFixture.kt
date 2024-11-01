@@ -1,6 +1,5 @@
 package com.nbe2.domain.emergencyroom
 
-import com.nbe2.domain.emergencyroom.EmergencyRoom
 import com.nbe2.domain.global.TestConstants
 
 object EmergencyRoomFixture {
@@ -29,25 +28,25 @@ object EmergencyRoomFixture {
     @JvmStatic
     fun create(): EmergencyRoom {
         return EmergencyRoom.builder()
-            .hpId(HP_ID)
-            .hospitalName(HOSPITAL_NAME)
-            .zipCode(ZIP_CODE)
-            .address(ADDRESS)
-            .mainContactNumber(MAIN_CONTACT_NUMBER)
-            .emergencyRoomContactNumber(EMERGENCY_ROOM_CONTACT_NUMBER)
-            .simpleMap(SIMPLE_MAP)
-            .emergencyRoomAvailability(EMERGENCY_ROOM_AVAILABILITY)
-            .coordinate(COORDINATE)
-            .medicalDepartments(MEDICAL_DEPARTMENTS)
-            .totalBedCount(TOTAL_BED_COUNT)
-            .thoracicIcuBedCount(THORACIC_ICU_BED_COUNT)
-            .neurologicalIcuBedCount(NEUROLOGICAL_ICU_BED_COUNT)
-            .emergencyRoomBedCount(EMERGENCY_ROOM_BED_COUNT)
-            .generalWardBedCount(GENERAL_WARD_BED_COUNT)
-            .generalIcuBedCount(GENERAL_ICU_BED_COUNT)
-            .neonatalIcuBedCount(NEONATAL_ICU_BED_COUNT)
-            .operatingRoomBedCount(OPERATING_ROOM_BED_COUNT)
-            .build()
+                .hpId(HP_ID)
+                .hospitalName(HOSPITAL_NAME)
+                .zipCode(ZIP_CODE)
+                .address(ADDRESS)
+                .mainContactNumber(MAIN_CONTACT_NUMBER)
+                .emergencyRoomContactNumber(EMERGENCY_ROOM_CONTACT_NUMBER)
+                .simpleMap(SIMPLE_MAP)
+                .emergencyRoomAvailability(EMERGENCY_ROOM_AVAILABILITY)
+                .coordinate(COORDINATE)
+                .medicalDepartments(MEDICAL_DEPARTMENTS)
+                .totalBedCount(TOTAL_BED_COUNT)
+                .thoracicIcuBedCount(THORACIC_ICU_BED_COUNT)
+                .neurologicalIcuBedCount(NEUROLOGICAL_ICU_BED_COUNT)
+                .emergencyRoomBedCount(EMERGENCY_ROOM_BED_COUNT)
+                .generalWardBedCount(GENERAL_WARD_BED_COUNT)
+                .generalIcuBedCount(GENERAL_ICU_BED_COUNT)
+                .neonatalIcuBedCount(NEONATAL_ICU_BED_COUNT)
+                .operatingRoomBedCount(OPERATING_ROOM_BED_COUNT)
+                .build()
     }
 
     @JvmStatic
@@ -58,37 +57,42 @@ object EmergencyRoomFixture {
             val field = EmergencyRoom::class.java.getDeclaredField("id")
             field.isAccessible = true
             field[emergencyRoom] = TestConstants.ID
-        } catch (ignored: Exception) {
-        }
+        } catch (ignored: Exception) {}
 
         return emergencyRoom
     }
 
     fun createMapInfo(): EmergencyRoomMapInfo {
         return EmergencyRoomMapInfo(
-            1L, HP_ID, HOSPITAL_NAME, ADDRESS, SIMPLE_MAP, COORDINATE, DISTANCE
+                1L,
+                HP_ID,
+                HOSPITAL_NAME,
+                ADDRESS,
+                SIMPLE_MAP,
+                COORDINATE,
+                DISTANCE,
         )
     }
 
     fun createRealTimeInfo(): RealTimeEmergencyRoomInfo {
         return RealTimeEmergencyRoomInfo(
-            HP_ID,
-            HOSPITAL_NAME,
-            EMERGENCY_PHONE,
-            INPUT_DATE,
-            10,  // availableBeds
-            2,  // operatingRoomBeds
-            1,  // neuroIcuBeds
-            0,  // neonatalIcuBeds
-            1,  // chestIcuBeds
-            3,  // generalIcuBeds
-            5,  // generalWardBeds
-            true,  // isCtAvailable
-            true,  // isMriAvailable
-            false,  // isAngiographyAvailable
-            true,  // isVentilatorAvailable
-            false,  // isIncubatorAvailable
-            true // isAmbulanceAvailable
+                HP_ID,
+                HOSPITAL_NAME,
+                EMERGENCY_PHONE,
+                INPUT_DATE,
+                10, // availableBeds
+                2, // operatingRoomBeds
+                1, // neuroIcuBeds
+                0, // neonatalIcuBeds
+                1, // chestIcuBeds
+                3, // generalIcuBeds
+                5, // generalWardBeds
+                true, // isCtAvailable
+                true, // isMriAvailable
+                false, // isAngiographyAvailable
+                true, // isVentilatorAvailable
+                false, // isIncubatorAvailable
+                true, // isAmbulanceAvailable
         )
     }
 

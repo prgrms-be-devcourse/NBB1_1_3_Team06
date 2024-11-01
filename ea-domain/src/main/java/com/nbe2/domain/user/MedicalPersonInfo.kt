@@ -6,18 +6,17 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "medical_person_infos")
-class MedicalPersonInfo private constructor(
-    @JoinColumn(name = "user_id")
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    val user: User,
-
-    @JoinColumn(name = "emergency_room_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    val emergencyRoom: EmergencyRoom,
-
-    @JoinColumn(name = "file_id")
-    @OneToOne(fetch = FetchType.LAZY)
-    val license: FileMetaData
+class MedicalPersonInfo
+private constructor(
+        @JoinColumn(name = "user_id")
+        @OneToOne(optional = false, fetch = FetchType.LAZY)
+        val user: User,
+        @JoinColumn(name = "emergency_room_id")
+        @ManyToOne(fetch = FetchType.LAZY)
+        val emergencyRoom: EmergencyRoom,
+        @JoinColumn(name = "file_id")
+        @OneToOne(fetch = FetchType.LAZY)
+        val license: FileMetaData,
 ) {
 
     @Id
@@ -26,7 +25,10 @@ class MedicalPersonInfo private constructor(
     private var id: Long? = null
 
     companion object {
-        fun of(user: User, emergencyRoom: EmergencyRoom, license: FileMetaData) =
-            MedicalPersonInfo(user, emergencyRoom, license)
+        fun of(
+                user: User,
+                emergencyRoom: EmergencyRoom,
+                license: FileMetaData,
+        ) = MedicalPersonInfo(user, emergencyRoom, license)
     }
 }

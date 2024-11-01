@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class Authenticator(
-    private val passwordEncoder: PasswordEncoder,
-    private val userReader: UserReader
+        private val passwordEncoder: PasswordEncoder,
+        private val userReader: UserReader,
 ) {
 
     fun authenticate(login: Login): UserPrincipal {

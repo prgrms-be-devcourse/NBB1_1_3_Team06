@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service
 @Service
 @RequiredArgsConstructor
 class FileMetaDataService(
-    private val fileMetaDataAppender: FileMetaDataAppender,
-    private val fileMetaDataReader: FileMetaDataReader
+        private val fileMetaDataAppender: FileMetaDataAppender,
+        private val fileMetaDataReader: FileMetaDataReader,
 ) {
-
 
     fun save(fileMetaData: FileMetaData): Long {
         return fileMetaDataAppender.append(fileMetaData)

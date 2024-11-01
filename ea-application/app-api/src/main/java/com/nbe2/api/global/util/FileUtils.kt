@@ -2,12 +2,12 @@ package com.nbe2.api.global.util
 
 import com.nbe2.api.global.exception.FileNotFoundException
 import com.nbe2.domain.file.FileMetaData
-import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
+import org.springframework.web.multipart.MultipartFile
 
 object FileUtils {
     private val BASE_PATH = basePath
@@ -18,18 +18,18 @@ object FileUtils {
         get() {
             try {
                 return (Paths.get(
-                    FileUtils::class.java
-                        .protectionDomain
-                        .codeSource
-                        .location
-                        .toURI()
-                )
-                    .parent
-                    .parent
-                    .parent
-                    .parent
-                    .toString()
-                        + "/")
+                                FileUtils::class
+                                        .java
+                                        .protectionDomain
+                                        .codeSource
+                                        .location
+                                        .toURI()
+                        )
+                        .parent
+                        .parent
+                        .parent
+                        .parent
+                        .toString() + "/")
             } catch (e: Exception) {
                 throw RuntimeException("Cannot determine base path.", e)
             }
@@ -50,7 +50,10 @@ object FileUtils {
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-        return FileMetaData.of(uploadFile.originalFilename, UPLOAD_PATH + savedName)
+        return FileMetaData.of(
+                uploadFile.originalFilename,
+                UPLOAD_PATH + savedName,
+        )
     }
 
     fun validate(path: String): File {

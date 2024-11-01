@@ -12,11 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
 internal class DistanceCalculatorTest {
-    @InjectMocks
-    private val distanceCalculator: DistanceCalculator? = null
+    @InjectMocks private val distanceCalculator: DistanceCalculator? = null
 
-    @Mock
-    private val emergencyRoomReader: EmergencyRoomReader? = null
+    @Mock private val emergencyRoomReader: EmergencyRoomReader? = null
 
     @Nested
     @DisplayName("거리를 계산한다")
@@ -26,24 +24,37 @@ internal class DistanceCalculatorTest {
         fun givenRealTimeEmergencyRoomInfos_whenCalculate_thenReturnSortedByDistance() {
             // given
             val realTimeEmergencyRoomInfos =
-                EmergencyRoomFixture.createRealTimeInfoList()
+                    EmergencyRoomFixture.createRealTimeInfoList()
 
             val emergencyRoom1 = EmergencyRoomFixture.create()
             val emergencyRoom2 = EmergencyRoomFixture.create()
 
-            Mockito.`when`(emergencyRoomReader!!.read(realTimeEmergencyRoomInfos[0]!!.hpId))
-                .thenReturn(emergencyRoom1)
-            Mockito.`when`(emergencyRoomReader.read(realTimeEmergencyRoomInfos[1]!!.hpId))
-                .thenReturn(emergencyRoom2)
+            Mockito.`when`(
+                            emergencyRoomReader!!.read(
+                                    realTimeEmergencyRoomInfos[0]!!.hpId
+                            )
+                    )
+                    .thenReturn(emergencyRoom1)
+            Mockito.`when`(
+                            emergencyRoomReader.read(
+                                    realTimeEmergencyRoomInfos[1]!!.hpId
+                            )
+                    )
+                    .thenReturn(emergencyRoom2)
 
             // when
             val result =
-                distanceCalculator!!.calculate(realTimeEmergencyRoomInfos, EmergencyRoomFixture.COORDINATE)
+                    distanceCalculator!!.calculate(
+                            realTimeEmergencyRoomInfos,
+                            EmergencyRoomFixture.COORDINATE,
+                    )
 
             // then
             Assertions.assertEquals(2, result.size)
             Assertions.assertEquals(result[0].distance, 0.0)
-            Assertions.assertTrue(result[0].distance <= result[1].distance) // 정렬된 결과인지 확인
+            Assertions.assertTrue(
+                    result[0].distance <= result[1].distance
+            ) // 정렬된 결과인지 확인
         }
 
         @Test
@@ -55,7 +66,10 @@ internal class DistanceCalculatorTest {
 
             // when
             val result =
-                distanceCalculator!!.calculate(realTimeEmergencyRoomInfos, currentCoordinate)
+                    distanceCalculator!!.calculate(
+                            realTimeEmergencyRoomInfos,
+                            currentCoordinate,
+                    )
 
             // then
             Assertions.assertTrue(result.isEmpty())

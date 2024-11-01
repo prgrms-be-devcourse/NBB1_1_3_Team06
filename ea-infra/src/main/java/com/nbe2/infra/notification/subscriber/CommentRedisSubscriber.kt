@@ -12,23 +12,31 @@ import org.springframework.stereotype.Component
 
 @Component
 class CommentRedisSubscriber(
-    private val notificationManager: NotificationManager,
-    private val objectMapper: ObjectMapper
+        private val notificationManager: NotificationManager,
+        private val objectMapper: ObjectMapper,
 ) : MessageListener {
 
     private val log = logger()
 
     override fun onMessage(message: Message, pattern: ByteArray?) {
         try {
-            val event = objectMapper.readValue(message.body, NewCommentEvent::class.java)
-            log.info("Comment event published: {}, to {}", event.referenceUri, event.targetId)
+            val event =
+                    objectMapper.readValue(
+                            message.body,
+                            NewCommentEvent::class.java,
+                    )
+            log.info(
+                    "Comment event published: {}, to {}",
+                    event.referenceUri,
+                    event.targetId,
+            )
             notificationManager.send(
-                NewNotification.of(
-                    targetId = event.targetId,
-                    referenceUri = event.referenceUri,
-                    title = event.postTitle,
-                    type = NotificationType.COMMENT
-                )
+                    NewNotification.of(
+                            targetId = event.targetId,
+                            referenceUri = event.referenceUri,
+                            title = event.postTitle,
+                            type = NotificationType.COMMENT,
+                    )
             )
         } catch (e: Exception) {
             log.error(e.message)

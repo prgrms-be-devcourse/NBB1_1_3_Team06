@@ -24,6 +24,7 @@ class SchedulerConfig : SchedulingConfigurer {
     }
 
     @Bean
-    fun lockProvider(redisConnectionFactory: RedisConnectionFactory): LockProvider =
-        RedisLockProvider(redisConnectionFactory)
+    fun lockProvider(
+            redisConnectionFactory: RedisConnectionFactory
+    ): LockProvider = RedisLockProvider(redisConnectionFactory)
 }

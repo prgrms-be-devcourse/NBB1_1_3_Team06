@@ -7,25 +7,33 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class NotificationService(
-    private val notificationUpdater: NotificationUpdater,
-    private val notificationReader: NotificationReader
+        private val notificationUpdater: NotificationUpdater,
+        private val notificationReader: NotificationReader,
 ) {
 
     @Transactional
-    fun getNotificationHistory(userId: Long, cursor: Cursor): CursorResult<NotificationDetail> {
+    fun getNotificationHistory(
+            userId: Long,
+            cursor: Cursor,
+    ): CursorResult<NotificationDetail> {
         val notifications = notificationReader.read(userId, cursor)
         val nextCursor = getNextCursor(userId, notifications)
         notificationUpdater.readAllUnreadNotifications(userId)
         return CursorResult(notifications, nextCursor)
     }
 
-    fun hasUnreadNotification(userId: Long) = notificationReader.hasUnreadNotification(userId)
+    fun hasUnreadNotification(userId: Long) =
+            notificationReader.hasUnreadNotification(userId)
 
-    private fun getNextCursor(userId: Long, notifications: List<NotificationDetail>): Long? {
+    private fun getNextCursor(
+            userId: Long,
+            notifications: List<NotificationDetail>,
+    ): Long? {
         if (notifications.isEmpty()) return null
 
         return notificationReader.getNextCursor(
-            userId, notifications[notifications.size - 1].notificationId
+                userId,
+                notifications[notifications.size - 1].notificationId,
         )
     }
 }

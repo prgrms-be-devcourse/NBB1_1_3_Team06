@@ -6,14 +6,12 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "notifications")
-class Notification private constructor(
-    target: User,
-    @Column(nullable = false) var referenceUri: String,
-    @Column(
-        nullable = false,
-        columnDefinition = "TEXT"
-    ) var title: String,
-    @Enumerated(value = EnumType.STRING) val type: NotificationType
+class Notification
+private constructor(
+        target: User,
+        @Column(nullable = false) var referenceUri: String,
+        @Column(nullable = false, columnDefinition = "TEXT") var title: String,
+        @Enumerated(value = EnumType.STRING) val type: NotificationType,
 ) : BaseTimeEntity() {
     @Id
     @Column(name = "notification_id")
@@ -27,12 +25,17 @@ class Notification private constructor(
     val isRead = false
 
     companion object {
-        fun of(target: User, referenceUri: String, title: String, type: NotificationType) =
-            Notification(
-                target = target,
-                referenceUri = referenceUri,
-                title = title,
-                type = type
-            )
+        fun of(
+                target: User,
+                referenceUri: String,
+                title: String,
+                type: NotificationType,
+        ) =
+                Notification(
+                        target = target,
+                        referenceUri = referenceUri,
+                        title = title,
+                        type = type,
+                )
     }
 }

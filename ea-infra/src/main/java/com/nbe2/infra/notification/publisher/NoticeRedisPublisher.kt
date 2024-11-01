@@ -8,7 +8,9 @@ import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.stereotype.Component
 
 @Component
-class NoticeRedisPublisher(private val notificationTemplate: RedisTemplate<String, Any>) : NoticeEventPublisher {
+class NoticeRedisPublisher(
+        private val notificationTemplate: RedisTemplate<String, Any>
+) : NoticeEventPublisher {
 
     override fun publish(event: NewNoticeOfBookmarkedHospitalEvent) {
         val topic = ChannelTopic(NotificationType.NOTICE.channelId)

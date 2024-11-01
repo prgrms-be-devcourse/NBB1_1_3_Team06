@@ -8,13 +8,18 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserUpdater(
-    private val passwordEncoder: PasswordEncoder,
-    private val userRepository: UserRepository,
-    private val medicalPersonInfoRepository: MedicalPersonInfoRepository
+        private val passwordEncoder: PasswordEncoder,
+        private val userRepository: UserRepository,
+        private val medicalPersonInfoRepository: MedicalPersonInfoRepository,
 ) {
 
-    fun requestMedicalRole(user: User, emergencyRoom: EmergencyRoom, license: FileMetaData) {
-        val medicalPersonInfo = MedicalPersonInfo.of(user, emergencyRoom, license)
+    fun requestMedicalRole(
+            user: User,
+            emergencyRoom: EmergencyRoom,
+            license: FileMetaData,
+    ) {
+        val medicalPersonInfo =
+                MedicalPersonInfo.of(user, emergencyRoom, license)
         user.requestAuthority()
         medicalPersonInfoRepository.save(medicalPersonInfo)
         userRepository.save(user)
@@ -26,7 +31,12 @@ class UserUpdater(
     }
 
     fun update(user: User, password: UpdatePassword) {
-        if (passwordEncoder.isPasswordUnmatched(password.previous, user.password)) {
+        if (
+                passwordEncoder.isPasswordUnmatched(
+                        password.previous,
+                        user.password,
+                )
+        ) {
             throw InvalidPasswordException
         }
 

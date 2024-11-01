@@ -8,12 +8,18 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class NotificationScheduler(private val notificationDeleter: NotificationDeleter) {
+class NotificationScheduler(
+        private val notificationDeleter: NotificationDeleter
+) {
     private val log = logger()
 
     @Transactional
     @Scheduled(cron = "0 0 0 * * *")
-    @SchedulerLock(name = "notification", lockAtLeastFor = "PT2S", lockAtMostFor = "PT2S")
+    @SchedulerLock(
+            name = "notification",
+            lockAtLeastFor = "PT2S",
+            lockAtMostFor = "PT2S",
+    )
     fun deleteOutdatedNotifications() {
         log.info("Deleting outdated notifications")
         notificationDeleter.deleteOutdatedNotifications()

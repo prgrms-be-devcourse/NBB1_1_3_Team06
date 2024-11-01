@@ -7,12 +7,12 @@ const val REFERENCE_URI: String = "reference uri"
 const val TITLE: String = "notification"
 
 fun createCommentNotification() =
-    Notification.of(
-        target = createUserWithId(),
-        referenceUri = REFERENCE_URI,
-        type = NotificationType.COMMENT,
-        title = TITLE
-    )
+        Notification.of(
+                target = createUserWithId(),
+                referenceUri = REFERENCE_URI,
+                type = NotificationType.COMMENT,
+                title = TITLE,
+        )
 
 fun createCommentNotificationWithId(id: Long): Notification {
     val notification = createCommentNotification()
@@ -21,10 +21,10 @@ fun createCommentNotificationWithId(id: Long): Notification {
         val field = notification.javaClass.getDeclaredField("id")
         field.isAccessible = true
         field[notification] = id
-    } catch (ignored: Exception) {
-    }
+    } catch (ignored: Exception) {}
 
     return notification
 }
 
-fun createNewNotification() = NewNotification.of(ID, REFERENCE_URI, TITLE, NotificationType.COMMENT)
+fun createNewNotification() =
+        NewNotification.of(ID, REFERENCE_URI, TITLE, NotificationType.COMMENT)

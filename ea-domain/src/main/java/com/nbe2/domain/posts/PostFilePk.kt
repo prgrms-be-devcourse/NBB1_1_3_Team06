@@ -4,11 +4,10 @@ import jakarta.persistence.Embeddable
 import java.io.Serializable
 
 @Embeddable
-data class PostFilePk(
-    val fileMetaDataId: Long = 0L,
-    val postId: Long = 0L
-) : Serializable {
+data class PostFilePk(val fileMetaDataId: Long = 0L, val postId: Long = 0L) :
+        Serializable {
     companion object {
-        fun of(fileMetaDataId: Long, postId: Long) = PostFilePk(fileMetaDataId, postId)
+        fun of(fileMetaDataId: Long, postId: Long) =
+                PostFilePk(fileMetaDataId, postId)
     }
 }

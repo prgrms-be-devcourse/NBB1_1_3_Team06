@@ -1,6 +1,8 @@
 package com.nbe2.api.global.aop
 
 import jakarta.servlet.http.HttpServletRequest
+import java.net.URLDecoder
+import kotlin.collections.HashMap
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -10,19 +12,21 @@ import org.springframework.boot.configurationprocessor.json.JSONObject
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.net.URLDecoder
-import kotlin.collections.HashMap
 
 @Aspect
 @Component
 class LogAspect {
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    @Pointcut("(execution(* com.nbe2.domain..*(..)) || execution(* com.nbe2.infra..*(..))) &&" +
-            " !execution(* com.nbe2.infra.feign..*(..)) && !execution(* com.nbe2.common..*(..))")
+    @Pointcut(
+            "(execution(* com.nbe2.domain..*(..)) || execution(* com.nbe2.infra..*(..))) &&" +
+                    " !execution(* com.nbe2.infra.feign..*(..)) && !execution(* com.nbe2.common..*(..))"
+    )
     fun all() {}
 
-    @Pointcut("execution(* com.nbe2.api..*Api.*(..)) && !execution(* com.nbe2.api.HealthCheckApi..*(..))")
+    @Pointcut(
+            "execution(* com.nbe2.api..*Api.*(..)) && !execution(* com.nbe2.api.HealthCheckApi..*(..))"
+    )
     fun controller() {}
 
     @Around("all()")
@@ -41,8 +45,11 @@ class LogAspect {
     @Around("controller()")
     @Throws(Throwable::class)
     fun loggingBefore(joinPoint: ProceedingJoinPoint): Any? {
-        val request = (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.request
-            ?: throw IllegalStateException("No request found")
+        val request =
+                (RequestContextHolder.getRequestAttributes()
+                                as? ServletRequestAttributes)
+                        ?.request
+                        ?: throw IllegalStateException("No request found")
 
         val controllerName = joinPoint.signature.declaringType.name
         val methodName = joinPoint.signature.name

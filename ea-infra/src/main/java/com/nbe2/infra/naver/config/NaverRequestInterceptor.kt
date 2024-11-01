@@ -10,6 +10,7 @@ class NaverRequestInterceptor : RequestInterceptor {
 
     @Value("\${naver.directions-secret-key}")
     private val serviceKey: String? = null
+
     override fun apply(template: RequestTemplate) {
         template.header("Accept", "application/json") // Accept 헤더 추가
         template.header("x-ncp-apigw-api-key-id", clientKey) // Accept 헤더 추가

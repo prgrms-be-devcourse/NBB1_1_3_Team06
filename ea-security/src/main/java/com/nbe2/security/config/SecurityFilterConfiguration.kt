@@ -10,7 +10,7 @@ class SecurityFilterConfiguration {
     // 이를 비호라성화 해주는 코드
     @Bean
     fun registrationBean(
-        customSecurityFilter: CustomSecurityFilter
+            customSecurityFilter: CustomSecurityFilter
     ): FilterRegistrationBean<CustomSecurityFilter> {
         val registrationBean = FilterRegistrationBean(customSecurityFilter)
         registrationBean.isEnabled = false

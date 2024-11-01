@@ -7,35 +7,43 @@ import org.springframework.stereotype.Component
 @Component
 @RequiredArgsConstructor
 class EmergencyRoomReader(
-    private val emergencyRoomRepository: EmergencyRoomRepository
+        private val emergencyRoomRepository: EmergencyRoomRepository
 ) {
 
     fun read(id: Long): EmergencyRoom {
-        return emergencyRoomRepository
-            .findById(id)
-            .orElseThrow { EmergencyRoomNotFoundException }
+        return emergencyRoomRepository.findById(id).orElseThrow {
+            EmergencyRoomNotFoundException
+        }
     }
 
     fun read(hpId: String): EmergencyRoom {
-        return emergencyRoomRepository
-            .findByHpId(hpId)
-            .orElseThrow { EmergencyRoomNotFoundException }
+        return emergencyRoomRepository.findByHpId(hpId).orElseThrow {
+            EmergencyRoomNotFoundException
+        }
     }
 
     fun readByHospitalName(hospitalName: String): List<String> {
-        return emergencyRoomRepository!!.findByHospitalNameContaining(hospitalName).stream()
-            .map(EmergencyRoom::hpId)
-            .toList()
+        return emergencyRoomRepository
+                .findByHospitalNameContaining(hospitalName)
+                .stream()
+                .map(EmergencyRoom::hpId)
+                .toList()
     }
 
     fun readCoordinate(hospitalName: String): Coordinate {
         return emergencyRoomRepository
-            .findByHospitalName(hospitalName)
-            .map { obj: EmergencyRoom -> obj.getCoordinate() }
-            .orElseThrow { EmergencyRoomNotFoundException }
+                .findByHospitalName(hospitalName)
+                .map { obj: EmergencyRoom -> obj.getCoordinate() }
+                .orElseThrow { EmergencyRoomNotFoundException }
     }
 
-    fun read(coordinate: Coordinate, distance: Double): List<EmergencyRoomMapInfo> {
-        return emergencyRoomRepository.findByCoordinateAndDistance(coordinate, distance)
+    fun read(
+            coordinate: Coordinate,
+            distance: Double,
+    ): List<EmergencyRoomMapInfo> {
+        return emergencyRoomRepository.findByCoordinateAndDistance(
+                coordinate,
+                distance,
+        )
     }
 }

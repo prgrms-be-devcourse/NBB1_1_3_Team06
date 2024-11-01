@@ -11,18 +11,17 @@ import org.springframework.stereotype.Component
 
 @Component
 @RequiredArgsConstructor
-class RegionClient(
-    private val kakaoClient: KakaoClient
-) : CoordinateToRegionConverter{
+class RegionClient(private val kakaoClient: KakaoClient) :
+        CoordinateToRegionConverter {
 
     override fun convert(coordinate: Coordinate): Region {
         return kakaoClient
-            .getRegionData(coordinate.longitude, coordinate.latitude)
-            .documents
-            .stream()
-            .filter { obj: KakaoRegionResponse -> obj.isB }
-            .map { obj: KakaoRegionResponse -> obj.toRegion() }
-            .findFirst()
-            .orElseThrow { RegionNotFoundException }
+                .getRegionData(coordinate.longitude, coordinate.latitude)
+                .documents
+                .stream()
+                .filter { obj: KakaoRegionResponse -> obj.isB }
+                .map { obj: KakaoRegionResponse -> obj.toRegion() }
+                .findFirst()
+                .orElseThrow { RegionNotFoundException }
     }
 }

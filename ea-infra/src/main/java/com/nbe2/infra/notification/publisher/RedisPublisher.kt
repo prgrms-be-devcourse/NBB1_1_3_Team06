@@ -8,7 +8,9 @@ import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.stereotype.Component
 
 @Component
-class RedisPublisher(private val notificationTemplate: RedisTemplate<String, Any>) : CommentEventPublisher {
+class RedisPublisher(
+        private val notificationTemplate: RedisTemplate<String, Any>
+) : CommentEventPublisher {
 
     override fun publish(event: NewCommentEvent) {
         val topic = ChannelTopic(NotificationType.COMMENT.channelId)

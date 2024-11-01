@@ -21,5 +21,5 @@ enum class City {
     POHANG,
     CHANGWON,
     JINJU,
-    JEJU
+    JEJU,
 }

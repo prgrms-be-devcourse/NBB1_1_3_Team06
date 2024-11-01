@@ -7,11 +7,10 @@ import com.nbe2.common.constants.EAConstants.UNAUTHORIZED
 import com.nbe2.common.exception.BaseErrorCode
 import com.nbe2.common.exception.ErrorReason
 
-
 enum class JwtErrorCode(
-    private val status: Int,
-    private val errorCode: String,
-    private val message: String
+        private val status: Int,
+        private val errorCode: String,
+        private val message: String,
 ) : BaseErrorCode {
 
     UNSUPPORTED_TOKEN(BAD_REQUEST, "TOKEN_400", "지원 하지 않은 토큰"),

@@ -1,8 +1,8 @@
 package com.nbe2.api.notification.sse
 
+import java.io.IOException
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
-import java.io.IOException
 
 @Component
 class SseConnector(private val sseEmitterRepository: SseEmitterRepository) {
@@ -14,7 +14,12 @@ class SseConnector(private val sseEmitterRepository: SseEmitterRepository) {
         emitter.onCompletion { sseEmitterRepository.remove(userId) }
 
         try {
-            emitter.send(SseEmitter.event().id("").name(CONNECTION_NAME).data("emitter connected"))
+            emitter.send(
+                    SseEmitter.event()
+                            .id("")
+                            .name(CONNECTION_NAME)
+                            .data("emitter connected")
+            )
         } catch (e: IOException) {
             sseEmitterRepository.remove(userId)
             emitter.completeWithError(e)

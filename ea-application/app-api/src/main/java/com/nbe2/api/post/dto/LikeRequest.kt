@@ -1,5 +1,3 @@
 package com.nbe2.api.post.dto
 
-data class LikeRequest(val postsId: Long) {
-
-}
+data class LikeRequest(val postsId: Long)

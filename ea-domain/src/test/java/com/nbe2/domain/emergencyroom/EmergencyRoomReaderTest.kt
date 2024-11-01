@@ -1,6 +1,7 @@
 package com.nbe2.domain.emergencyroom
 
 import com.nbe2.domain.emergencyroom.exception.EmergencyRoomNotFoundException
+import java.util.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -11,15 +12,12 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
-import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class EmergencyRoomReaderTest {
-    @InjectMocks
-    private val emergencyRoomReader: EmergencyRoomReader? = null
+    @InjectMocks private val emergencyRoomReader: EmergencyRoomReader? = null
 
-    @Mock
-    private val emergencyRoomRepository: EmergencyRoomRepository? = null
+    @Mock private val emergencyRoomRepository: EmergencyRoomRepository? = null
 
     @Nested
     @DisplayName("ID로 응급실을 조회한다.")
@@ -33,7 +31,7 @@ internal class EmergencyRoomReaderTest {
 
             // when
             Mockito.`when`(emergencyRoomRepository!!.findById(emergencyRoomId))
-                .thenReturn(Optional.of(expected!!))
+                    .thenReturn(Optional.of(expected!!))
 
             // then
             val actual = emergencyRoomReader!!.read(emergencyRoomId)
@@ -47,12 +45,15 @@ internal class EmergencyRoomReaderTest {
             val emergencyRoomId = 1L
 
             // when
-            Mockito.`when`(emergencyRoomRepository!!.findById(emergencyRoomId)).thenReturn(Optional.empty())
+            Mockito.`when`(emergencyRoomRepository!!.findById(emergencyRoomId))
+                    .thenReturn(Optional.empty())
 
             // then
             Assertions.assertThrows(
-                EmergencyRoomNotFoundException::class.java
-            ) { emergencyRoomReader!!.read(emergencyRoomId) }
+                    EmergencyRoomNotFoundException::class.java
+            ) {
+                emergencyRoomReader!!.read(emergencyRoomId)
+            }
         }
     }
 
@@ -67,12 +68,10 @@ internal class EmergencyRoomReaderTest {
             val expected = EmergencyRoomFixture.create()
 
             // when
-            Mockito.`when`<Optional<EmergencyRoom?>>(emergencyRoomRepository!!.findByHpId(hospitalId))
-                .thenReturn(
-                    Optional.of(
-                        expected!!
+            Mockito.`when`<Optional<EmergencyRoom?>>(
+                            emergencyRoomRepository!!.findByHpId(hospitalId)
                     )
-                )
+                    .thenReturn(Optional.of(expected!!))
 
             // then
             val actual = emergencyRoomReader!!.read(hospitalId)
@@ -86,12 +85,15 @@ internal class EmergencyRoomReaderTest {
             val hospitalId = "HP999"
 
             // when
-            Mockito.`when`(emergencyRoomRepository!!.findByHpId(hospitalId)).thenReturn(Optional.empty())
+            Mockito.`when`(emergencyRoomRepository!!.findByHpId(hospitalId))
+                    .thenReturn(Optional.empty())
 
             // then
             Assertions.assertThrows(
-                EmergencyRoomNotFoundException::class.java
-            ) { emergencyRoomReader!!.read(hospitalId) }
+                    EmergencyRoomNotFoundException::class.java
+            ) {
+                emergencyRoomReader!!.read(hospitalId)
+            }
         }
     }
 
@@ -103,15 +105,20 @@ internal class EmergencyRoomReaderTest {
         fun givenHospitalName_whenEmergencyRoomsExist_thenShouldReturnListOfHpIds() {
             // given
             val hospitalName = EmergencyRoomFixture.HOSPITAL_NAME
-            val expected = java.util.List.of(EmergencyRoomFixture.HP_ID, "HP002")
+            val expected =
+                    java.util.List.of(EmergencyRoomFixture.HP_ID, "HP002")
 
             // when
             Mockito.`when`<List<EmergencyRoom?>>(
-                emergencyRoomRepository!!.findByHospitalNameContaining(
-                    hospitalName
-                )
-            )
-                .thenReturn(Collections.nCopies(2, EmergencyRoomFixture.create()))
+                            emergencyRoomRepository!!
+                                    .findByHospitalNameContaining(hospitalName)
+                    )
+                    .thenReturn(
+                            Collections.nCopies(
+                                    2,
+                                    EmergencyRoomFixture.create(),
+                            )
+                    )
 
             // then
             val actual = emergencyRoomReader!!.readByHospitalName(hospitalName)
@@ -125,8 +132,11 @@ internal class EmergencyRoomReaderTest {
             val hospitalName = "없는병원"
 
             // when
-            Mockito.`when`(emergencyRoomRepository!!.findByHospitalNameContaining(hospitalName))
-                .thenReturn(emptyList())
+            Mockito.`when`(
+                            emergencyRoomRepository!!
+                                    .findByHospitalNameContaining(hospitalName)
+                    )
+                    .thenReturn(emptyList())
 
             // then
             val actual = emergencyRoomReader!!.readByHospitalName(hospitalName)
@@ -145,8 +155,12 @@ internal class EmergencyRoomReaderTest {
             val expected = EmergencyRoomFixture.COORDINATE
 
             // when
-            Mockito.`when`<Optional<EmergencyRoom?>>(emergencyRoomRepository!!.findByHospitalName(hospitalName))
-                .thenReturn(Optional.of(EmergencyRoomFixture.create()))
+            Mockito.`when`<Optional<EmergencyRoom?>>(
+                            emergencyRoomRepository!!.findByHospitalName(
+                                    hospitalName
+                            )
+                    )
+                    .thenReturn(Optional.of(EmergencyRoomFixture.create()))
 
             // then
             val actual = emergencyRoomReader!!.readCoordinate(hospitalName)
@@ -163,15 +177,20 @@ internal class EmergencyRoomReaderTest {
             // given
             val coordinate = EmergencyRoomFixture.COORDINATE
             val distance = EmergencyRoomFixture.DISTANCE
-            val expected = java.util.List.of(EmergencyRoomFixture.createMapInfo())
+            val expected =
+                    java.util.List.of(EmergencyRoomFixture.createMapInfo())
 
             // when
             Mockito.`when`(
-                emergencyRoomRepository!!.findByCoordinateAndDistance(
-                    ArgumentMatchers.any(Coordinate::class.java), ArgumentMatchers.anyDouble()
-                )
-            )
-                .thenReturn(expected)
+                            emergencyRoomRepository!!
+                                    .findByCoordinateAndDistance(
+                                            ArgumentMatchers.any(
+                                                    Coordinate::class.java
+                                            ),
+                                            ArgumentMatchers.anyDouble(),
+                                    )
+                    )
+                    .thenReturn(expected)
 
             // then
             val actual = emergencyRoomReader!!.read(coordinate, distance)
@@ -187,11 +206,15 @@ internal class EmergencyRoomReaderTest {
 
             // when
             Mockito.`when`(
-                emergencyRoomRepository!!.findByCoordinateAndDistance(
-                    ArgumentMatchers.any(Coordinate::class.java), ArgumentMatchers.anyDouble()
-                )
-            )
-                .thenReturn(emptyList())
+                            emergencyRoomRepository!!
+                                    .findByCoordinateAndDistance(
+                                            ArgumentMatchers.any(
+                                                    Coordinate::class.java
+                                            ),
+                                            ArgumentMatchers.anyDouble(),
+                                    )
+                    )
+                    .thenReturn(emptyList())
 
             // then
             val actual = emergencyRoomReader!!.read(coordinate, distance)

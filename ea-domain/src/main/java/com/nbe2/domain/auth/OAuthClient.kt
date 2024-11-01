@@ -7,7 +7,13 @@ import com.nbe2.common.properties.OAuthProperty.Companion.REDIRECT_URI
 
 interface OAuthClient {
     val connectionUrl: String
-        get() = BASE_URL + java.lang.String.format(KAKAO_OAUTH_QUERY_STRING, CLIENT_ID, REDIRECT_URI)
+        get() =
+                BASE_URL +
+                        java.lang.String.format(
+                                KAKAO_OAUTH_QUERY_STRING,
+                                CLIENT_ID,
+                                REDIRECT_URI,
+                        )
 
     fun getOAuthProfile(code: String): OAuthProfile
 }

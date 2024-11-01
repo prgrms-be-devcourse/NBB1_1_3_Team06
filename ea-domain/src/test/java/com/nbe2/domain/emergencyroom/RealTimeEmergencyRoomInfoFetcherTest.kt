@@ -13,10 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension
 @ExtendWith(MockitoExtension::class)
 internal class RealTimeEmergencyRoomInfoFetcherTest {
     @InjectMocks
-    private val realTimeEmergencyRoomInfoFetcher: RealTimeEmergencyRoomInfoFetcher? = null
+    private val realTimeEmergencyRoomInfoFetcher:
+            RealTimeEmergencyRoomInfoFetcher? =
+            null
 
-    @Mock
-    private val realTimeClient: EmergencyRoomClient? = null
+    @Mock private val realTimeClient: EmergencyRoomClient? = null
 
     @Mock
     private val cacheManager: RealTimeEmergencyRoomInfoCacheManager? = null
@@ -32,24 +33,23 @@ internal class RealTimeEmergencyRoomInfoFetcherTest {
         fun givenCoordate_whenConvertRegion_FetchRealTimeInfo_thenReturnAndCacheInfo() {
             // given
             val coordinate = EmergencyRoomFixture.COORDINATE
-            val expectedInfo =
-                EmergencyRoomFixture.createRealTimeInfoList()
+            val expectedInfo = EmergencyRoomFixture.createRealTimeInfoList()
             val expectedRegion = EmergencyRoomFixture.getRegion()
 
             // when
-            Mockito.`when`(
-                coordinateToRegionConverter!!.convert(
-                    coordinate!!
-                )
-            ).thenReturn(expectedRegion)
-            Mockito.`when`<List<RealTimeEmergencyRoomInfo?>>(realTimeClient!!.getRealTimeInfo(expectedRegion))
-                .thenReturn(expectedInfo)
+            Mockito.`when`(coordinateToRegionConverter!!.convert(coordinate!!))
+                    .thenReturn(expectedRegion)
+            Mockito.`when`<List<RealTimeEmergencyRoomInfo?>>(
+                            realTimeClient!!.getRealTimeInfo(expectedRegion)
+                    )
+                    .thenReturn(expectedInfo)
 
             // then
             val actualInfo =
-                realTimeEmergencyRoomInfoFetcher!!.fetch(coordinate)
+                    realTimeEmergencyRoomInfoFetcher!!.fetch(coordinate)
             Assertions.assertEquals(expectedInfo, actualInfo)
-            Mockito.verify(realTimeClient, Mockito.times(1)).getRealTimeInfo(expectedRegion)
+            Mockito.verify(realTimeClient, Mockito.times(1))
+                    .getRealTimeInfo(expectedRegion)
             Mockito.verify(cacheManager, Mockito.times(1)).cache(expectedInfo)
         }
 
@@ -59,17 +59,15 @@ internal class RealTimeEmergencyRoomInfoFetcherTest {
             // given
             val coordinate = EmergencyRoomFixture.COORDINATE
             val expectedRegion = EmergencyRoomFixture.getRegion()
-            val realTimeInfo =
-                EmergencyRoomFixture.createRealTimeInfoList()
+            val realTimeInfo = EmergencyRoomFixture.createRealTimeInfoList()
 
             // when
-            Mockito.`when`(
-                coordinateToRegionConverter!!.convert(
-                    coordinate!!
-                )
-            ).thenReturn(expectedRegion)
-            Mockito.`when`<List<RealTimeEmergencyRoomInfo?>>(realTimeClient!!.getRealTimeInfo(expectedRegion))
-                .thenReturn(realTimeInfo)
+            Mockito.`when`(coordinateToRegionConverter!!.convert(coordinate!!))
+                    .thenReturn(expectedRegion)
+            Mockito.`when`<List<RealTimeEmergencyRoomInfo?>>(
+                            realTimeClient!!.getRealTimeInfo(expectedRegion)
+                    )
+                    .thenReturn(realTimeInfo)
             Mockito.doNothing().`when`(cacheManager).cache(realTimeInfo)
 
             // then

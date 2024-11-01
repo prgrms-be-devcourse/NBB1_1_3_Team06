@@ -1,4 +1,4 @@
-package com.nbe2.common;
+package com.nbe2.common
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

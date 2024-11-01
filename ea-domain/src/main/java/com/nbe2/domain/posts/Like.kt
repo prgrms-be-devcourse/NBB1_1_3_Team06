@@ -5,14 +5,14 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "likes")
-class Like private constructor(
-    @field:JoinColumn(name = "post_id")
-    @field:ManyToOne(fetch = FetchType.LAZY)
-    private val post: Post,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private val user: User
+class Like
+private constructor(
+        @field:JoinColumn(name = "post_id")
+        @field:ManyToOne(fetch = FetchType.LAZY)
+        private val post: Post,
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id")
+        private val user: User,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

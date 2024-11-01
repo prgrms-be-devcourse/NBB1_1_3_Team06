@@ -7,9 +7,6 @@ import com.nbe2.api.global.util.FileUtils.probeContentType
 import com.nbe2.api.global.util.FileUtils.saveFile
 import com.nbe2.api.global.util.FileUtils.validate
 import com.nbe2.domain.file.FileMetaDataService
-import lombok.RequiredArgsConstructor
-import lombok.extern.slf4j.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
@@ -21,9 +18,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/v1/files")
-class FileApi(
-    private val fileMetaDataService: FileMetaDataService
-) {
+class FileApi(private val fileMetaDataService: FileMetaDataService) {
 
     @PostMapping
     fun uploadFile(@RequestPart file: MultipartFile?): Response<Long> {
@@ -36,10 +31,16 @@ class FileApi(
         val fileMetaData = fileMetaDataService.getFileMetaData(fileId)
         val file = validate(fileMetaData.path)
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, getContentDescription(fileMetaData.encodedFileName))
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
-            .header(HttpHeaders.CONTENT_LENGTH, file.length().toString())
-            .body(FileSystemResource(file))
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        getContentDescription(fileMetaData.encodedFileName),
+                )
+                .header(
+                        HttpHeaders.CONTENT_TYPE,
+                        MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                )
+                .header(HttpHeaders.CONTENT_LENGTH, file.length().toString())
+                .body(FileSystemResource(file))
     }
 
     @GetMapping("/{fileId}")
@@ -48,7 +49,10 @@ class FileApi(
         val file = validate(fileMetaData.path)
         val resource = UrlResource.from(file.toPath().normalize().toUri())
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_TYPE, probeContentType(file)) // MIME 타입 설정
-            .body(resource)
+                .header(
+                        HttpHeaders.CONTENT_TYPE,
+                        probeContentType(file),
+                ) // MIME 타입 설정
+                .body(resource)
     }
 }

@@ -7,37 +7,40 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 
-class UserAppenderTest : BehaviorSpec({
-    val passwordEncoder = mockk<PasswordEncoder>()
-    val userRepository = mockk<UserRepository>()
+class UserAppenderTest :
+        BehaviorSpec({
+            val passwordEncoder = mockk<PasswordEncoder>()
+            val userRepository = mockk<UserRepository>()
 
-    val userAppender = UserAppender(passwordEncoder, userRepository)
+            val userAppender = UserAppender(passwordEncoder, userRepository)
 
-    Given("일반 회원 정보가 주어지는 경우") {
-        val userProfile = createUserProfile()
+            Given("일반 회원 정보가 주어지는 경우") {
+                val userProfile = createUserProfile()
 
-        every { passwordEncoder.encode(any()) } returns "encoded password"
+                every { passwordEncoder.encode(any()) } returns
+                        "encoded password"
 
-        When("회원을 추가하면") {
-            userAppender.append(userProfile)
+                When("회원을 추가하면") {
+                    userAppender.append(userProfile)
 
-            Then("회원을 저장한다.") {
-                verify(exactly = 1) { userRepository.save(any<User>()) }
+                    Then("회원을 저장한다.") {
+                        verify(exactly = 1) { userRepository.save(any<User>()) }
+                    }
+                }
             }
-        }
-    }
 
-    Given("관계자 회원 정보가 주어지는 경우") {
-        val oauthProfile = createOAuthProfile()
+            Given("관계자 회원 정보가 주어지는 경우") {
+                val oauthProfile = createOAuthProfile()
 
-        every { passwordEncoder.encode(any()) } returns "encoded password"
+                every { passwordEncoder.encode(any()) } returns
+                        "encoded password"
 
-        When("회원을 추가하면") {
-            userAppender.append(oauthProfile)
+                When("회원을 추가하면") {
+                    userAppender.append(oauthProfile)
 
-            Then("회원을 저장한다.") {
-                verify(exactly = 1) { userRepository.save(any<User>()) }
+                    Then("회원을 저장한다.") {
+                        verify(exactly = 1) { userRepository.save(any<User>()) }
+                    }
+                }
             }
-        }
-    }
-})
+        })

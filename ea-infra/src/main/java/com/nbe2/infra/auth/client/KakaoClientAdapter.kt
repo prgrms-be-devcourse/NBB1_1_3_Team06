@@ -10,13 +10,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class KakaoClientAdapter(
-    private val kakaoAuthClient: KakaoAuthClient,
-    private val kakaoProfileClient: KakaoProfileClient
+        private val kakaoAuthClient: KakaoAuthClient,
+        private val kakaoProfileClient: KakaoProfileClient,
 ) : OAuthClient {
 
     override fun getOAuthProfile(code: String): OAuthProfile {
         val kakaoTokenResponse =
-            kakaoAuthClient.auth(OAuthProperty.CLIENT_ID, OAuthProperty.REDIRECT_URI, code)
-        return kakaoProfileClient.getUserInfo(BEARER + kakaoTokenResponse.access_token)
+                kakaoAuthClient.auth(
+                        OAuthProperty.CLIENT_ID,
+                        OAuthProperty.REDIRECT_URI,
+                        code,
+                )
+        return kakaoProfileClient.getUserInfo(
+                BEARER + kakaoTokenResponse.access_token
+        )
     }
 }

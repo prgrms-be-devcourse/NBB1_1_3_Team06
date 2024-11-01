@@ -5,11 +5,13 @@ import feign.RequestTemplate
 import org.springframework.beans.factory.annotation.Value
 
 class KakaoRequestInterceptor(
-    @Value("\${kakao.rest-api-key}")
-    private val restApiKey: String
+        @Value("\${kakao.rest-api-key}") private val restApiKey: String
 ) : RequestInterceptor {
 
     override fun apply(template: RequestTemplate) {
-        template.header("Authorization", "KakaoAK $restApiKey") // Authorization 헤더 추가
+        template.header(
+                "Authorization",
+                "KakaoAK $restApiKey",
+        ) // Authorization 헤더 추가
     }
 }

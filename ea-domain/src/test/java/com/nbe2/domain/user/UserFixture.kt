@@ -20,8 +20,7 @@ fun createUserWithId(): User {
         val field = User::class.java.getDeclaredField("id")
         field.isAccessible = true
         field[user] = ID
-    } catch (ignored: java.lang.Exception) {
-    }
+    } catch (ignored: java.lang.Exception) {}
 
     return user
 }

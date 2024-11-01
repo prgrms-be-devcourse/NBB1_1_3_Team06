@@ -4,5 +4,8 @@ interface PasswordEncoder {
 
     fun encode(plainPassword: String): String
 
-    fun isPasswordUnmatched(plainPassword: String, encodedPassword: String): Boolean
+    fun isPasswordUnmatched(
+            plainPassword: String,
+            encodedPassword: String,
+    ): Boolean
 }

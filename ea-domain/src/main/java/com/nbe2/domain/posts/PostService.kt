@@ -11,25 +11,39 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class PostService(
-    private val postAppender: PostAppender,
-    private val postReader: PostReader,
-    private val postUpdater: PostUpdater,
-    private val postDeleter: PostDeleter,
-    private val userReader: UserReader
-){
+        private val postAppender: PostAppender,
+        private val postReader: PostReader,
+        private val postUpdater: PostUpdater,
+        private val postDeleter: PostDeleter,
+        private val userReader: UserReader,
+) {
     @Transactional
     fun save(userId: Long?, postWriteInfo: PostWriteInfo?): Long? {
-        val user: User = userReader.read(userId?: throw  IllegalArgumentException())
+        val user: User =
+                userReader.read(userId ?: throw IllegalArgumentException())
         return postWriteInfo?.let { postAppender.append(user, it) }
     }
 
-    fun findListPageByCity(page: Page?, city: City?): PageResult<PostListInfo>? {
-        return postReader.readListPage(page?.let { PagingUtil.toPageRequest(it) }, city)
+    fun findListPageByCity(
+            page: Page?,
+            city: City?,
+    ): PageResult<PostListInfo>? {
+        return postReader.readListPage(
+                page?.let { PagingUtil.toPageRequest(it) },
+                city,
+        )
     }
 
-    fun getUserPostPages(page: Page?, userId: Long?): PageResult<PostListInfo>? {
-        val user: User = userReader.read(userId?: throw  IllegalArgumentException())
-        return postReader.readListPage(page?.let { PagingUtil.toPageRequest(it) }, user)
+    fun getUserPostPages(
+            page: Page?,
+            userId: Long?,
+    ): PageResult<PostListInfo>? {
+        val user: User =
+                userReader.read(userId ?: throw IllegalArgumentException())
+        return postReader.readListPage(
+                page?.let { PagingUtil.toPageRequest(it) },
+                user,
+        )
     }
 
     fun findDetails(postsId: Long?): PostDetailsInfo {
@@ -39,12 +53,18 @@ class PostService(
 
     @Transactional
     fun update(postsId: Long?, postWriteInfo: PostWriteInfo?): Long? {
-        val post = postReader.read(postsId ?: throw IllegalArgumentException("Post Id cannot be null"))
+        val post =
+                postReader.read(
+                        postsId
+                                ?: throw IllegalArgumentException(
+                                        "Post Id cannot be null"
+                                )
+                )
         return postUpdater.update(post, postWriteInfo!!)
     }
 
     @Transactional
     fun delete(postsId: Long?) {
-        postDeleter.delete(postsId ?: throw  IllegalArgumentException())
+        postDeleter.delete(postsId ?: throw IllegalArgumentException())
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable
 
 interface UserRepositoryCustom {
     fun findPageByApprovalStatus(
-        approvalStatus: ApprovalStatus, pageable: Pageable
+            approvalStatus: ApprovalStatus,
+            pageable: Pageable,
     ): Page<UserProfileWithLicense>
 }

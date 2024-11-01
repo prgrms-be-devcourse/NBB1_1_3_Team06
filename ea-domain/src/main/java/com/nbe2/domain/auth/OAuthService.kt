@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class OAuthService(
-    private val oAuthClient: OAuthClient,
-    private val tokenManager: TokenManager,
-    private val tokenGenerator: TokenGenerator,
-    private val userValidator: UserValidator,
-    private val userReader: UserReader,
-    private val userAppender: UserAppender
+        private val oAuthClient: OAuthClient,
+        private val tokenManager: TokenManager,
+        private val tokenGenerator: TokenGenerator,
+        private val userValidator: UserValidator,
+        private val userReader: UserReader,
+        private val userAppender: UserAppender,
 ) {
 
     val connectionUrl: String
@@ -25,7 +25,8 @@ class OAuthService(
         }
 
         val user = userReader.read(oAuthProfile.email)
-        val tokens = tokenGenerator.generate(UserPrincipal.of(user.id!!, user.role))
+        val tokens =
+                tokenGenerator.generate(UserPrincipal.of(user.id!!, user.role))
         tokenManager.save(RefreshToken.of(user.id!!, tokens.refreshToken))
 
         return tokens

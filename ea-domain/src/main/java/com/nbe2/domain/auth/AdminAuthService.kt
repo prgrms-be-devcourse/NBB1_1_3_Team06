@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AdminAuthService(
-    private val userReader: UserReader,
-    private val userApprover: UserApprover
+        private val userReader: UserReader,
+        private val userApprover: UserApprover,
 ) {
 
     @Transactional
@@ -23,5 +23,5 @@ class AdminAuthService(
 
     @Transactional(readOnly = true)
     fun searchPendingUsers(page: Page): PageResult<UserProfileWithLicense> =
-        userReader.read(PagingUtil.toPageRequest(page))
+            userReader.read(PagingUtil.toPageRequest(page))
 }

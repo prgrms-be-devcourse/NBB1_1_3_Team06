@@ -7,15 +7,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class LikeService(
-    private val postReader: PostReader,
-
-    private val userReader: UserReader,
-
-    private val likeAppender: LikeAppender,
-
-    private val likeDeleter: LikeDeleter,
-
-    private val likeValidator: LikeValidator
+        private val postReader: PostReader,
+        private val userReader: UserReader,
+        private val likeAppender: LikeAppender,
+        private val likeDeleter: LikeDeleter,
+        private val likeValidator: LikeValidator,
 ) {
 
     @Transactional

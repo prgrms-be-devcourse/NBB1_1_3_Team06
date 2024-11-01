@@ -1,14 +1,13 @@
 package com.nbe2.domain.emergencyroom
 
+import java.util.*
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Component
-import java.util.*
-import java.util.function.Consumer
 
 @Component
 @RequiredArgsConstructor
 class RealTimeEmergencyRoomInfoCacheManager(
-    private val cacheRepository: RealTimeEmergencyRoomInfoCacheRepository
+        private val cacheRepository: RealTimeEmergencyRoomInfoCacheRepository
 ) {
 
     fun cache(info: List<RealTimeEmergencyRoomInfo>) {

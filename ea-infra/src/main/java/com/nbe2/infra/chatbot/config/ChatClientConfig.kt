@@ -16,35 +16,44 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class ChatClientConfig(
-    private val embeddingModel: EmbeddingModel,
-    private val chromaApi: ChromaApi
+        private val embeddingModel: EmbeddingModel,
+        private val chromaApi: ChromaApi,
 ) {
 
     @Value("\${spring.ai.vectorstore.chroma.collection-name}")
     private val collectionName: String? = null
 
-    @Bean
-    fun chatMemory(): ChatMemory = InMemoryChatMemory()
+    @Bean fun chatMemory(): ChatMemory = InMemoryChatMemory()
 
     @Bean
     fun customChromaVectorStore() =
-        CustomChromaVectorStore(embeddingModel, chromaApi, collectionName, true)
+            CustomChromaVectorStore(
+                    embeddingModel,
+                    chromaApi,
+                    collectionName,
+                    true,
+            )
 
     @Bean
     fun chatClient(
-        chatModel: ChatModel, chatMemory: ChatMemory, vectorStore: VectorStore
-    ): ChatClient = ChatClient.builder(chatModel)
-            .defaultSystem(PROMPT_BLUEPRINT)
-            .defaultAdvisors(
-                PromptChatMemoryAdvisor(chatMemory),
-                QuestionAnswerAdvisor(
-                    vectorStore, SearchRequest.defaults().withTopK(1)
-                )
-            )
-            .build()
+            chatModel: ChatModel,
+            chatMemory: ChatMemory,
+            vectorStore: VectorStore,
+    ): ChatClient =
+            ChatClient.builder(chatModel)
+                    .defaultSystem(PROMPT_BLUEPRINT)
+                    .defaultAdvisors(
+                            PromptChatMemoryAdvisor(chatMemory),
+                            QuestionAnswerAdvisor(
+                                    vectorStore,
+                                    SearchRequest.defaults().withTopK(1),
+                            ),
+                    )
+                    .build()
 
     companion object {
-        private val PROMPT_BLUEPRINT = """
+        private val PROMPT_BLUEPRINT =
+                """
             You are a chat bot assistant named as "은비". Your role is to provide concise, accurate, and practical instructions for first aid in everyday situations, like using a defibrillator (AED) or performing CPR.
             Contextual Relevance: Answer the user’s question based on the given context retrieved. If the context does not provide enough information, use your expert knowledge to generate an answer, but only if the question is related to first aid, emergency instruction, how to use emergency equipment, or follow-up on a previous question. However you don't need to directly explain that the context has no relevant with the question. Ensure consistency in your responses by considering previous conversation history.
             Follow-up Questions: If the user asks follow-up questions or requests more details based on previous answers, ensure that your response aligns with the earlier context and continues the conversation logically. Adjust your advice when necessary, especially if the user’s question builds on prior instructions or refers to specific details.
@@ -53,6 +62,7 @@ class ChatClientConfig(
             Language: Always answer in Korean.
             Response to Unrelated Questions: If a question is unrelated to first aid or emergencies, politely decline to answer and state that your expertise is limited to emergency medical procedures.
         
-        """.trimIndent()
+        """
+                        .trimIndent()
     }
 }

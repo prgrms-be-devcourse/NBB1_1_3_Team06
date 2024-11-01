@@ -12,11 +12,18 @@ import org.springframework.web.bind.annotation.*
 class ChatbotApi(private val chatbotService: ChatbotService) {
 
     @PostMapping("/session")
-    fun connectChatbot() = Response.success(SessionResponse.of(chatbotService.openChatMemorySession()))
+    fun connectChatbot() =
+            Response.success(
+                    SessionResponse.of(chatbotService.openChatMemorySession())
+            )
 
     @PostMapping("/query")
     fun askOfEmergencyManual(@RequestBody request: QuestionRequest) =
-        Response.success(ChatResponse.of(chatbotService.getChatResponse(request.toQuestion())))
+            Response.success(
+                    ChatResponse.of(
+                            chatbotService.getChatResponse(request.toQuestion())
+                    )
+            )
 
     @DeleteMapping("/session")
     fun closeChatbot(id: String): Response<Void> {

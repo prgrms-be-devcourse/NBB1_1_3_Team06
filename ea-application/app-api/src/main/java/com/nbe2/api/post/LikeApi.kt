@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/likes")
-class LikeApi (private val likeService: LikeService){
+class LikeApi(private val likeService: LikeService) {
 
     @PostMapping
     fun postLike(
-        @RequestBody request: LikeRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+            @RequestBody request: LikeRequest,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal,
     ): Response<Void> {
         likeService.addLike(LikeInfo.of(request.postsId, userPrincipal.userId))
         return Response.success()
@@ -23,10 +23,12 @@ class LikeApi (private val likeService: LikeService){
 
     @DeleteMapping
     fun deleteLike(
-        @RequestBody request: LikeRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+            @RequestBody request: LikeRequest,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal,
     ): Response<Void> {
-        likeService.cancelLike(LikeInfo.of(request.postsId, userPrincipal.userId))
+        likeService.cancelLike(
+                LikeInfo.of(request.postsId, userPrincipal.userId)
+        )
         return Response.success()
     }
 }

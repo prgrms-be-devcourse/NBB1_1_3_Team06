@@ -8,10 +8,10 @@ import com.nbe2.common.exception.ErrorReason.Companion.of
 import lombok.RequiredArgsConstructor
 
 @RequiredArgsConstructor
-enum class CommentErrorCode (
-    private val status: Int,
-    private val errorCode: String,
-    private val message: String
+enum class CommentErrorCode(
+        private val status: Int,
+        private val errorCode: String,
+        private val message: String,
 ) : BaseErrorCode {
 
     COMMENT_NOT_FOUND(NOT_FOUND, "COMMENT_404_1", "존재하지 않는 댓글입니다."),

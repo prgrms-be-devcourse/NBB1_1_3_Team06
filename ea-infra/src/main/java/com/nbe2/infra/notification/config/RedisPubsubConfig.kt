@@ -14,37 +14,44 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @Configuration
-class RedisPubsubConfig(private val redisConnectionFactory: RedisConnectionFactory) {
+class RedisPubsubConfig(
+        private val redisConnectionFactory: RedisConnectionFactory
+) {
 
     @Bean
     fun redisMessageListenerContainer(
-        noticeListener: MessageListenerAdapter, commentListener: MessageListenerAdapter
+            noticeListener: MessageListenerAdapter,
+            commentListener: MessageListenerAdapter,
     ): RedisMessageListenerContainer {
         val container = RedisMessageListenerContainer()
         container.setConnectionFactory(redisConnectionFactory)
         container.addMessageListener(
-            noticeListener, PatternTopic(NotificationType.NOTICE.channelId)
+                noticeListener,
+                PatternTopic(NotificationType.NOTICE.channelId),
         )
         container.addMessageListener(
-            commentListener, PatternTopic(NotificationType.COMMENT.channelId)
+                commentListener,
+                PatternTopic(NotificationType.COMMENT.channelId),
         )
         return container
     }
 
     @Bean
     fun noticeListener(noticeRedisSubscriber: NoticeRedisSubscriber) =
-        MessageListenerAdapter(noticeRedisSubscriber)
+            MessageListenerAdapter(noticeRedisSubscriber)
 
     @Bean
     fun commentListener(commentRedisSubscriber: CommentRedisSubscriber) =
-        MessageListenerAdapter(commentRedisSubscriber)
+            MessageListenerAdapter(commentRedisSubscriber)
 
     @Bean
     fun notificationTemplate(): RedisTemplate<String, Any> {
-        val redisTemplate: RedisTemplate<String, Any> = RedisTemplate<String, Any>()
+        val redisTemplate: RedisTemplate<String, Any> =
+                RedisTemplate<String, Any>()
         redisTemplate.connectionFactory = redisConnectionFactory
         redisTemplate.keySerializer = StringRedisSerializer()
-        redisTemplate.valueSerializer = Jackson2JsonRedisSerializer(Any::class.java)
+        redisTemplate.valueSerializer =
+                Jackson2JsonRedisSerializer(Any::class.java)
         return redisTemplate
     }
 }

@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AuthService(
-    private val tokenGenerator: TokenGenerator,
-    private val tokenManager: TokenManager,
-    private val authenticator: Authenticator,
-    private val userValidator: UserValidator,
-    private val userAppender: UserAppender,
-    private val tokenProvider: TokenProvider
+        private val tokenGenerator: TokenGenerator,
+        private val tokenManager: TokenManager,
+        private val authenticator: Authenticator,
+        private val userValidator: UserValidator,
+        private val userAppender: UserAppender,
+        private val tokenProvider: TokenProvider,
 ) {
 
     @Transactional
@@ -25,7 +25,12 @@ class AuthService(
     fun login(login: Login): Tokens {
         val userPrincipal = authenticator.authenticate(login)
         val tokens = tokenGenerator.generate(userPrincipal)
-        tokenManager.save(RefreshToken.Companion.of(userPrincipal.userId, tokens.refreshToken))
+        tokenManager.save(
+                RefreshToken.Companion.of(
+                        userPrincipal.userId,
+                        tokens.refreshToken,
+                )
+        )
 
         return tokens
     }
@@ -35,7 +40,8 @@ class AuthService(
     }
 
     fun updateToken(tokens: Tokens): Tokens {
-        val userPrincipal = tokenProvider.getTokenUserPrincipal(tokens.refreshToken)
+        val userPrincipal =
+                tokenProvider.getTokenUserPrincipal(tokens.refreshToken)
         tokenManager.checkRefreshToken(userPrincipal.userId)
         val newRefreshToken = tokenGenerator.generate(userPrincipal)
         tokenManager.save(newRefreshToken.getRefreshToken(userPrincipal.userId))

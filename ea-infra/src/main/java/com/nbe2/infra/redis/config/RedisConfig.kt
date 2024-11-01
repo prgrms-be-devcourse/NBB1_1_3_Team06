@@ -12,9 +12,13 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableRedisRepositories(basePackages = ["com.nbe2.infra"])
 class RedisConfig @Autowired constructor(private val env: Environment) {
 
-    private val host: String get() = env.getProperty("redis.host") ?: "localhost"
-    private val port: Int get() = env.getProperty("redis.port")?.toInt() ?: 6379
+    private val host: String
+        get() = env.getProperty("redis.host") ?: "localhost"
+
+    private val port: Int
+        get() = env.getProperty("redis.port")?.toInt() ?: 6379
 
     @Bean
-    fun redisConnectionFactory(): RedisConnectionFactory = LettuceConnectionFactory(host, port)
+    fun redisConnectionFactory(): RedisConnectionFactory =
+            LettuceConnectionFactory(host, port)
 }

@@ -7,10 +7,15 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 
-@FeignClient(name = "kakao-client", url = "https://dapi.kakao.com", configuration = [KakaoFeignConfig::class])
+@FeignClient(
+        name = "kakao-client",
+        url = "https://dapi.kakao.com",
+        configuration = [KakaoFeignConfig::class],
+)
 interface KakaoClient {
     @GetMapping("/v2/local/geo/coord2regioncode.json")
     fun getRegionData(
-        @RequestParam x: Double, @RequestParam y: Double
+            @RequestParam x: Double,
+            @RequestParam y: Double,
     ): KakaoApiResponse<KakaoRegionResponse>
 }

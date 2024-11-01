@@ -21,13 +21,16 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 @RestController
 @RequestMapping("/api/v1/notifications")
 class NotificationApi(
-    private val notificationService: NotificationService,
-    private val sseConnector: SseConnector
+        private val notificationService: NotificationService,
+        private val sseConnector: SseConnector,
 ) {
 
-    @GetMapping(value = ["/subscribe"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    @GetMapping(
+            value = ["/subscribe"],
+            produces = [MediaType.TEXT_EVENT_STREAM_VALUE],
+    )
     fun subscribe(
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+            @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<SseEmitter> {
         val emitter: SseEmitter = sseConnector.connect(userPrincipal.userId)
         return ResponseEntity.ok(emitter)
@@ -35,15 +38,26 @@ class NotificationApi(
 
     @GetMapping("/my")
     fun getNotificationHistory(
-        @AuthenticationPrincipal userPrincipal: UserPrincipal, @CursorDefault cursor: Cursor
+            @AuthenticationPrincipal userPrincipal: UserPrincipal,
+            @CursorDefault cursor: Cursor,
     ): Response<CursorResult<NotificationDetailResponse>> {
         val history: CursorResult<NotificationDetail> =
-            notificationService.getNotificationHistory(userPrincipal.userId, cursor)
+                notificationService.getNotificationHistory(
+                        userPrincipal.userId,
+                        cursor,
+                )
         return Response.success(history.map(NotificationDetailResponse::from))
     }
 
     @GetMapping("/my/unread")
     fun getUnreadNotificationExistence(
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
-    ) = Response.success(UnreadResponse.of(notificationService.hasUnreadNotification(userPrincipal.userId)))
+            @AuthenticationPrincipal userPrincipal: UserPrincipal
+    ) =
+            Response.success(
+                    UnreadResponse.of(
+                            notificationService.hasUnreadNotification(
+                                    userPrincipal.userId
+                            )
+                    )
+            )
 }

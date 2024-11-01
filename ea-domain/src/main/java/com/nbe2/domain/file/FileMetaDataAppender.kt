@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 @Component
 @RequiredArgsConstructor
 class FileMetaDataAppender(
-    private val fileMetaDateRepository: FileMetaDateRepository
+        private val fileMetaDateRepository: FileMetaDateRepository
 ) {
     fun append(fileMetaData: FileMetaData): Long {
         val saved = fileMetaDateRepository.save(fileMetaData)
