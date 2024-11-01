@@ -22,6 +22,7 @@ data class EmergencyRoomInfo(
     val neonatalIcuBedCount: Int,
     val operatingRoomBedCount: Int
 ) {
+
     fun toEmergencyRoom(): EmergencyRoom {
         // 좌표 변환
         val coordinate = if (longitude.toDouble() < 90.0) {
