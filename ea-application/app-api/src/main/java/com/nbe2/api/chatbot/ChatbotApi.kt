@@ -19,7 +19,7 @@ class ChatbotApi(private val chatbotService: ChatbotService) {
         Response.success(ChatResponse.of(chatbotService.getChatResponse(request.toQuestion())))
 
     @DeleteMapping("/session")
-    fun closeChatbot(@RequestParam id: String): Response<Void> {
+    fun closeChatbot(id: String): Response<Void> {
         chatbotService.closeChatMemorySession(id)
         return Response.success()
     }

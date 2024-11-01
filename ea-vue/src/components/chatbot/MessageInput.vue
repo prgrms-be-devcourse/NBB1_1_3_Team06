@@ -48,6 +48,7 @@ export default {
 .message-input {
   flex: 1;
   padding: 10px;
+  height: 45px;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   margin-right: 10px;
@@ -55,6 +56,7 @@ export default {
 
 .send-button {
   padding: 10px 15px;
+  height: 45px;
   border: none;
   border-radius: 10px;
   background-color: #007bff;
