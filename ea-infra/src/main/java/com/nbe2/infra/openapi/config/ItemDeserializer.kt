@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.nbe2.infra.openapi.dto.OpenApiResponse.Response.Body.Items
 import java.io.IOException
 
+
 class ItemDeserializer : JsonDeserializer<Items<*>>, ContextualDeserializer {
     private var valueType: JavaType? = null
 
@@ -19,7 +20,8 @@ class ItemDeserializer : JsonDeserializer<Items<*>>, ContextualDeserializer {
         val mapper = p.codec as ObjectMapper
         val node = mapper.readTree<JsonNode>(p)
         val items: MutableList<Any> = ArrayList()
-        val itemNode = node["item"]
+        val itemNode = node["item"] ?: return Items(null)
+
         return if (itemNode.isArray) {
             for (subItemNode in itemNode) {
                 val contentType = valueType!!.contentType

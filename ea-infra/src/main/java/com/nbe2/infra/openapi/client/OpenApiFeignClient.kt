@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam
 interface OpenApiFeignClient {
     @GetMapping(value = ["/getEmrrmRltmUsefulSckbdInfoInqire"])
     fun getRealTimeEmergencyData(
-        @RequestParam STAGE1: String?,
-        @RequestParam(required = false) STAGE2: String?,
+        @RequestParam STAGE1: String,
+        @RequestParam(required = false) STAGE2: String,
         @RequestParam(required = false) numOfRows: Int
     ): OpenApiResponse<List<RealTimeEmergencyDataResponse>>
 
